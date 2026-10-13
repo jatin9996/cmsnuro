@@ -1,0 +1,214 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model SiteSetting {
+  id               Int      @id @default(1)
+  doctorName       String
+  roleTitle        String
+  tagline          String
+  phone            String
+  phoneDisplay     String
+  whatsapp         String
+  email            String
+  address          String
+  heroEyebrow      String
+  heroTitle        String
+  heroSubtitle     String
+  heroQuote        String
+  heroQuoteAuthor  String
+  aboutEyebrow     String
+  aboutDegrees     String
+  aboutBio         String
+  aboutQuote       String
+  aboutImage       String   @default("")
+  ctaTitle         String
+  ctaSubtitle      String
+  ctaImage         String   @default("")
+  achievementQuote String
+  instagramHandle  String   @default("")
+  facebookUrl      String   @default("")
+  instagramUrl     String   @default("")
+  linkedinUrl      String   @default("")
+  youtubeUrl       String   @default("")
+  xUrl             String   @default("")
+  dayStart         String   @default("10:00")
+  dayEnd           String   @default("17:00")
+  lunchStart       String   @default("13:00")
+  lunchEnd         String   @default("14:00")
+  slotMinutes      Int      @default(30)
+  closedWeekdays   String   @default("0")
+  bookingNote      String   @default("")
+  updatedAt        DateTime @updatedAt
+}
+
+model HeroSlide {
+  id        String  @id @default(cuid())
+  image     String
+  alt       String  @default("")
+  quote     String  @default("")
+  sortOrder Int     @default(0)
+  published Boolean @default(true)
+}
+
+model Stat {
+  id        String  @id @default(cuid())
+  group     String
+  value     String  @default("")
+  label     String
+  icon      String  @default("Sparkles")
+  sortOrder Int     @default(0)
+  published Boolean @default(true)
+}
+
+model Condition {
+  id          String  @id @default(cuid())
+  title       String
+  slug        String  @unique
+  summary     String
+  description String  @default("")
+  symptoms    String  @default("")
+  treatment   String  @default("")
+  icon        String  @default("Brain")
+  image       String  @default("")
+  sortOrder   Int     @default(0)
+  published   Boolean @default(true)
+}
+
+model PatientStory {
+  id        String   @id @default(cuid())
+  name      String
+  condition String
+  quote     String
+  story     String   @default("")
+  image     String   @default("")
+  videoUrl  String   @default("")
+  sortOrder Int      @default(0)
+  featured  Boolean  @default(true)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Achievement {
+  id          String  @id @default(cuid())
+  title       String
+  subtitle    String  @default("")
+  value       String  @default("")
+  description String  @default("")
+  icon        String  @default("Award")
+  sortOrder   Int     @default(0)
+  published   Boolean @default(true)
+}
+
+model Video {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String   @default("")
+  thumbnail   String   @default("")
+  sourceUrl   String   @default("")
+  duration    String   @default("")
+  category    String   @default("Education")
+  sortOrder   Int      @default(0)
+  featured    Boolean  @default(true)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model PressItem {
+  id        String  @id @default(cuid())
+  outlet    String
+  title     String
+  excerpt   String  @default("")
+  url       String  @default("")
+  dateLabel String  @default("")
+  sortOrder Int     @default(0)
+  published Boolean @default(true)
+}
+
+model GalleryItem {
+  id        String  @id @default(cuid())
+  title     String
+  caption   String  @default("")
+  image     String
+  category  String
+  sortOrder Int     @default(0)
+  published Boolean @default(true)
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String
+  coverImage  String   @default("")
+  category    String   @default("Insights")
+  author      String   @default("")
+  publishedOn String
+  sortOrder   Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model SocialUpdate {
+  id        String  @id @default(cuid())
+  label     String
+  image     String
+  url       String  @default("")
+  sortOrder Int     @default(0)
+  published Boolean @default(true)
+}
+
+model Page {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  excerpt   String   @default("")
+  content   String
+  sortOrder Int      @default(0)
+  published Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+}
+
+model Appointment {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  email     String
+  date      String
+  time      String
+  concern   String
+  message   String   @default("")
+  status    String   @default("PENDING")
+  notes     String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([date, status])
+  @@index([date, time, status])
+}
+
+model Inquiry {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  email     String
+  subject   String
+  message   String
+  status    String   @default("NEW")
+  createdAt DateTime @default(now())
+}
