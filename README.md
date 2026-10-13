@@ -35,11 +35,26 @@ Cancelling or completing a visit frees that time slot. Pending and confirmed vis
 
 The portrait, patient quotes, statistics, and press names are **sample content** so the design can be reviewed. Replace them with the doctor's photograph, consented stories, and real figures. Have a lawyer review Privacy and Terms. The phone number and email in the sample are placeholders.
 
-For a public server, move off the local SQLite file:
+## Deploy on Vercel
 
-1. Change `provider` in `prisma/schema.prisma` to `postgresql`.
-2. Set `DATABASE_URL` and a new `AUTH_SECRET` (at least 32 characters).
-3. Run `npx prisma db push` and create an admin user.
-4. Put video files on object storage if they will be large. YouTube or Vimeo links already work.
+The SQLite file on your computer is not uploaded. Vercel needs Postgres.
+
+1. In the Vercel project, open **Storage** and create a **Postgres** database (Neon). Connect it to this project.
+2. Under **Settings → Environment Variables**, confirm these exist for Production:
+   - `DATABASE_URL` — the pooled connection string
+   - `DIRECT_URL` — the direct, non-pooled connection string
+   - `AUTH_SECRET` — a new random string of at least 32 characters
+   - `NEXT_PUBLIC_SITE_URL` — the live site URL, such as `https://your-site.vercel.app`
+3. Leave the build command as `npm run build`. The build creates the tables and loads the sample content, including the admin user.
+4. Redeploy. Open `https://your-site.vercel.app/admin/login`.
+
+Sample sign-in after that first deploy:
+
+- Email: `admin@kairavshah.local`
+- Password: `Admin@12345`
+
+Change the password under **Admin → Site settings** immediately.
+
+Video and image uploads are stored on the server disk, which Vercel does not keep. Use a YouTube or Vimeo link for videos until file storage is added.
 
 `npm run db:reset` deletes the local database and loads the sample content again.
