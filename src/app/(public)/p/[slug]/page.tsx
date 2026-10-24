@@ -3,13 +3,18 @@ import { notFound, redirect } from "next/navigation";
 import { RichText } from "@/components/public/rich-text";
 import { Container, PageHero } from "@/components/public/ui";
 import { getPage } from "@/lib/queries";
+import { contentMetadata } from "@/lib/seo";
 
 const reserved: Record<string, string> = { about: "/about", privacy: "/privacy", terms: "/terms" };
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const page = await getPage(slug);
-  return { title: page?.title ?? "Page", description: page?.excerpt };
+  return contentMetadata({
+    fallbackTitle: page?.title ?? "Page",
+    seoTitle: page?.seoTitle,
+    description: page?.seoDescription || page?.excerpt,
+  });
 }
 
 export default async function CustomPage({ params }: { params: Promise<{ slug: string }> }) {

@@ -23,6 +23,7 @@ Change that password from **Admin → Site settings** before anyone else can rea
 ## What the admin can edit
 
 - Site name, phone, WhatsApp, homepage text, portrait, and social links
+- Google title, description, keywords, share image, verification, and custom meta tags
 - Hero slides, statistics, conditions, patient stories, achievements
 - Videos (MP4/WEBM upload, or a YouTube/Vimeo link) and gallery photographs
 - Blog posts, press mentions, Instagram-style updates, and extra pages

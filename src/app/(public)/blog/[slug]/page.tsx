@@ -3,12 +3,18 @@ import { notFound } from "next/navigation";
 import { RichText } from "@/components/public/rich-text";
 import { Container, MediaImage, MedicalNote, PageHero } from "@/components/public/ui";
 import { getPost } from "@/lib/queries";
+import { contentMetadata } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPost(slug);
-  return { title: post?.title ?? "Article", description: post?.excerpt };
+  return contentMetadata({
+    fallbackTitle: post?.title ?? "Article",
+    seoTitle: post?.seoTitle,
+    description: post?.seoDescription || post?.excerpt,
+    image: post?.coverImage,
+  });
 }
 
 export default async function BlogArticle({ params }: { params: Promise<{ slug: string }> }) {

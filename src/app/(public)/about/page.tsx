@@ -4,9 +4,17 @@ import { Icon } from "@/components/icon";
 import { RichText } from "@/components/public/rich-text";
 import { Container, MediaImage, PageHero, Panel } from "@/components/public/ui";
 import { getPage, getSettings } from "@/lib/queries";
+import { contentMetadata } from "@/lib/seo";
 import { prisma } from "@/lib/db";
 
-export const metadata: Metadata = { title: "About" };
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPage("about");
+  return contentMetadata({
+    fallbackTitle: "About",
+    seoTitle: page?.seoTitle,
+    description: page?.seoDescription || page?.excerpt,
+  });
+}
 
 export default async function AboutPage() {
   const [settings, page, stats, conditions] = await Promise.all([

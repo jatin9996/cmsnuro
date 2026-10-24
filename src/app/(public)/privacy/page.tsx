@@ -3,8 +3,16 @@ import { notFound } from "next/navigation";
 import { RichText } from "@/components/public/rich-text";
 import { Container, PageHero } from "@/components/public/ui";
 import { getPage } from "@/lib/queries";
+import { contentMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Privacy policy" };
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPage("privacy");
+  return contentMetadata({
+    fallbackTitle: "Privacy policy",
+    seoTitle: page?.seoTitle,
+    description: page?.seoDescription || page?.excerpt,
+  });
+}
 
 export default async function PrivacyPage() {
   const page = await getPage("privacy");

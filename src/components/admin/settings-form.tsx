@@ -1,6 +1,7 @@
 "use client";
 
 import type { SiteSetting } from "@prisma/client";
+import Link from "next/link";
 import { useActionState, useState } from "react";
 import { changePassword, type AuthState } from "@/actions/auth";
 import { saveSettings } from "@/actions/content";
@@ -80,6 +81,36 @@ export function SettingsForm({ settings }: { settings: Omit<SiteSetting, "update
             {text("youtubeUrl", "YouTube URL")}
             {text("xUrl", "X URL")}
           </div>
+        </section>
+        <section className="grid gap-4">
+          <h2 className="text-lg font-semibold text-navy">Search and social</h2>
+          <p className="text-sm text-muted">
+            Google uses the title and description below. Leave either one blank to use the homepage wording. Extra tags, such as Open Graph locale, are added under{" "}
+            <Link href="/admin/content/seo" className="font-semibold text-navy underline">SEO tags</Link>.
+          </p>
+          {text("seoTitle", "Google title")}
+          {text("seoDescription", "Google description", { textarea: true })}
+          {text("seoKeywords", "Keywords")}
+          <p className="-mt-2 text-xs text-muted">Separate keywords with commas.</p>
+          {text("googleVerification", "Google site verification")}
+          <p className="-mt-2 text-xs text-muted">Paste the content value from Search Console, not the whole meta tag.</p>
+          <MediaField
+            label="Share image"
+            name="seoImage"
+            kind="image"
+            value={values.seoImage ?? ""}
+            onChange={(value) => setValues({ ...values, seoImage: value })}
+            help="Shown when the homepage is shared. A wide image works best."
+          />
+          <input type="hidden" name="seoIndex" value={values.seoIndex === "false" ? "false" : "true"} />
+          <label className="flex items-center gap-2 text-sm font-semibold text-navy">
+            <input
+              type="checkbox"
+              checked={values.seoIndex !== "false"}
+              onChange={(event) => setValues({ ...values, seoIndex: event.target.checked ? "true" : "false" })}
+            />
+            Allow search engines to index this website
+          </label>
         </section>
         <section className="grid gap-4">
           <h2 className="text-lg font-semibold text-navy">Appointment diary</h2>

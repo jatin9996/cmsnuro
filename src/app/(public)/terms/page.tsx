@@ -3,8 +3,16 @@ import { notFound } from "next/navigation";
 import { RichText } from "@/components/public/rich-text";
 import { Container, PageHero } from "@/components/public/ui";
 import { getPage } from "@/lib/queries";
+import { contentMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Terms and conditions" };
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPage("terms");
+  return contentMetadata({
+    fallbackTitle: "Terms and conditions",
+    seoTitle: page?.seoTitle,
+    description: page?.seoDescription || page?.excerpt,
+  });
+}
 
 export default async function TermsPage() {
   const page = await getPage("terms");

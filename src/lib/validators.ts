@@ -67,6 +67,12 @@ export const settingsSchema = z.object({
   slotMinutes: z.coerce.number().int().min(10).max(180),
   closedWeekdays: z.string().regex(/^[0-6](,[0-6])*$/).or(z.literal("")),
   bookingNote: optionalText(400),
+  seoTitle: optionalText(160),
+  seoDescription: optionalText(320),
+  seoKeywords: optionalText(500),
+  seoImage: optionalText(500),
+  googleVerification: optionalText(200),
+  seoIndex: z.enum(["true", "false"]).transform((value) => value === "true"),
 });
 
 export const appointmentSchema = z.object({

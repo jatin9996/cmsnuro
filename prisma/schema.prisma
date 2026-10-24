@@ -53,7 +53,22 @@ model SiteSetting {
   slotMinutes      Int      @default(30)
   closedWeekdays   String   @default("0")
   bookingNote      String   @default("")
-  updatedAt        DateTime @updatedAt
+  seoTitle           String  @default("")
+  seoDescription     String  @default("")
+  seoKeywords        String  @default("")
+  seoImage           String  @default("")
+  googleVerification String  @default("")
+  seoIndex           Boolean @default(true)
+  updatedAt          DateTime @updatedAt
+}
+
+model SeoTag {
+  id        String  @id @default(cuid())
+  attribute String  @default("name")
+  key       String
+  content   String
+  sortOrder Int     @default(0)
+  published Boolean @default(true)
 }
 
 model HeroSlide {
@@ -84,9 +99,11 @@ model Condition {
   symptoms    String  @default("")
   treatment   String  @default("")
   icon        String  @default("Brain")
-  image       String  @default("")
-  sortOrder   Int     @default(0)
-  published   Boolean @default(true)
+  image          String  @default("")
+  seoTitle       String  @default("")
+  seoDescription String  @default("")
+  sortOrder      Int     @default(0)
+  published      Boolean @default(true)
 }
 
 model PatientStory {
@@ -156,8 +173,10 @@ model Post {
   slug        String   @unique
   excerpt     String
   content     String
-  coverImage  String   @default("")
-  category    String   @default("Insights")
+  coverImage     String   @default("")
+  seoTitle       String   @default("")
+  seoDescription String   @default("")
+  category       String   @default("Insights")
   author      String   @default("")
   publishedOn String
   sortOrder   Int      @default(0)
@@ -177,9 +196,11 @@ model SocialUpdate {
 model Page {
   id        String   @id @default(cuid())
   slug      String   @unique
-  title     String
-  excerpt   String   @default("")
-  content   String
+  title          String
+  excerpt        String   @default("")
+  seoTitle       String   @default("")
+  seoDescription String   @default("")
+  content        String
   sortOrder Int      @default(0)
   published Boolean  @default(true)
   updatedAt DateTime @updatedAt

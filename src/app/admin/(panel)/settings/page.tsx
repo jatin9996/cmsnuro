@@ -9,7 +9,7 @@ export default async function SettingsPage() {
   return (
     <div>
       <h1 className="text-2xl font-semibold text-navy">Site settings</h1>
-      <p className="mt-1 mb-6 max-w-2xl text-sm text-muted">Name, phone, homepage wording, social links, and the appointment diary.</p>
+      <p className="mt-1 mb-6 max-w-2xl text-sm text-muted">Name, phone, homepage wording, search details, social links, and the appointment diary.</p>
       <SettingsForm settings={values} />
     </div>
   );

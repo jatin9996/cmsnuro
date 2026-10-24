@@ -4,11 +4,17 @@ import { notFound } from "next/navigation";
 import { RichText } from "@/components/public/rich-text";
 import { Container, MediaImage, MedicalNote, PageHero, btnOnDark } from "@/components/public/ui";
 import { getCondition } from "@/lib/queries";
+import { contentMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const condition = await getCondition(slug);
-  return { title: condition?.title ?? "Treatment", description: condition?.summary };
+  return contentMetadata({
+    fallbackTitle: condition?.title ?? "Treatment",
+    seoTitle: condition?.seoTitle,
+    description: condition?.seoDescription || condition?.summary,
+    image: condition?.image,
+  });
 }
 
 export default async function TreatmentPage({ params }: { params: Promise<{ slug: string }> }) {

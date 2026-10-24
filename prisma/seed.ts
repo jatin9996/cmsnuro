@@ -249,6 +249,261 @@ async function main() {
       ],
     }),
   );
+
+  const clinicPhotos = [
+    {
+      title: "With the Hon. Chief Minister",
+      caption: "Receiving an honour from Shree Bhupendrabhai Patel at Taj Skyline.",
+      image: "/media/gallery/chief-minister-honour.jpg",
+      category: "Media Coverage",
+      sortOrder: 0,
+    },
+    {
+      title: "Speaking at a meeting",
+      caption: "Addressing a medical meeting.",
+      image: "/media/gallery/conference-speaking.jpg",
+      category: "Conferences",
+      sortOrder: 1,
+    },
+    {
+      title: "With the operating team",
+      caption: "Alongside colleagues in the operating theatre.",
+      image: "/media/gallery/surgical-team.jpg",
+      category: "Operation Theatre",
+      sortOrder: 2,
+    },
+    {
+      title: "Community honour",
+      caption: "Garlanded at a community programme.",
+      image: "/media/gallery/community-honour.jpg",
+      category: "Community Events",
+      sortOrder: 3,
+    },
+    {
+      title: "After a teaching session",
+      caption: "With a colleague following a clinical presentation.",
+      image: "/media/gallery/clinical-exchange.jpg",
+      category: "Conferences",
+      sortOrder: 4,
+    },
+    {
+      title: "Community gathering",
+      caption: "With community leaders at a public programme.",
+      image: "/media/gallery/community-gathering.jpg",
+      category: "Community Events",
+      sortOrder: 5,
+    },
+    {
+      title: "Community visit",
+      caption: "A visit with the sisters at a community home.",
+      image: "/media/gallery/community-visit.jpg",
+      category: "Community Events",
+      sortOrder: 6,
+    },
+    {
+      title: "On the ward",
+      caption: "With the care team during a ward round.",
+      image: "/media/gallery/hospital-ward.jpg",
+      category: "Hospital",
+      sortOrder: 7,
+    },
+    {
+      title: "Citation at the community programme",
+      caption: "The citation presented during the same community honour.",
+      image: "/media/gallery/community-honour-citation.jpg",
+      category: "Community Events",
+      sortOrder: 8,
+    },
+    {
+      title: "With the Hon. Prime Minister",
+      caption: "With Shri Narendra Modi.",
+      image: "/media/gallery/with-prime-minister.jpg",
+      category: "Media Coverage",
+      sortOrder: 9,
+    },
+    {
+      title: "At Barrow Neurological Institute",
+      caption: "With a colleague at Barrow Neurological Institute.",
+      image: "/media/gallery/barrow-colleague.jpg",
+      category: "Hospital",
+      sortOrder: 10,
+    },
+    {
+      title: "At Barrow, a wider view",
+      caption: "With a colleague at Barrow Neurological Institute.",
+      image: "/media/gallery/barrow-colleague-wide.jpg",
+      category: "Hospital",
+      sortOrder: 11,
+    },
+    {
+      title: "In the hospital corridor",
+      caption: "With a colleague between cases.",
+      image: "/media/gallery/hospital-corridor.jpg",
+      category: "Hospital",
+      sortOrder: 12,
+    },
+    {
+      title: "The Chief Minister's honour",
+      caption: "A closer view of the honour from Shree Bhupendrabhai Patel.",
+      image: "/media/gallery/chief-minister-close.jpg",
+      category: "Media Coverage",
+      sortOrder: 13,
+    },
+    {
+      title: "Gujarat University convocation",
+      caption: "At the Gujarat University convocation.",
+      image: "/media/gallery/gujarat-university-convocation.jpg",
+      category: "Conferences",
+      sortOrder: 14,
+    },
+    {
+      title: "Gujarat University medal",
+      caption: "Receiving a medal at the Gujarat University convocation.",
+      image: "/media/gallery/gujarat-university-medal.jpg",
+      category: "Conferences",
+      sortOrder: 15,
+    },
+    {
+      title: "After the presentation",
+      caption: "With a colleague following a teaching session.",
+      image: "/media/gallery/teaching-handshake.jpg",
+      category: "Conferences",
+      sortOrder: 16,
+    },
+    {
+      title: "Evagrace programme",
+      caption: "On stage at an Evagrace programme.",
+      image: "/media/gallery/evagrace-honour.jpg",
+      category: "Community Events",
+      sortOrder: 17,
+    },
+    {
+      title: "Evagrace programme, on stage",
+      caption: "Presenting an honour at the Evagrace programme.",
+      image: "/media/gallery/evagrace-honour-stage.jpg",
+      category: "Community Events",
+      sortOrder: 18,
+    },
+    {
+      title: "Visit with the sisters",
+      caption: "At a community home.",
+      image: "/media/gallery/community-visit-home.jpg",
+      category: "Community Events",
+      sortOrder: 19,
+    },
+    {
+      title: "A conversation at the community home",
+      caption: "Speaking with the sisters during a visit.",
+      image: "/media/gallery/community-conversation.jpg",
+      category: "Community Events",
+      sortOrder: 20,
+    },
+    {
+      title: "Community assembly",
+      caption: "At a community gathering.",
+      image: "/media/gallery/community-assembly.jpg",
+      category: "Community Events",
+      sortOrder: 21,
+    },
+    {
+      title: "A blessing",
+      caption: "During a visit with the monks.",
+      image: "/media/gallery/blessing.jpg",
+      category: "Community Events",
+      sortOrder: 22,
+    },
+    {
+      title: "Before travel",
+      caption: "A meeting at the airport.",
+      image: "/media/gallery/airport-meeting.jpg",
+      category: "Community Events",
+      sortOrder: 23,
+    },
+    {
+      title: "A letter of appreciation",
+      caption: "With a letter of thanks at the clinic.",
+      image: "/media/gallery/clinic-appreciation.jpg",
+      category: "Hospital",
+      sortOrder: 24,
+    },
+    {
+      title: "Appreciation at the clinic",
+      caption: "Another view of the letter of thanks.",
+      image: "/media/gallery/clinic-appreciation-second.jpg",
+      category: "Hospital",
+      sortOrder: 25,
+    },
+    {
+      title: "With a patient and family",
+      caption: "At the clinic.",
+      image: "/media/gallery/clinic-family.jpg",
+      category: "Hospital",
+      sortOrder: 26,
+    },
+    {
+      title: "Ward round",
+      caption: "With the care team on the ward.",
+      image: "/media/gallery/ward-round-child.jpg",
+      category: "Hospital",
+      sortOrder: 27,
+    },
+    {
+      title: "A ward visit",
+      caption: "With the care team and a patient.",
+      image: "/media/gallery/ward-visit.jpg",
+      category: "Hospital",
+      sortOrder: 28,
+    },
+    {
+      title: "A ward visit, another view",
+      caption: "With the care team and a patient.",
+      image: "/media/gallery/ward-visit-second.jpg",
+      category: "Hospital",
+      sortOrder: 29,
+    },
+    {
+      title: "A letter from the family",
+      caption: "With a family in the clinic.",
+      image: "/media/gallery/clinic-letter.jpg",
+      category: "Hospital",
+      sortOrder: 30,
+    },
+    {
+      title: "The family's letter",
+      caption: "Another view of the clinic visit.",
+      image: "/media/gallery/clinic-letter-group.jpg",
+      category: "Hospital",
+      sortOrder: 31,
+    },
+    {
+      title: "A family visit",
+      caption: "With a family at the clinic.",
+      image: "/media/gallery/clinic-family-visit.jpg",
+      category: "Hospital",
+      sortOrder: 32,
+    },
+    {
+      title: "In the clinic office",
+      caption: "With visitors at the clinic.",
+      image: "/media/gallery/clinic-office-visit.jpg",
+      category: "Hospital",
+      sortOrder: 33,
+    },
+  ];
+
+  await prisma.galleryItem.updateMany({
+    where: { image: { not: { startsWith: "/media/gallery/" } } },
+    data: { published: false },
+  });
+
+  for (const photo of clinicPhotos) {
+    const existing = await prisma.galleryItem.findFirst({ where: { image: photo.image } });
+    if (existing) {
+      await prisma.galleryItem.update({ where: { id: existing.id }, data: { ...photo, published: true } });
+    } else {
+      await prisma.galleryItem.create({ data: { ...photo, published: true } });
+    }
+  }
 }
 
 main()

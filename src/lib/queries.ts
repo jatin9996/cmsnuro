@@ -11,6 +11,15 @@ export const getSettings = cache(async () => {
   }
 });
 
+export const getSeoTags = cache(async () => {
+  try {
+    return await prisma.seoTag.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" } });
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+});
+
 export async function getHomeData() {
   const settings = await getSettings();
   if (!settings) return null;

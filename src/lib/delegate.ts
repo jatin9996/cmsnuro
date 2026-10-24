@@ -11,7 +11,8 @@ export type ContentModel =
   | "galleryItem"
   | "post"
   | "socialUpdate"
-  | "page";
+  | "page"
+  | "seoTag";
 
 export type ContentRow = Record<string, unknown> & { id: string; sortOrder: number };
 

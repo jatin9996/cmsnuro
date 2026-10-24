@@ -43,6 +43,10 @@ const sortOrder: Field = {
 const iconField: Field = { name: "icon", label: "Icon", type: "select", options: ICON_OPTIONS, required: true };
 
 const proseHelp = "Separate paragraphs with a blank line. Use ## for a heading and - for a bullet. Wrap **bold** words in double asterisks.";
+const seoFields: Field[] = [
+  { name: "seoTitle", label: "Search title", type: "text", max: 160, help: "Shown in Google. Leave blank to use the page title." },
+  { name: "seoDescription", label: "Search description", type: "textarea", rows: 3, max: 320, help: "Leave blank to use the summary or excerpt." },
+];
 
 export const GALLERY_CATEGORIES = [
   "Hospital",
@@ -53,6 +57,45 @@ export const GALLERY_CATEGORIES = [
 ];
 
 export const resources: ResourceConfig[] = [
+  {
+    slug: "seo",
+    model: "seoTag",
+    title: "SEO tags",
+    description: "Extra meta tags for Google, Facebook, and other services. Title, description, keywords, the share image, and Google verification live in Site settings.",
+    icon: "Search",
+    defaults: { attribute: "name" },
+    columns: [
+      { key: "key", label: "Tag" },
+      { key: "attribute", label: "Type" },
+      { key: "content", label: "Content" },
+      { key: "published", label: "Live", kind: "bool" },
+    ],
+    fields: [
+      {
+        name: "attribute",
+        label: "Tag type",
+        type: "select",
+        required: true,
+        options: [
+          { value: "name", label: "Name — meta name" },
+          { value: "property", label: "Property — meta property" },
+        ],
+        help: "Use Name for tags such as author. Use Property for Open Graph tags such as og:locale.",
+      },
+      {
+        name: "key",
+        label: "Tag name",
+        type: "text",
+        required: true,
+        max: 80,
+        placeholder: "og:locale",
+        help: "Letters, numbers, colon, underscore, dot, or hyphen. Example: author or og:locale.",
+      },
+      { name: "content", label: "Content", type: "textarea", required: true, rows: 3, max: 500 },
+      sortOrder,
+      published,
+    ],
+  },
   {
     slug: "hero",
     model: "heroSlide",
@@ -121,6 +164,7 @@ export const resources: ResourceConfig[] = [
       { name: "title", label: "Title", type: "text", required: true, max: 80 },
       { name: "slug", label: "Page address", type: "text", placeholder: "brain-tumors", help: "Leave blank to create it from the title.", max: 80 },
       { name: "summary", label: "Short summary", type: "text", required: true, max: 140 },
+      ...seoFields,
       { name: "description", label: "Overview", type: "textarea", rows: 8, max: 8000, help: proseHelp },
       { name: "symptoms", label: "When to seek care", type: "textarea", rows: 6, max: 4000, help: proseHelp },
       { name: "treatment", label: "How care is planned", type: "textarea", rows: 6, max: 4000, help: proseHelp },
@@ -278,6 +322,7 @@ export const resources: ResourceConfig[] = [
       { name: "title", label: "Title", type: "text", required: true, max: 160 },
       { name: "slug", label: "Page address", type: "text", max: 80, help: "Leave blank to create it from the title." },
       { name: "excerpt", label: "Excerpt", type: "textarea", required: true, rows: 3, max: 300 },
+      ...seoFields,
       { name: "content", label: "Article", type: "textarea", required: true, rows: 14, max: 20000, help: proseHelp },
       { name: "coverImage", label: "Cover image", type: "image", required: true },
       {
@@ -335,6 +380,7 @@ export const resources: ResourceConfig[] = [
         help: "Reserved addresses: about, privacy, terms. Have a lawyer review privacy and terms before launch.",
       },
       { name: "excerpt", label: "Intro", type: "textarea", rows: 3, max: 300 },
+      ...seoFields,
       { name: "content", label: "Content", type: "textarea", required: true, rows: 14, max: 20000, help: proseHelp },
       sortOrder,
       published,

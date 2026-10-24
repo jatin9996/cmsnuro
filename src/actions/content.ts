@@ -48,6 +48,20 @@ export async function saveResource(resource: string, input: unknown): Promise<Ac
     data.slug = await uniqueSlug(config.model, String(data.slug || data.title || "page"), id);
   }
 
+  if (config.model === "seoTag") {
+    const key = String(data.key);
+    if (!/^[A-Za-z][A-Za-z0-9_:.\-]{0,79}$/.test(key)) {
+      return { ok: false, error: "Tag name can use letters, numbers, colon, underscore, dot, and hyphen." };
+    }
+    if (data.attribute !== "name" && data.attribute !== "property") {
+      return { ok: false, error: "Choose a tag type." };
+    }
+    const duplicate = await prisma.seoTag.findFirst({
+      where: { key, attribute: String(data.attribute), ...(id ? { id: { not: id } } : {}) },
+    });
+    if (duplicate) return { ok: false, error: "That tag already exists. Edit the existing one." };
+  }
+
   try {
     const delegate = contentDelegate(config.model);
     if (id) await delegate.update({ where: { id }, data });
