@@ -24,7 +24,7 @@ function SocialIcon({ name }: { name: string }) {
 }
 
 export function SiteFooter({ settings }: { settings: Settings }) {
-  const message = `Hello ${settings.doctorName}, I would like to enquire about a consultation.`;
+  const message = `Hello ${settings.doctorName}, I would like to inquire about a consultation.`;
   const chat = whatsappLink(settings.whatsapp, message);
   const socials = [
     { name: "facebook", href: settings.facebookUrl, label: "Facebook" },
@@ -48,6 +48,7 @@ export function SiteFooter({ settings }: { settings: Settings }) {
               </span>
             </Link>
             <p className="mt-3 max-w-xs text-xs leading-5 text-white/60">{settings.address}</p>
+            <a href={`mailto:${settings.email}`} className="mt-1 inline-block text-xs font-semibold text-white/80 hover:text-white">{settings.email}</a>
             {settings.mapUrl ? (
               <a href={settings.mapUrl} target="_blank" rel="noreferrer" className="mt-1 inline-block text-xs font-semibold text-white/80 hover:text-white">
                 NEUROKALP on Google Maps

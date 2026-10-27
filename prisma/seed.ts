@@ -38,10 +38,10 @@ async function main() {
         doctorName: "Dr. Kairav Shah",
         roleTitle: "Consultant Neurosurgeon",
         tagline: "Brain. Spine. Better Tomorrows.",
-        phone: "+919049695194",
-        phoneDisplay: "+91 90496 95194",
-        whatsapp: "+91 90496 95194",
-        email: "appointments@kairavshah.example",
+        phone: "+919099110022",
+        phoneDisplay: "+91 90991 10022",
+        whatsapp: "+91 90991 10022",
+        email: "kairav3285@gmail.com",
         address: "NEUROKALP, 504-5, 5th floor, Mehta 531, near V.S. Hospital, Ellisbridge, Ahmedabad, Gujarat 380006",
         mapUrl: "https://maps.google.com/?cid=11458330563077161080",
         heroEyebrow: "Expertise | Compassion | Better Lives",
@@ -79,19 +79,23 @@ async function main() {
       phone?: string;
       phoneDisplay?: string;
       whatsapp?: string;
+      email?: string;
       address?: string;
       mapUrl?: string;
       aboutImage?: string;
       instagramHandle?: string;
       instagramUrl?: string;
     } = {};
-    const previousClinicNumber = clinic.phone === "+919099110022" || clinic.phone === "+919876543210" || clinic.phoneDisplay.includes("90991");
+    const previousClinicNumber = clinic.phone === "+919049695194" || clinic.phone === "+919876543210" || clinic.phoneDisplay.includes("90496");
     if (previousClinicNumber) {
-      data.phone = "+919049695194";
-      data.phoneDisplay = "+91 90496 95194";
+      data.phone = "+919099110022";
+      data.phoneDisplay = "+91 90991 10022";
     }
-    if (!clinic.whatsapp || clinic.whatsapp === "919876543210" || clinic.whatsapp === "919049695194") {
-      data.whatsapp = "+91 90496 95194";
+    if (!clinic.whatsapp || clinic.whatsapp === "919876543210" || clinic.whatsapp === "919049695194" || clinic.whatsapp === "+91 90496 95194" || clinic.whatsapp === "+919049695194") {
+      data.whatsapp = "+91 90991 10022";
+    }
+    if (!clinic.email || clinic.email.endsWith("@kairavshah.example") || clinic.email.endsWith("@example.com")) {
+      data.email = "kairav3285@gmail.com";
     }
     if (clinic.address === "Neurosciences Clinic, India" || clinic.address === "NEUROKALP, Near V.S Hospital, Ellisbridge, Ahmedabad") {
       data.address = fullAddress;

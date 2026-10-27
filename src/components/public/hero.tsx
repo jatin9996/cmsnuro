@@ -42,7 +42,7 @@ export function Hero({
   }, [slides.length]);
 
   const shownQuote = slides[active]?.quote || quote;
-  const message = `Hello, I would like to enquire about a consultation.`;
+  const message = `Hello, I would like to inquire about a consultation.`;
 
   return (
     <section className="relative min-w-0 overflow-hidden rounded-[28px] bg-navy text-white sm:rounded-[32px]">

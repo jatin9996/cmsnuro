@@ -47,7 +47,7 @@ export function HomeView({ data }: { data: HomeData }) {
   const videos = data.videos.filter((item) => item.featured).slice(0, 3);
   const videoCards = videos.length ? videos : data.videos.slice(0, 3);
   const posts = data.posts.slice(0, 3);
-  const chat = whatsappLink(settings.whatsapp, `Hello ${settings.doctorName}, I would like to enquire about a consultation.`);
+  const chat = whatsappLink(settings.whatsapp, `Hello ${settings.doctorName}, I would like to inquire about a consultation.`);
 
   return (
     <Container className="space-y-5 py-5 sm:py-6">
@@ -301,7 +301,7 @@ export function HomeView({ data }: { data: HomeData }) {
                   <Calendar className="h-4 w-4" /> Book appointment
                 </Link>
                 <a href={chat} className="flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-2.5 text-sm font-semibold">
-                  <WhatsAppIcon className="h-4 w-4" /> WhatsApp enquiry
+                  <WhatsAppIcon className="h-4 w-4" /> WhatsApp inquiry
                 </a>
                 <a href={`tel:${settings.phone}`} className="flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-2.5 text-sm font-semibold">
                   <Phone className="h-4 w-4" /> Call now · {settings.phoneDisplay}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Mail } from "lucide-react";
 import { BookForm } from "@/components/public/forms";
 import { Container, PageHero } from "@/components/public/ui";
 import { prisma } from "@/lib/db";
@@ -24,6 +25,9 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
         description={`Consulting hours ${hours.hours}. A request is confirmed only after the clinic contacts you.`}
         crumbs={[{ href: "/", label: "Home" }, { href: "/book", label: "Book" }]}
       />
+      <a href={`mailto:${settings.email}`} className="inline-flex items-center gap-2 text-sm font-semibold text-navy">
+        <Mail className="h-4 w-4" /> {settings.email}
+      </a>
       <BookForm concerns={concerns} initialConcern={concern} note={settings.bookingNote} />
     </Container>
   );
