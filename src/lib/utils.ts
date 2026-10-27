@@ -67,15 +67,32 @@ export function whatsappLink(number: string, text?: string) {
   return text ? `${base}?text=${encodeURIComponent(text)}` : base;
 }
 
-export function videoEmbed(url: string): { type: "file" | "iframe"; src: string } | null {
+export function videoEmbed(url: string): { type: "file" | "iframe"; src: string; aspect: "wide" | "portrait" } | null {
   if (!url) return null;
   const youtube = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/);
   if (youtube) {
-    return { type: "iframe", src: `https://www.youtube-nocookie.com/embed/${youtube[1]}` };
+    return { type: "iframe", src: `https://www.youtube-nocookie.com/embed/${youtube[1]}?autoplay=1`, aspect: "wide" };
   }
   const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
-  if (vimeo) return { type: "iframe", src: `https://player.vimeo.com/video/${vimeo[1]}` };
-  return { type: "file", src: url };
+  if (vimeo) return { type: "iframe", src: `https://player.vimeo.com/video/${vimeo[1]}?autoplay=1`, aspect: "wide" };
+  const instagram = url.match(/instagram\.com\/(?:reel|p|tv)\/([\w-]+)/i);
+  if (instagram) {
+    return { type: "iframe", src: `https://www.instagram.com/reel/${instagram[1]}/embed`, aspect: "portrait" };
+  }
+  if (/\.(mp4|webm)(\?|$)/i.test(url) || url.startsWith("/")) return { type: "file", src: url, aspect: "wide" };
+  return null;
+}
+
+export function videoPoster(url: string) {
+  const youtube = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/);
+  return youtube ? `https://i.ytimg.com/vi/${youtube[1]}/hqdefault.jpg` : "";
+}
+
+export function videoPlatform(url: string) {
+  if (/youtu\.be|youtube\.com/i.test(url)) return "YouTube";
+  if (/instagram\.com/i.test(url)) return "Instagram";
+  if (/vimeo\.com/i.test(url)) return "Vimeo";
+  return "Video";
 }
 
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

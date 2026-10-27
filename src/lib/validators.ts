@@ -40,6 +40,7 @@ export const settingsSchema = z.object({
   whatsapp: requiredText(8, 20),
   email: z.string().trim().email("Enter a valid email address."),
   address: requiredText(2, 240),
+  mapUrl: optionalText(500),
   heroEyebrow: requiredText(2, 120),
   heroTitle: requiredText(2, 180),
   heroSubtitle: requiredText(2, 400),

@@ -38,11 +38,12 @@ async function main() {
         doctorName: "Dr. Kairav Shah",
         roleTitle: "Consultant Neurosurgeon",
         tagline: "Brain. Spine. Better Tomorrows.",
-        phone: "+919876543210",
-        phoneDisplay: "+91 98765 43210",
-        whatsapp: "919876543210",
+        phone: "+919049695194",
+        phoneDisplay: "+91 90496 95194",
+        whatsapp: "+91 90496 95194",
         email: "appointments@kairavshah.example",
-        address: "Neurosciences Clinic, India",
+        address: "NEUROKALP, 504-5, 5th floor, Mehta 531, near V.S. Hospital, Ellisbridge, Ahmedabad, Gujarat 380006",
+        mapUrl: "https://maps.google.com/?cid=11458330563077161080",
         heroEyebrow: "Expertise | Compassion | Better Lives",
         heroTitle: "Advanced Neurosurgery\nFor A Healthier Tomorrow",
         heroSubtitle: "Comprehensive care for brain, spine and nervous system disorders with global expertise and a human touch.",
@@ -53,12 +54,13 @@ async function main() {
         aboutBio:
           "Dr. Kairav Shah is a neurosurgeon with over 20 years of experience in complex brain and spine surgery. He is committed to world-class care, combining advanced technology with a compassionate, patient-first approach.",
         aboutQuote: "Every patient has a story. My goal is to help them return to the life they love.",
-        aboutImage: "/media/doctor.jpg",
+        aboutImage: "/media/doctor-kairav.jpg",
         ctaTitle: "Take the First Step\nTowards a Better Tomorrow",
         ctaSubtitle: "Expert care. Personalised treatment. A healthier, brighter you.",
         ctaImage: "/media/mountain.jpg",
         achievementQuote: "Success is not a destination, but a continuous pursuit of better care.",
-        instagramHandle: "@dr.kairavshah",
+        instagramHandle: "@dr.kairav",
+        instagramUrl: "https://www.instagram.com/dr.kairav/",
         dayStart: "10:00",
         dayEnd: "17:00",
         lunchStart: "13:00",
@@ -69,6 +71,39 @@ async function main() {
       },
     }),
   );
+
+  const clinic = await prisma.siteSetting.findUnique({ where: { id: 1 } });
+  if (clinic) {
+    const fullAddress = "NEUROKALP, 504-5, 5th floor, Mehta 531, near V.S. Hospital, Ellisbridge, Ahmedabad, Gujarat 380006";
+    const data: {
+      phone?: string;
+      phoneDisplay?: string;
+      whatsapp?: string;
+      address?: string;
+      mapUrl?: string;
+      aboutImage?: string;
+      instagramHandle?: string;
+      instagramUrl?: string;
+    } = {};
+    const previousClinicNumber = clinic.phone === "+919099110022" || clinic.phone === "+919876543210" || clinic.phoneDisplay.includes("90991");
+    if (previousClinicNumber) {
+      data.phone = "+919049695194";
+      data.phoneDisplay = "+91 90496 95194";
+    }
+    if (!clinic.whatsapp || clinic.whatsapp === "919876543210" || clinic.whatsapp === "919049695194") {
+      data.whatsapp = "+91 90496 95194";
+    }
+    if (clinic.address === "Neurosciences Clinic, India" || clinic.address === "NEUROKALP, Near V.S Hospital, Ellisbridge, Ahmedabad") {
+      data.address = fullAddress;
+    }
+    if (!clinic.mapUrl) data.mapUrl = "https://maps.google.com/?cid=11458330563077161080";
+    if (!clinic.aboutImage || clinic.aboutImage === "/media/doctor.jpg") data.aboutImage = "/media/doctor-kairav.jpg";
+    if (!clinic.instagramUrl || clinic.instagramHandle === "@dr.kairavshah") {
+      data.instagramHandle = "@dr.kairav";
+      data.instagramUrl = "https://www.instagram.com/dr.kairav/";
+    }
+    if (Object.keys(data).length) await prisma.siteSetting.update({ where: { id: 1 }, data });
+  }
 
   await seedIfEmpty("slides", await prisma.heroSlide.count(), () =>
     prisma.heroSlide.createMany({
@@ -143,6 +178,47 @@ async function main() {
       ],
     }),
   );
+
+  const talks = [
+    { title: "The Jay Thadeshwar Show", slug: "jay-thadeshwar-show", description: "Dr. Kairav Shah in conversation on The Jay Thadeshwar Show.", sourceUrl: "https://youtu.be/WnaTpgwMrnI", thumbnail: "https://i.ytimg.com/vi/WnaTpgwMrnI/hqdefault.jpg", category: "Podcast", sortOrder: 0, featured: true },
+    { title: "Rajsik food and a restless mind", slug: "rajsik-food-and-a-restless-mind", description: "How very spicy, oily, and stimulating food can add to stress, poor sleep, and irritability, and why balance matters.", sourceUrl: "https://www.instagram.com/reel/DVBRt11ggG4/", category: "Food and lifestyle", sortOrder: 1, featured: true },
+    { title: "When to check an elder's brain health", slug: "when-to-check-an-elders-brain-health", description: "Early neurological warning signs in parents and older relatives, and why they deserve the same attention as the heart and blood pressure.", sourceUrl: "https://www.instagram.com/reel/DVOTspNgsNU/", category: "Brain health", sortOrder: 2, featured: true },
+    { title: "Tamsik food and mental fog", slug: "tamsik-food-and-mental-fog", description: "How stale, heavily processed, and oversized meals can dull energy, sleep, and mental clarity.", sourceUrl: "https://www.instagram.com/reel/DVJE_mZgjFE/", category: "Food and lifestyle", sortOrder: 3, featured: false },
+    { title: "Warning signs in older age", slug: "warning-signs-in-older-age", description: "Memory loss, personality change, confusion, speech difficulty, tremors, and sudden one-sided weakness should not be ignored.", sourceUrl: "https://www.instagram.com/reel/DVV_d_OAZzW/", category: "Brain health", sortOrder: 4, featured: false },
+    { title: "Myths about sciatica", slug: "myths-about-sciatica", description: "Pain from the lower back into the leg is not always solved by bed rest, and it does not always need an operation.", sourceUrl: "https://www.instagram.com/reel/DXecJPCApF4/", category: "Spine", sortOrder: 5, featured: false },
+    { title: "Myths about spine surgery", slug: "myths-about-spine-surgery", description: "Most people with back or leg pain do not need spine surgery. When an operation is right, a smaller approach can mean a shorter stay.", sourceUrl: "https://www.instagram.com/reel/DYIxEIuiyIZ/", category: "Spine", sortOrder: 6, featured: false },
+    { title: "Painkillers are not a diagnosis", slug: "painkillers-are-not-a-diagnosis", description: "A tablet can quiet pain for a few hours. Pain that keeps returning needs a cause, not only another dose.", sourceUrl: "https://www.instagram.com/reel/DXzJMNgibsa/", category: "Myths", sortOrder: 7, featured: false },
+    { title: "Myths about headache", slug: "myths-about-headache", description: "A short reel on common beliefs about headache, from Neurokalp in Ahmedabad.", sourceUrl: "https://www.instagram.com/reel/DYhs2eZCzLx/", category: "Myths", sortOrder: 8, featured: false },
+    { title: "When a headache needs attention", slug: "when-a-headache-needs-attention", description: "Not every headache is stress, and a painkiller is not always the whole answer. Frequent or severe headaches deserve a proper look.", sourceUrl: "https://www.instagram.com/reel/DYpTS1eCD8G/", category: "Brain health", sortOrder: 9, featured: false },
+    { title: "Why hands shake", slug: "why-hands-shake", description: "Tremors can come from stress, medicines, caffeine, poor sleep, essential tremor, or Parkinson's disease. The cause is worth finding early.", sourceUrl: "https://www.instagram.com/reel/DZkimRJC_4L/", category: "Brain health", sortOrder: 10, featured: false },
+    { title: "Myths about brain tumours", slug: "myths-about-brain-tumours", description: "A headache is not a brain tumour by default, and not every tumour is cancer. Timely diagnosis matters more than fear.", sourceUrl: "https://www.instagram.com/reel/DaAteRcB7iK/", category: "Brain health", sortOrder: 11, featured: false },
+    { title: "Stress and the brain", slug: "stress-and-the-brain", description: "A Gujarati talk on how long-running stress can affect blood pressure, sleep, mood, and memory, and what helps.", sourceUrl: "https://www.instagram.com/reel/Db0SOS8u3kC/", category: "Brain health", sortOrder: 12, featured: false },
+    { title: "Sant sanyog", slug: "sant-sanyog", description: "A reflection on the company we keep, and on living with less stress.", sourceUrl: "https://www.instagram.com/reel/DXKJG-DAkrz/", category: "Community", sortOrder: 13, featured: false },
+    { title: "Sant sanyog, continued", slug: "sant-sanyog-continued", description: "A second reflection on faith, company, and a calmer life.", sourceUrl: "https://www.instagram.com/reel/DXKHtjBgYKQ/", category: "Community", sortOrder: 14, featured: false },
+    { title: "A problem and its answer", slug: "a-problem-and-its-answer", description: "Problems are part of life. A calmer mind is often what finds the way through.", sourceUrl: "https://www.instagram.com/reel/Db0uQnNi3Rz/", category: "Community", sortOrder: 15, featured: false },
+    { title: "Life, like a box of chocolates", slug: "life-like-a-box-of-chocolates", description: "We do not choose every day we are given. We can choose how we meet it.", sourceUrl: "https://www.instagram.com/reel/DcEDH5iCkCX/", category: "Community", sortOrder: 16, featured: false },
+    { title: "Knowledge, skill, and judgement", slug: "knowledge-skill-and-judgement", description: "Knowing what to say, how to say it, and when to stay quiet. A note on communication.", sourceUrl: "https://www.instagram.com/reel/Dd3vpksuoG2/", category: "Community", sortOrder: 17, featured: false },
+    { title: "Where happiness lives", slug: "where-happiness-lives", description: "You cannot add days to your life, but you can add life to your days. A note on stress and small joys.", sourceUrl: "https://www.instagram.com/reel/DbqiMsNCwPQ/", category: "Community", sortOrder: 18, featured: false },
+    { title: "Clinic reel", slug: "from-the-clinic", description: "A short film from the clinic.", sourceUrl: "https://www.instagram.com/reel/DUQndgYgSwL/", category: "Community", sortOrder: 19, featured: false },
+    { title: "Clinic reel, two", slug: "from-the-clinic-second-reel", description: "A short film from the clinic.", sourceUrl: "https://www.instagram.com/reel/DUXYl1niJXQ/", category: "Community", sortOrder: 20, featured: false },
+    { title: "Clinic reel, three", slug: "from-the-clinic-third-reel", description: "A short film from the clinic.", sourceUrl: "https://www.instagram.com/reel/DUc1zqmjYbw/", category: "Community", sortOrder: 21, featured: false },
+  ];
+
+  await prisma.video.updateMany({ where: { sourceUrl: "" }, data: { published: false, featured: false } });
+  for (const talk of talks) {
+    const existing = await prisma.video.findFirst({ where: { OR: [{ sourceUrl: talk.sourceUrl }, { slug: talk.slug }] } });
+    if (!existing) {
+      await prisma.video.create({ data: { ...talk, published: true } });
+      continue;
+    }
+    const placeholder = existing.description.includes("Edit this title in Admin");
+    await prisma.video.update({
+      where: { id: existing.id },
+      data: placeholder
+        ? { ...talk, published: true }
+        : { published: true, sourceUrl: talk.sourceUrl },
+    });
+  }
 
   await seedIfEmpty("press", await prisma.pressItem.count(), () =>
     prisma.pressItem.createMany({

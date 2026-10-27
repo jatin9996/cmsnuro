@@ -53,10 +53,10 @@ export function SiteHeader({ settings }: { settings: Settings }) {
           <span className="min-w-0">
             <span className="block truncate text-sm font-semibold leading-tight text-navy sm:text-[15px]">{settings.doctorName}</span>
             <span className="block truncate text-[11px] leading-4 text-muted">{settings.roleTitle}</span>
-            <span className="hidden truncate text-[11px] leading-4 text-navy/70 sm:block">{settings.tagline}</span>
+            <span className="hidden truncate text-[11px] leading-4 text-navy/70 2xl:block">{settings.tagline}</span>
           </span>
         </Link>
-        <nav className="ml-4 hidden min-w-0 flex-1 items-center justify-center gap-x-3 xl:flex">
+        <nav className="ml-3 hidden min-w-0 flex-1 items-center justify-center gap-x-2.5 xl:flex 2xl:gap-x-3">
           {NAV.map((item) => {
             const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             return (
@@ -64,7 +64,7 @@ export function SiteHeader({ settings }: { settings: Settings }) {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={cn("text-[13px] font-medium text-ink/80 hover:text-navy", active && "font-semibold text-navy")}
+                className={cn("whitespace-nowrap text-[13px] font-medium text-ink/80 hover:text-navy", active && "font-semibold text-navy")}
               >
                 {item.label}
               </Link>

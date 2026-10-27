@@ -38,14 +38,22 @@ export function SiteFooter({ settings }: { settings: Settings }) {
     <>
       <footer className="bg-[#08182c] pb-[calc(4.75rem+env(safe-area-inset-bottom))] text-white xl:pb-0">
         <Container className="grid gap-8 py-10 lg:grid-cols-[1.2fr_2fr] lg:items-center">
-          <Link href="/" className="flex items-center gap-3">
-            <LogoMark className="h-11 w-11" />
-            <span>
-              <span className="block font-semibold">{settings.doctorName}</span>
-              <span className="block text-xs text-white/60">{settings.roleTitle}</span>
-              <span className="block text-xs text-white/60">{settings.tagline}</span>
-            </span>
-          </Link>
+          <div>
+            <Link href="/" className="flex items-center gap-3">
+              <LogoMark className="h-11 w-11" />
+              <span>
+                <span className="block font-semibold">{settings.doctorName}</span>
+                <span className="block text-xs text-white/60">{settings.roleTitle}</span>
+                <span className="block text-xs text-white/60">{settings.tagline}</span>
+              </span>
+            </Link>
+            <p className="mt-3 max-w-xs text-xs leading-5 text-white/60">{settings.address}</p>
+            {settings.mapUrl ? (
+              <a href={settings.mapUrl} target="_blank" rel="noreferrer" className="mt-1 inline-block text-xs font-semibold text-white/80 hover:text-white">
+                NEUROKALP on Google Maps
+              </a>
+            ) : null}
+          </div>
           <nav className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-white/80">
             {NAV.filter((item) => item.href !== "/").map((item) => (
               <Link key={item.href} href={item.href} className="hover:text-white">

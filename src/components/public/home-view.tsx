@@ -6,7 +6,7 @@ import { WhatsAppIcon } from "@/components/logo";
 import { Hero } from "@/components/public/hero";
 import { GalleryBrowser, PlayOverlay } from "@/components/public/overlays";
 import { btnOnDark, btnOutlineLight, btnPrimary, Container, MediaImage, Panel, SectionTitle } from "@/components/public/ui";
-import { formatDate, whatsappLink } from "@/lib/utils";
+import { formatDate, videoPlatform, videoPoster, whatsappLink } from "@/lib/utils";
 
 type HomeData = NonNullable<Awaited<ReturnType<typeof getHomeData>>>;
 
@@ -61,7 +61,16 @@ export function HomeView({ data }: { data: HomeData }) {
             medicalSpecialty: "Neurosurgery",
             telephone: settings.phone,
             email: settings.email,
-            address: settings.address,
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: settings.address,
+              addressLocality: "Ahmedabad",
+              addressRegion: "Gujarat",
+              postalCode: "380006",
+              addressCountry: "IN",
+            },
+            hasMap: settings.mapUrl || undefined,
+            sameAs: [settings.instagramUrl].filter(Boolean),
           }),
         }}
       />
@@ -77,6 +86,8 @@ export function HomeView({ data }: { data: HomeData }) {
               author={settings.heroQuoteAuthor}
               phone={settings.phone}
               whatsapp={settings.whatsapp}
+              portrait={settings.aboutImage}
+              portraitAlt={`${settings.doctorName}, ${settings.roleTitle}`}
             />
             <div className="relative z-10 -mt-7 px-1 sm:-mt-8 sm:px-6">
               <div className="grid grid-cols-1 gap-3 rounded-[24px] bg-white px-4 py-4 shadow-[0_18px_40px_-28px_rgba(12,35,64,0.7)] ring-1 ring-navy/5 min-[480px]:grid-cols-2 sm:rounded-[28px] sm:px-6 lg:grid-cols-4">
@@ -115,12 +126,13 @@ export function HomeView({ data }: { data: HomeData }) {
           <Panel>
             <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_190px]">
               <div className="grid gap-5 sm:grid-cols-[190px_minmax(0,1fr)]">
-                <MediaImage src={settings.aboutImage} alt={`${settings.doctorName}, ${settings.roleTitle}`} className="h-72 w-full rounded-[24px] sm:h-full sm:min-h-72" />
+                <MediaImage src={settings.aboutImage} alt={`${settings.doctorName}, ${settings.roleTitle}`} objectPosition="center 18%" className="aspect-[3/4] w-full rounded-[24px] sm:aspect-auto sm:h-full sm:min-h-80" />
                 <div>
                   <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{settings.aboutEyebrow}</p>
                   <h2 className="mt-1 text-2xl font-semibold text-navy">{settings.doctorName}</h2>
                   <p className="mt-1 text-sm text-muted">{settings.aboutDegrees}</p>
                   <p className="text-sm font-medium text-navy">{settings.roleTitle}</p>
+                  <p className="mt-1 text-sm text-muted">NEUROKALP, Ellisbridge, Ahmedabad</p>
                   <p className="mt-3 text-sm leading-6 text-ink/80">{settings.aboutBio}</p>
                   <blockquote className="mt-4 font-serif text-lg italic leading-snug text-navy">“{settings.aboutQuote}”</blockquote>
                   <p className="font-serif text-sm italic text-muted">{settings.doctorName}</p>
@@ -192,13 +204,14 @@ export function HomeView({ data }: { data: HomeData }) {
           <div className="grid min-w-0 gap-5 lg:grid-cols-5">
             <Panel className="lg:col-span-3" >
               <div id="videos">
-                <SectionTitle eyebrow="Inform. Educate. Empower." title="Latest Videos" href="/videos" action="View all videos" />
+                <SectionTitle eyebrow="Inform. Educate. Empower." title="Talks and reels" href="/videos" action="View all" />
                 <div className="grid grid-cols-1 gap-3 min-[520px]:grid-cols-3 min-[520px]:gap-2">
                   {videoCards.map((video) => (
                     <PlayOverlay key={video.id} title={video.title} src={video.sourceUrl}>
                       <article>
                         <div className="relative">
-                          <MediaImage src={video.thumbnail} alt="" className="aspect-[4/3] w-full rounded-xl" />
+                          <MediaImage src={video.thumbnail || videoPoster(video.sourceUrl)} alt="" className="aspect-[4/3] w-full rounded-xl" />
+                          <span className="absolute left-1.5 top-1.5 rounded-full bg-white/95 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-navy">{videoPlatform(video.sourceUrl)}</span>
                           <PlayBadge />
                           {video.duration ? <span className="absolute bottom-1.5 right-1.5 rounded bg-navy/80 px-1.5 py-0.5 text-[10px] text-white">{video.duration}</span> : null}
                         </div>

@@ -105,6 +105,7 @@ export function MediaImage({
   priority = false,
   fill = false,
   sizes = "(max-width: 768px) 100vw, 640px",
+  objectPosition = "center",
 }: {
   src?: string | null;
   alt: string;
@@ -112,11 +113,18 @@ export function MediaImage({
   priority?: boolean;
   fill?: boolean;
   sizes?: string;
+  objectPosition?: string;
 }) {
   return (
     <div className={cn(fill ? "absolute inset-0" : "relative", "overflow-hidden bg-[#d5e1ea]", className)}>
       {src ? (
-        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
+        src.startsWith("http") ? (
+          // Remote posters, such as a YouTube thumbnail, are not passed through the image optimiser.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={src} alt={alt} className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition }} />
+        ) : (
+          <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" style={{ objectPosition }} />
+        )
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-[#123252] via-[#3e6d86] to-[#e6d3b4]" />
       )}

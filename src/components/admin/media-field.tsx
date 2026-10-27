@@ -51,13 +51,13 @@ export function MediaField({
         // eslint-disable-next-line @next/next/no-img-element
         <img src={value} alt="" className="h-28 w-full rounded-xl object-cover" />
       ) : null}
-      {kind === "video" && value && !value.includes("youtube") && !value.includes("vimeo") ? (
+      {kind === "video" && value && !/youtube|youtu\.be|vimeo|instagram\.com/i.test(value) ? (
         <video src={value} className="h-28 w-full rounded-xl bg-black" controls />
       ) : null}
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        placeholder={kind === "video" ? "YouTube, Vimeo, or uploaded file address" : "Image address"}
+        placeholder={kind === "video" ? "YouTube, Vimeo, Instagram reel, or uploaded file" : "Image address"}
         className={fieldClass}
       />
       <label className="inline-flex w-fit cursor-pointer items-center rounded-xl bg-canvas px-3 py-2 text-sm font-semibold text-navy">

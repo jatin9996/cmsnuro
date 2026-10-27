@@ -19,8 +19,18 @@ export default async function ContactPage() {
           <a href={`tel:${settings.phone}`} className="flex items-start gap-3 text-sm"><Phone className="mt-0.5 h-4 w-4 text-navy" /><span><span className="block font-semibold text-navy">Phone</span>{settings.phoneDisplay}</span></a>
           <a href={whatsappLink(settings.whatsapp)} className="mt-4 flex items-start gap-3 text-sm"><Phone className="mt-0.5 h-4 w-4 text-navy" /><span><span className="block font-semibold text-navy">WhatsApp</span>{settings.whatsapp}</span></a>
           <a href={`mailto:${settings.email}`} className="mt-4 flex items-start gap-3 text-sm"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-navy" /><span className="min-w-0 break-all"><span className="block font-semibold text-navy">Email</span>{settings.email}</span></a>
-          <p className="mt-4 flex items-start gap-3 text-sm"><MapPin className="mt-0.5 h-4 w-4 text-navy" /><span><span className="block font-semibold text-navy">Clinic</span>{settings.address}</span></p>
+          <p className="mt-4 flex items-start gap-3 text-sm"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-navy" /><span><span className="block font-semibold text-navy">Clinic</span>{settings.address}</span></p>
+          {settings.mapUrl ? <a href={settings.mapUrl} target="_blank" rel="noreferrer" className="mt-2 inline-block pl-7 text-sm font-semibold text-navy underline">Open in Google Maps</a> : null}
           <p className="mt-4 text-sm leading-6 text-muted">Consulting hours {hours.hours}. Lunch {hours.lunch}. Closed: {hours.closed}.</p>
+          {settings.mapUrl ? (
+            <iframe
+              title="NEUROKALP on Google Maps"
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(settings.address)}&output=embed`}
+              className="mt-5 h-52 w-full rounded-2xl border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          ) : null}
         </aside>
         <ContactForm />
       </div>

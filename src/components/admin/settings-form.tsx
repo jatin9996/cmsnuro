@@ -51,6 +51,7 @@ export function SettingsForm({ settings }: { settings: Omit<SiteSetting, "update
             {text("whatsapp", "WhatsApp number")}
             {text("email", "Email", { type: "email" })}
             <div className="md:col-span-2">{text("address", "Clinic address")}</div>
+            <div className="md:col-span-2">{text("mapUrl", "Google Maps link")}</div>
           </div>
         </section>
         <section className="grid gap-4">
@@ -65,7 +66,7 @@ export function SettingsForm({ settings }: { settings: Omit<SiteSetting, "update
           {text("aboutEyebrow", "About label")}
           {text("aboutBio", "Short biography", { textarea: true })}
           {text("aboutQuote", "About quote")}
-          <MediaField label="Portrait" name="aboutImage" kind="image" value={values.aboutImage ?? ""} onChange={(value) => setValues({ ...values, aboutImage: value })} help="Replace the stock portrait with a real photograph before launch." />
+          <MediaField label="Portrait" name="aboutImage" kind="image" value={values.aboutImage ?? ""} onChange={(value) => setValues({ ...values, aboutImage: value })} help="Shown on the homepage and the About page. A vertical photograph of the doctor works best." />
           {text("ctaTitle", "Closing title")}
           {text("ctaSubtitle", "Closing text", { textarea: true })}
           <MediaField label="Closing photograph" name="ctaImage" kind="image" value={values.ctaImage ?? ""} onChange={(value) => setValues({ ...values, ctaImage: value })} />

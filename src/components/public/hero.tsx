@@ -18,6 +18,8 @@ export function Hero({
   author,
   phone,
   whatsapp,
+  portrait,
+  portraitAlt,
 }: {
   slides: Slide[];
   eyebrow: string;
@@ -27,6 +29,8 @@ export function Hero({
   author: string;
   phone: string;
   whatsapp: string;
+  portrait?: string;
+  portraitAlt?: string;
 }) {
   const [active, setActive] = useState(0);
   const count = Math.max(slides.length, 1);
@@ -54,7 +58,7 @@ export function Hero({
         />
       ))}
       <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/55 to-navy/25 sm:bg-gradient-to-r sm:from-navy/85 sm:via-navy/45 sm:to-navy/15" />
-      <div className="relative z-10 flex min-w-0 flex-col justify-center px-5 py-8 pb-14 sm:min-h-[540px] sm:px-10 sm:py-12 lg:px-12">
+      <div className={cn("relative z-10 flex min-w-0 flex-col justify-center px-5 py-8 pb-14 sm:min-h-[540px] sm:px-10 sm:py-12 lg:px-12", portrait && "xl:pr-52")}>
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/75">{eyebrow}</p>
         <h1 className="mt-3 max-w-xl whitespace-pre-line text-[1.85rem] font-semibold leading-[1.08] tracking-tight sm:mt-4 sm:text-5xl">{title}</h1>
         <p className="mt-3 max-w-xl text-sm leading-6 text-white/85 sm:mt-4 sm:text-base">{subtitle}</p>
@@ -84,6 +88,13 @@ export function Hero({
           </div>
         ) : null}
       </div>
+      {portrait ? (
+        <figure className="pointer-events-none absolute bottom-8 right-6 z-20 hidden w-40 xl:block">
+          <div className="overflow-hidden rounded-[28px] shadow-[0_24px_50px_-24px_rgba(0,0,0,0.7)] ring-4 ring-white">
+            <MediaImage src={portrait} alt={portraitAlt || author} objectPosition="center 18%" className="aspect-[3/4] w-full" />
+          </div>
+        </figure>
+      ) : null}
       <div className="absolute right-4 top-5 z-20 hidden flex-col gap-3 lg:flex">
         <a href={whatsappLink(whatsapp, message)} aria-label="WhatsApp" className="grid h-11 w-11 place-items-center rounded-2xl bg-[#25D366] text-white shadow-lg">
           <WhatsAppIcon className="h-5 w-5" />

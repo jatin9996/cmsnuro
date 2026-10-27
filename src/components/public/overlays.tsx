@@ -56,11 +56,21 @@ export function VideoDialog({ title, src, onClose }: { title: string; src: strin
           </button>
         </div>
         {embed?.type === "iframe" ? (
-          <iframe title={title} src={embed.src} className="aspect-video w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+          <iframe
+            title={title}
+            src={embed.src}
+            className={embed.aspect === "portrait" ? "mx-auto aspect-[9/16] max-h-[70vh] w-full max-w-[420px] bg-white" : "aspect-video w-full"}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
         ) : embed?.type === "file" ? (
           <video src={embed.src} controls autoPlay className="aspect-video w-full bg-black" />
+        ) : src.startsWith("http") ? (
+          <p className="px-6 py-16 text-center text-sm text-white/80">
+            <a href={src} target="_blank" rel="noreferrer" className="font-semibold underline">Open this film</a>
+          </p>
         ) : (
-          <p className="px-6 py-16 text-center text-sm text-white/75">This film has not been added yet. Upload it from the admin panel.</p>
+          <p className="px-6 py-16 text-center text-sm text-white/75">This film has not been added yet. Add it from the admin panel.</p>
         )}
       </div>
     </div>

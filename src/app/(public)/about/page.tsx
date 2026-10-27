@@ -30,7 +30,7 @@ export default async function AboutPage() {
       <PageHero eyebrow={settings.aboutEyebrow} title={settings.doctorName} description={settings.aboutDegrees} crumbs={[{ href: "/", label: "Home" }, { href: "/about", label: "About" }]} />
       <Panel>
         <div className="grid gap-6 md:grid-cols-[240px_minmax(0,1fr)]">
-          <MediaImage src={settings.aboutImage} alt={`${settings.doctorName}, ${settings.roleTitle}`} className="h-80 w-full rounded-[24px]" />
+          <MediaImage src={settings.aboutImage} alt={`${settings.doctorName}, ${settings.roleTitle}`} objectPosition="center 18%" className="aspect-[3/4] w-full rounded-[24px]" />
           <div>
             <p className="text-sm font-semibold text-navy">{settings.roleTitle}</p>
             <p className="mt-4 text-sm leading-7 text-ink/85">{settings.aboutBio}</p>
