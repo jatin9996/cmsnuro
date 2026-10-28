@@ -159,7 +159,7 @@ export function MessagesBoard({ items }: { items: Inquiry[] }) {
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <h2 className="font-semibold text-navy">{item.subject}</h2>
-                <p className="text-sm text-muted">{item.name} · {item.phone} · {item.email}</p>
+                <p className="text-sm text-muted">{[item.name, item.phone, item.email].filter(Boolean).join(" · ")}</p>
               </div>
               <span className={`rounded-full px-2 py-1 text-xs font-semibold ${statusClass(item.status)}`}>{item.status}</span>
             </div>

@@ -119,7 +119,7 @@ export function ContactForm() {
     return (
       <div className="rounded-[28px] bg-white p-8 shadow-[0_20px_50px_-36px_rgba(12,35,64,0.8)]">
         <h2 className="text-2xl font-semibold text-navy">Message received</h2>
-        <p className="mt-3 text-sm leading-6 text-muted">Reference {state.id}. The clinic will reply using the phone number or email you shared.</p>
+        <p className="mt-3 text-sm leading-6 text-muted">Reference {state.id}. The clinic will reply using the phone number you shared.</p>
       </div>
     );
   }
@@ -127,10 +127,7 @@ export function ContactForm() {
     <form action={action} className="grid gap-4 rounded-3xl bg-white p-4 shadow-[0_20px_50px_-36px_rgba(12,35,64,0.8)] sm:rounded-[28px] sm:p-8">
       <input name="company" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
       <Field label="Full name"><input name="name" required className={fieldClass} /></Field>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Mobile number"><input name="phone" required className={fieldClass} /></Field>
-        <Field label="Email"><input name="email" type="email" required className={fieldClass} /></Field>
-      </div>
+      <Field label="Mobile number"><input name="phone" required className={fieldClass} /></Field>
       <Field label="Subject"><input name="subject" required className={fieldClass} /></Field>
       <Field label="Message"><textarea name="message" required rows={5} className={fieldClass} /></Field>
       {state.error ? <p className="text-sm font-medium text-red-700">{state.error}</p> : null}

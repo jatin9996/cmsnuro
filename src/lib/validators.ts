@@ -89,7 +89,6 @@ export const appointmentSchema = z.object({
 export const inquirySchema = z.object({
   name: requiredText(2, 80),
   phone: requiredText(8, 20),
-  email: z.string().trim().email("Enter a valid email address."),
   subject: requiredText(2, 140),
   message: requiredText(10, 4000),
 });

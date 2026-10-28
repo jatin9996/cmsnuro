@@ -490,7 +490,7 @@ async function main() {
           title: "Privacy policy",
           excerpt: "A starting point. Have it reviewed before launch.",
           sortOrder: 1,
-          content: "## What the clinic collects\n\nAppointment and contact forms collect your name, phone number, email, the reason for the visit, and anything you choose to write. The clinic uses this to reply and to arrange care.\n\n## What this template does not do\n\nIt does not sell the form contents. It stores them in the clinic database. Staff who sign in to the admin panel can read them.\n\n## Before launch\n\nA lawyer should adapt this page to the clinic's real processors, retention period, and the rights patients have under Indian law.",
+          content: "## What the clinic collects\n\nAppointment requests collect your name, phone number, email, the reason for the visit, and anything you choose to write. Contact messages collect your name, phone number, and what you write. The clinic uses this to reply and to arrange care.\n\n## What this template does not do\n\nIt does not sell the form contents. It stores them in the clinic database. Staff who sign in to the admin panel can read them.\n\n## Before launch\n\nA lawyer should adapt this page to the clinic's real processors, retention period, and the rights patients have under Indian law.",
         },
         {
           slug: "terms",

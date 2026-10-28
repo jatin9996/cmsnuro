@@ -53,13 +53,12 @@ export async function createInquiry(_prev: FormState, formData: FormData): Promi
   const parsed = inquirySchema.safeParse({
     name: formData.get("name"),
     phone: formData.get("phone"),
-    email: formData.get("email"),
     subject: formData.get("subject"),
     message: formData.get("message"),
   });
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Check the form and try again." };
   const phone = normalizePhone(parsed.data.phone);
   if (!phone) return { error: "Enter a valid 10-digit mobile number." };
-  const inquiry = await prisma.inquiry.create({ data: { ...parsed.data, phone } });
+  const inquiry = await prisma.inquiry.create({ data: { ...parsed.data, phone, email: "" } });
   return { id: inquiry.id.slice(-8).toUpperCase() };
 }
