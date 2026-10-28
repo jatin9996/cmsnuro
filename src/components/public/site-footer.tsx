@@ -6,7 +6,7 @@ import { Container } from "@/components/public/ui";
 import { NAV } from "@/lib/nav";
 import { whatsappLink } from "@/lib/utils";
 
-type Settings = Omit<SiteSetting, "updatedAt">;
+type Settings = Omit<SiteSetting, "updatedAt" | "email">;
 
 function SocialIcon({ name }: { name: string }) {
   const paths: Record<string, string> = {

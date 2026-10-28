@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   const [settings, tags] = await Promise.all([getSettings(), getSeoTags()]);
   if (!settings) return <SetupScreen />;
-  const { updatedAt: _updatedAt, ...publicSettings } = settings;
+  const { updatedAt: _updatedAt, email: _email, ...publicSettings } = settings;
   return (
     <>
       {propertyTags(tags).map((tag) => (

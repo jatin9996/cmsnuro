@@ -10,7 +10,7 @@ import { btnPrimary, Container } from "@/components/public/ui";
 import { NAV } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
-type Settings = Omit<SiteSetting, "updatedAt">;
+type Settings = Omit<SiteSetting, "updatedAt" | "email">;
 type Result = { type: string; title: string; href: string; meta: string };
 
 export function SiteHeader({ settings }: { settings: Settings }) {
