@@ -75,8 +75,7 @@ export function HomeView({ data }: { data: HomeData }) {
           }),
         }}
       />
-      <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1.18fr)_minmax(340px,0.82fr)]">
-        <div className="min-w-0 space-y-5">
+      <div className="space-y-5">
           <div>
             <Hero
               slides={data.slides.map((slide) => ({ image: slide.image, alt: slide.alt, quote: slide.quote }))}
@@ -109,7 +108,7 @@ export function HomeView({ data }: { data: HomeData }) {
 
           <Panel>
             <SectionTitle title="Conditions We Treat" href="/treatments" action="View all treatments" />
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
               {data.conditions.map((item) => (
                 <Link key={item.id} href={`/treatments/${item.slug}`} className="flex items-start gap-3 rounded-2xl p-2 transition hover:bg-canvas">
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-cream text-navy">
@@ -125,41 +124,36 @@ export function HomeView({ data }: { data: HomeData }) {
           </Panel>
 
           <Panel>
-            <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_190px]">
-              <div className="grid gap-5 sm:grid-cols-[190px_minmax(0,1fr)]">
-                <MediaImage src={settings.aboutImage} alt={`${settings.doctorName}, ${settings.roleTitle}`} objectPosition="center 18%" className="aspect-[3/4] w-full rounded-[24px] sm:aspect-auto sm:h-full sm:min-h-80" />
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{settings.aboutEyebrow}</p>
-                  <h2 className="mt-1 text-2xl font-semibold text-navy">{settings.doctorName}</h2>
-                  <p className="mt-1 text-sm text-muted">{settings.aboutDegrees}</p>
-                  <p className="text-sm font-medium text-navy">{settings.roleTitle}</p>
-                  <p className="mt-1 text-sm text-muted">NEUROKALP, Ellisbridge, Ahmedabad</p>
-                  <p className="mt-3 text-sm leading-6 text-ink/80">{settings.aboutBio}</p>
-                  <blockquote className="mt-4 font-serif text-lg italic leading-snug text-navy">“{settings.aboutQuote}”</blockquote>
-                  <p className="font-serif text-sm italic text-muted">{settings.doctorName}</p>
-                  <Link href="/about" className={`${btnPrimary} mt-4 h-auto whitespace-normal text-center leading-5`}>
-                    Know more about {settings.doctorName} →
-                  </Link>
-                </div>
+            <div className="grid items-start gap-5 lg:grid-cols-[200px_minmax(0,1fr)]">
+              <MediaImage src={settings.aboutImage} alt={`${settings.doctorName}, ${settings.roleTitle}`} objectPosition="center 18%" className="mx-auto aspect-[3/4] w-full max-w-[220px] rounded-[24px] lg:mx-0" />
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{settings.aboutEyebrow}</p>
+                <h2 className="mt-1 text-2xl font-semibold text-navy">{settings.doctorName}</h2>
+                <p className="mt-1 text-sm text-muted">{settings.aboutDegrees}</p>
+                <p className="text-sm font-medium text-navy">{settings.roleTitle}</p>
+                <p className="mt-1 text-sm text-muted">NEUROKALP, Ellisbridge, Ahmedabad</p>
+                <p className="mt-3 text-sm leading-6 text-ink/80">{settings.aboutBio}</p>
+                <blockquote className="mt-4 font-serif text-lg italic leading-snug text-navy">“{settings.aboutQuote}”</blockquote>
+                <p className="font-serif text-sm italic text-muted">{settings.doctorName}</p>
+                <Link href="/about" className={`${btnPrimary} mt-4 h-auto whitespace-normal text-center leading-5`}>
+                  Know more about {settings.doctorName} →
+                </Link>
+                <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3">
+                  {aboutStats.map((item) => (
+                    <div key={item.id} className="flex items-center gap-3">
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-cream text-navy">
+                        <Icon name={item.icon} className="h-4 w-4" />
+                      </span>
+                      <span>
+                        <dt className="text-sm font-semibold text-navy">{item.value || item.label}</dt>
+                        {item.value ? <dd className="text-xs text-muted">{item.label}</dd> : null}
+                      </span>
+                    </div>
+                  ))}
+                </dl>
               </div>
-              <dl className="grid grid-cols-2 gap-3 lg:grid-cols-1">
-                {aboutStats.map((item) => (
-                  <div key={item.id} className="flex items-center gap-3">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-cream text-navy">
-                      <Icon name={item.icon} className="h-4 w-4" />
-                    </span>
-                    <span>
-                      <dt className="text-sm font-semibold text-navy">{item.value || item.label}</dt>
-                      {item.value ? <dd className="text-xs text-muted">{item.label}</dd> : null}
-                    </span>
-                  </div>
-                ))}
-              </dl>
             </div>
           </Panel>
-        </div>
-
-        <div className="min-w-0 space-y-5">
           <Panel>
             <SectionTitle eyebrow="Real people. Real journeys. Real hope." title="Patient Stories" href="/patient-stories" action="View all stories" />
             <div className="no-scrollbar flex w-full min-w-0 snap-x snap-mandatory gap-3 overflow-x-auto pb-1 sm:grid sm:grid-cols-3 sm:overflow-visible">
@@ -184,7 +178,7 @@ export function HomeView({ data }: { data: HomeData }) {
           <Panel>
             <SectionTitle eyebrow="Recognition for a greater purpose" title="Achievements" href="/achievements" action="View all" />
             {achievementPhotos.length ? (
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
                 {achievementPhotos.map((item) => (
                   <Link key={item.id} href="/achievements" className="block">
                     <MediaImage src={item.image} alt={item.title} className="aspect-[4/3] w-full rounded-2xl" />
@@ -340,7 +334,6 @@ export function HomeView({ data }: { data: HomeData }) {
               }}
             />
           </div>
-        </div>
       </div>
 
       <section className="relative overflow-hidden rounded-[28px] sm:min-h-[280px] sm:rounded-[32px]">
