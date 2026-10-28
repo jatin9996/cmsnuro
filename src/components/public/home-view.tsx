@@ -1,12 +1,12 @@
 import type { getHomeData } from "@/lib/queries";
-import { Calendar, Phone, Play } from "lucide-react";
+import { Play } from "lucide-react";
 import Link from "next/link";
 import { Icon } from "@/components/icon";
-import { WhatsAppIcon } from "@/components/logo";
+import { BusinessCard } from "@/components/public/business-card";
 import { Hero } from "@/components/public/hero";
 import { GalleryBrowser, PlayOverlay } from "@/components/public/overlays";
 import { btnOnDark, btnOutlineLight, btnPrimary, Container, MediaImage, Panel, SectionTitle, VideoPoster } from "@/components/public/ui";
-import { formatDate, videoPlatform, videoPoster, whatsappLink } from "@/lib/utils";
+import { formatDate, videoPlatform, videoPoster } from "@/lib/utils";
 
 type HomeData = NonNullable<Awaited<ReturnType<typeof getHomeData>>>;
 
@@ -50,7 +50,6 @@ export function HomeView({ data }: { data: HomeData }) {
   const videoCards = mixedTalks.length >= 2 ? mixedTalks : data.videos.slice(0, 4);
   const achievementPhotos = data.achievements.filter((item) => item.image).slice(0, 4);
   const posts = data.posts.slice(0, 3);
-  const chat = whatsappLink(settings.whatsapp, `Hello ${settings.doctorName}, I would like to inquire about a consultation.`);
 
   return (
     <Container className="space-y-5 py-5 sm:py-6">
@@ -325,20 +324,21 @@ export function HomeView({ data }: { data: HomeData }) {
                     ))}
               </div>
             </section>
-            <section className="min-w-0 rounded-[28px] bg-navy p-5 text-white">
-              <h2 className="text-lg font-semibold">Your Health Our Priority</h2>
-              <div className="mt-4 grid gap-2">
-                <Link href="/book" className="flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-2.5 text-sm font-semibold">
-                  <Calendar className="h-4 w-4" /> Book appointment
-                </Link>
-                <a href={chat} className="flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-2.5 text-sm font-semibold">
-                  <WhatsAppIcon className="h-4 w-4" /> WhatsApp inquiry
-                </a>
-                <a href={`tel:${settings.phone}`} className="flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-2.5 text-sm font-semibold">
-                  <Phone className="h-4 w-4" /> Call now · {settings.phoneDisplay}
-                </a>
-              </div>
-            </section>
+            <BusinessCard
+              details={{
+                doctorName: settings.doctorName,
+                roleTitle: settings.roleTitle,
+                degrees: settings.aboutDegrees,
+                tagline: settings.tagline,
+                phone: settings.phone,
+                whatsapp: settings.whatsapp,
+                address: settings.address,
+                mapUrl: settings.mapUrl,
+                instagramUrl: settings.instagramUrl,
+                youtubeUrl: settings.youtubeUrl,
+                portrait: settings.aboutImage,
+              }}
+            />
           </div>
         </div>
       </div>
