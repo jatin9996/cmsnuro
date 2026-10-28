@@ -1,12 +1,10 @@
-export function LogoMark({ className }: { className?: string }) {
+import Image from "next/image";
+
+export function LogoMark({ className = "h-14 w-14" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 48 48" className={className} aria-hidden>
-      <rect width="48" height="48" rx="15" fill="#0c2340" />
-      <path
-        d="M24 11c-5.2 3.2-8 7.2-8 12.2 0 3.2 1.4 5.8 3.8 7.6-1.2-2.6-1-5.2.6-7.2 1.2 4.6 3.8 7.4 7.6 8.4.6-2.6 1.2-5.2.4-7.6 2.6 1 4.4 3.2 4.6 6.6-4.2 1.8-8.6 1.4-11.4-.2 4.4 2.6 10.4 2.8 14.6-.6 2.6-2.2 3.8-6.2 2.4-10.6-1.6-5-6.8-9.2-14.6-8.6z"
-        fill="#f4efe6"
-      />
-    </svg>
+    <span className={`relative inline-block shrink-0 overflow-hidden rounded-2xl bg-[#163a78] ${className}`}>
+      <Image src="/media/neurokalp-logo.jpg" alt="NEUROKALP" fill sizes="160px" className="object-cover object-center" />
+    </span>
   );
 }
 

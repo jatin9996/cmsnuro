@@ -98,6 +98,16 @@ export function MedicalNote() {
   );
 }
 
+export function VideoPoster({ className }: { className?: string }) {
+  return (
+    <div className={cn("relative overflow-hidden bg-[#0b2f86]", className)}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/media/neurokalp-logo.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
+      <div className="absolute inset-0 bg-[#08182c]/20" />
+    </div>
+  );
+}
+
 export function MediaImage({
   src,
   alt,

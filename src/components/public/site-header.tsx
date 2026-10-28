@@ -49,7 +49,7 @@ export function SiteHeader({ settings }: { settings: Settings }) {
     <header className="sticky top-0 z-40 border-b border-line/80 bg-white/90 backdrop-blur-md">
       <Container className="flex h-16 items-center gap-2 sm:h-[76px] sm:gap-3">
         <Link href="/" className="flex min-w-0 items-center gap-2.5 sm:gap-3">
-          <LogoMark className="h-10 w-10 shrink-0 sm:h-11 sm:w-11" />
+          <LogoMark className="h-12 w-12 sm:h-14 sm:w-14" />
           <span className="min-w-0">
             <span className="block truncate text-sm font-semibold leading-tight text-navy sm:text-[15px]">{settings.doctorName}</span>
             <span className="block truncate text-[11px] leading-4 text-muted">{settings.roleTitle}</span>

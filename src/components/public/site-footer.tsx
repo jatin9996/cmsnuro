@@ -40,7 +40,7 @@ export function SiteFooter({ settings }: { settings: Settings }) {
         <Container className="grid gap-8 py-10 lg:grid-cols-[1.2fr_2fr] lg:items-center">
           <div>
             <Link href="/" className="flex items-center gap-3">
-              <LogoMark className="h-11 w-11" />
+              <LogoMark className="h-16 w-16" />
               <span>
                 <span className="block font-semibold">{settings.doctorName}</span>
                 <span className="block text-xs text-white/60">{settings.roleTitle}</span>
@@ -48,10 +48,9 @@ export function SiteFooter({ settings }: { settings: Settings }) {
               </span>
             </Link>
             <p className="mt-3 max-w-xs text-xs leading-5 text-white/60">{settings.address}</p>
-            <a href={`mailto:${settings.email}`} className="mt-1 inline-block text-xs font-semibold text-white/80 hover:text-white">{settings.email}</a>
             {settings.mapUrl ? (
               <a href={settings.mapUrl} target="_blank" rel="noreferrer" className="mt-1 inline-block text-xs font-semibold text-white/80 hover:text-white">
-                NEUROKALP on Google Maps
+                NEUROKALP on Google
               </a>
             ) : null}
           </div>

@@ -12,7 +12,7 @@ export default async function VideosPage() {
       <PageHero
         eyebrow="Watch"
         title="Talks and reels"
-        description="The podcast, clinic reels, and short explanations of brain and spine care. New films are added from the admin panel."
+        description="YouTube talks and Instagram reels from the clinic. New films are added from the admin panel."
         crumbs={[{ href: "/", label: "Home" }, { href: "/videos", label: "Talks" }]}
       />
       <VideoLibrary

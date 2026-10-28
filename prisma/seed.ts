@@ -43,7 +43,7 @@ async function main() {
         whatsapp: "+91 90991 10022",
         email: "kairav3285@gmail.com",
         address: "NEUROKALP, 504-5, 5th floor, Mehta 531, near V.S. Hospital, Ellisbridge, Ahmedabad, Gujarat 380006",
-        mapUrl: "https://maps.google.com/?cid=11458330563077161080",
+        mapUrl: "https://share.google/bPjyfXDk5ssH3NUBl",
         heroEyebrow: "Expertise | Compassion | Better Lives",
         heroTitle: "Advanced Neurosurgery\nFor A Healthier Tomorrow",
         heroSubtitle: "Comprehensive care for brain, spine and nervous system disorders with global expertise and a human touch.",
@@ -61,6 +61,7 @@ async function main() {
         achievementQuote: "Success is not a destination, but a continuous pursuit of better care.",
         instagramHandle: "@dr.kairav",
         instagramUrl: "https://www.instagram.com/dr.kairav/",
+        youtubeUrl: "https://www.youtube.com/@kairav1",
         dayStart: "10:00",
         dayEnd: "17:00",
         lunchStart: "13:00",
@@ -85,6 +86,7 @@ async function main() {
       aboutImage?: string;
       instagramHandle?: string;
       instagramUrl?: string;
+      youtubeUrl?: string;
     } = {};
     const previousClinicNumber = clinic.phone === "+919049695194" || clinic.phone === "+919876543210" || clinic.phoneDisplay.includes("90496");
     if (previousClinicNumber) {
@@ -100,12 +102,15 @@ async function main() {
     if (clinic.address === "Neurosciences Clinic, India" || clinic.address === "NEUROKALP, Near V.S Hospital, Ellisbridge, Ahmedabad") {
       data.address = fullAddress;
     }
-    if (!clinic.mapUrl) data.mapUrl = "https://maps.google.com/?cid=11458330563077161080";
+    if (!clinic.mapUrl || clinic.mapUrl === "https://maps.google.com/?cid=11458330563077161080") {
+      data.mapUrl = "https://share.google/bPjyfXDk5ssH3NUBl";
+    }
     if (!clinic.aboutImage || clinic.aboutImage === "/media/doctor.jpg") data.aboutImage = "/media/doctor-kairav.jpg";
     if (!clinic.instagramUrl || clinic.instagramHandle === "@dr.kairavshah") {
       data.instagramHandle = "@dr.kairav";
       data.instagramUrl = "https://www.instagram.com/dr.kairav/";
     }
+    if (!clinic.youtubeUrl) data.youtubeUrl = "https://www.youtube.com/@kairav1";
     if (Object.keys(data).length) await prisma.siteSetting.update({ where: { id: 1 }, data });
   }
 
@@ -173,6 +178,170 @@ async function main() {
     }),
   );
 
+  const stockHonours = await prisma.achievement.findMany({
+    where: {
+      title: { in: ["Awards & Honours", "Research Publications", "International Speaker", "Fellowships & Certifications"] },
+    },
+  });
+  for (const item of stockHonours) {
+    if (/Replace this|Add the meetings|List each fellowship/.test(item.description)) {
+      await prisma.achievement.update({ where: { id: item.id }, data: { published: false } });
+    }
+  }
+
+  const honours = [
+    {
+      value: "",
+      title: "With the Hon. Prime Minister",
+      subtitle: "Shri Narendra Modi",
+      description:
+        "Dr. Kairav Shah with Shri Narendra Modi. The photograph is from a meeting during his years of work as a neurosurgeon, and the clinic keeps it among the public moments of that work.",
+      icon: "Users",
+      image: "/media/gallery/with-prime-minister.jpg",
+      sortOrder: 0,
+    },
+    {
+      value: "",
+      title: "Honoured by the Hon. Chief Minister",
+      subtitle: "Shri Bhupendrabhai Patel, Taj Skyline",
+      description:
+        "Shri Bhupendrabhai Patel, Hon. Chief Minister of Gujarat, was chief guest at Taj Skyline when he presented this honour to Dr. Kairav Shah. The plaque is inscribed Bharat.",
+      icon: "Award",
+      image: "/media/gallery/chief-minister-honour.jpg",
+      sortOrder: 1,
+    },
+    {
+      value: "",
+      title: "The Bharat plaque",
+      subtitle: "Presented by the Hon. Chief Minister",
+      description:
+        "A closer view of the Bharat plaque Shri Bhupendrabhai Patel, Hon. Chief Minister of Gujarat, presented to Dr. Kairav Shah at Taj Skyline.",
+      icon: "Award",
+      image: "/media/gallery/chief-minister-close.jpg",
+      sortOrder: 2,
+    },
+    {
+      value: "3",
+      title: "Gold medals, Gujarat University",
+      subtitle: "First rank, M.S. General Surgery",
+      description:
+        "Three gold medals for first rank in the Gujarat University M.S. General Surgery examination, and a gold medal from the B.J. Medical College Alumni for the best outgoing student.",
+      icon: "Award",
+      image: "/media/gallery/gujarat-university-medal.jpg",
+      sortOrder: 3,
+    },
+    {
+      value: "",
+      title: "Gujarat University convocation",
+      subtitle: "First rank, M.S. General Surgery",
+      description:
+        "Dr. Kairav Shah at the Gujarat University convocation with the gold medals for first rank in the M.S. General Surgery examination.",
+      icon: "GraduationCap",
+      image: "/media/gallery/gujarat-university-convocation.jpg",
+      sortOrder: 4,
+    },
+    {
+      value: "",
+      title: "Community honour",
+      subtitle: "Citation for service",
+      description: "Garlanded at a community programme and presented with a citation for his work.",
+      icon: "Heart",
+      image: "/media/gallery/community-honour.jpg",
+      sortOrder: 5,
+    },
+    {
+      value: "",
+      title: "Barrow Neurological Institute",
+      subtitle: "Microneurosurgery with Dr. Michael Lawton",
+      description: "Training in microneurosurgery at Barrow Neurological Institute, with Dr. Michael Lawton.",
+      icon: "GraduationCap",
+      image: "/media/gallery/barrow-colleague.jpg",
+      sortOrder: 6,
+    },
+    {
+      value: "",
+      title: "A family's letter of thanks",
+      subtitle: "Kept at the clinic",
+      description: "A framed letter of appreciation from a family, presented to Dr. Kairav Shah at the clinic.",
+      icon: "Heart",
+      image: "/media/gallery/clinic-appreciation.jpg",
+      sortOrder: 7,
+    },
+    {
+      value: "",
+      title: "Fellowship in microneurosurgery",
+      subtitle: "University Hospital, Helsinki, 2019",
+      description: "A fellowship in microneurosurgery at University Hospital, Helsinki, in 2019.",
+      icon: "GraduationCap",
+      image: "",
+      sortOrder: 8,
+    },
+    {
+      value: "",
+      title: "Torrent Young Scholar Award",
+      subtitle: "Neurosurgery, 2014",
+      description: "Best orator, and second runner-up, at the national Torrent Young Scholar Award for Neurosurgery in 2014.",
+      icon: "Mic",
+      image: "",
+      sortOrder: 9,
+    },
+    {
+      value: "",
+      title: "Bharat Medical Excellence Award",
+      subtitle: "Neurosurgery",
+      description: "The Bharat Medical Excellence Award in neurosurgery, for his work over the past decade.",
+      icon: "Award",
+      image: "",
+      sortOrder: 10,
+    },
+    {
+      value: "",
+      title: "Manav Kalyan Mandal",
+      subtitle: "Rajkot, 2018 and 2019",
+      description: "Honoured by Manav Kalyan Mandal, Rajkot, in 2018 and 2019 for service.",
+      icon: "Heart",
+      image: "",
+      sortOrder: 11,
+    },
+    {
+      value: "",
+      title: "Dhirubhai Ambani Foundation scholarship",
+      subtitle: "First rank, Kheda district",
+      description: "A scholarship from the Shri Dhirubhai Ambani Foundation for first rank in Kheda district in the higher secondary examination.",
+      icon: "BadgeCheck",
+      image: "",
+      sortOrder: 12,
+    },
+    {
+      value: "30+",
+      title: "Public speaking awards",
+      subtitle: "District, state, and national",
+      description: "More than 30 awards in public speaking and elocution, at district, state, and national level.",
+      icon: "Mic",
+      image: "",
+      sortOrder: 13,
+    },
+    {
+      value: "",
+      title: "Research papers",
+      subtitle: "Indian Journal of Neurosurgery and Asian Journal of Neurosurgery",
+      description:
+        "Published work includes a comparison of phenytoin and levetiracetam for seizure prevention after traumatic brain injury, in the Indian Journal of Neurosurgery, and a paper on repeat CT scans in mild and moderate traumatic brain injury, in the Asian Journal of Neurosurgery. The seizure study was also presented at NSICON 2014.",
+      icon: "BookOpen",
+      image: "",
+      sortOrder: 14,
+    },
+  ];
+
+  for (const honour of honours) {
+    const existing = await prisma.achievement.findFirst({ where: { title: honour.title } });
+    if (existing) {
+      await prisma.achievement.update({ where: { id: existing.id }, data: { ...honour, published: true } });
+    } else {
+      await prisma.achievement.create({ data: { ...honour, published: true } });
+    }
+  }
+
   await seedIfEmpty("videos", await prisma.video.count(), () =>
     prisma.video.createMany({
       data: [
@@ -184,7 +353,9 @@ async function main() {
   );
 
   const talks = [
-    { title: "The Jay Thadeshwar Show", slug: "jay-thadeshwar-show", description: "Dr. Kairav Shah in conversation on The Jay Thadeshwar Show.", sourceUrl: "https://youtu.be/WnaTpgwMrnI", thumbnail: "https://i.ytimg.com/vi/WnaTpgwMrnI/hqdefault.jpg", category: "Podcast", sortOrder: 0, featured: true },
+    { title: "The Jay Thadeshwar Show", slug: "jay-thadeshwar-show", description: "Dr. Kairav Shah on brain tumours, paralysis, and stroke, in conversation on The Jay Thadeshwar Show.", sourceUrl: "https://youtu.be/WnaTpgwMrnI", thumbnail: "https://i.ytimg.com/vi/WnaTpgwMrnI/hqdefault.jpg", category: "Podcast", sortOrder: 0, featured: true },
+    { title: "Can I marry if I have epilepsy?", slug: "live-beyond-epilepsy", description: "Dr. Kairav Shah on marriage, children, and life with epilepsy, for The Indian Express Live Beyond Epilepsy series.", sourceUrl: "https://www.youtube.com/watch?v=Lf1bckBxxTk", thumbnail: "https://i.ytimg.com/vi/Lf1bckBxxTk/hqdefault.jpg", category: "Epilepsy", sortOrder: 1, featured: true },
+    { title: "Myths about brain tumors", slug: "myths-about-brain-tumors-youtube", description: "A YouTube talk from Dr. Kairav Shah on common myths about brain tumors.", sourceUrl: "https://www.youtube.com/watch?v=Il9MIHaHdBw", thumbnail: "https://i.ytimg.com/vi/Il9MIHaHdBw/hqdefault.jpg", category: "Brain health", sortOrder: 2, featured: true },
     { title: "Rajsik food and a restless mind", slug: "rajsik-food-and-a-restless-mind", description: "How very spicy, oily, and stimulating food can add to stress, poor sleep, and irritability, and why balance matters.", sourceUrl: "https://www.instagram.com/reel/DVBRt11ggG4/", category: "Food and lifestyle", sortOrder: 1, featured: true },
     { title: "When to check an elder's brain health", slug: "when-to-check-an-elders-brain-health", description: "Early neurological warning signs in parents and older relatives, and why they deserve the same attention as the heart and blood pressure.", sourceUrl: "https://www.instagram.com/reel/DVOTspNgsNU/", category: "Brain health", sortOrder: 2, featured: true },
     { title: "Tamsik food and mental fog", slug: "tamsik-food-and-mental-fog", description: "How stale, heavily processed, and oversized meals can dull energy, sleep, and mental clarity.", sourceUrl: "https://www.instagram.com/reel/DVJE_mZgjFE/", category: "Food and lifestyle", sortOrder: 3, featured: false },
@@ -210,17 +381,19 @@ async function main() {
 
   await prisma.video.updateMany({ where: { sourceUrl: "" }, data: { published: false, featured: false } });
   for (const talk of talks) {
+    const localReel = talk.sourceUrl.includes("instagram.com") ? `/media/reels/${talk.slug}.jpg` : "";
+    const thumbnail = talk.thumbnail || localReel;
+    const sortOrder = /youtu\.be|youtube\.com/i.test(talk.sourceUrl) ? talk.sortOrder : talk.sortOrder + 2;
+    const data = { ...talk, thumbnail, sortOrder, published: true };
     const existing = await prisma.video.findFirst({ where: { OR: [{ sourceUrl: talk.sourceUrl }, { slug: talk.slug }] } });
     if (!existing) {
-      await prisma.video.create({ data: { ...talk, published: true } });
+      await prisma.video.create({ data });
       continue;
     }
     const placeholder = existing.description.includes("Edit this title in Admin");
     await prisma.video.update({
       where: { id: existing.id },
-      data: placeholder
-        ? { ...talk, published: true }
-        : { published: true, sourceUrl: talk.sourceUrl },
+      data: placeholder ? data : { published: true, sourceUrl: talk.sourceUrl, thumbnail, sortOrder, featured: talk.featured },
     });
   }
 

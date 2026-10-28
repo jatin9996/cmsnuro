@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { PlayOverlay } from "@/components/public/overlays";
-import { MediaImage } from "@/components/public/ui";
+import { MediaImage, VideoPoster } from "@/components/public/ui";
 import { videoPlatform, videoPoster } from "@/lib/utils";
 
 export type Talk = {
@@ -16,20 +16,40 @@ export type Talk = {
   category: string;
 };
 
+const PLATFORMS = ["All", "YouTube", "Instagram"];
+
 export function VideoLibrary({ talks }: { talks: Talk[] }) {
+  const [platform, setPlatform] = useState("All");
   const [category, setCategory] = useState("All");
   const categories = ["All", ...Array.from(new Set(talks.map((talk) => talk.category)))];
-  const visible = talks.filter((talk) => category === "All" || talk.category === category);
+  const visible = talks.filter((talk) => {
+    const talkPlatform = videoPlatform(talk.sourceUrl);
+    const platformOk = platform === "All" || talkPlatform === platform;
+    const categoryOk = category === "All" || talk.category === category;
+    return platformOk && categoryOk;
+  });
 
   return (
     <>
+      <div className="no-scrollbar mb-3 flex snap-x gap-2 overflow-x-auto pb-1">
+        {PLATFORMS.map((item) => (
+          <button
+            key={item}
+            type="button"
+            onClick={() => setPlatform(item)}
+            className={`shrink-0 snap-start rounded-full px-3 py-2 text-xs font-semibold ${platform === item ? "bg-navy text-white" : "bg-white text-navy ring-1 ring-navy/10"}`}
+          >
+            {item}
+          </button>
+        ))}
+      </div>
       <div className="no-scrollbar mb-4 flex snap-x gap-2 overflow-x-auto pb-1">
         {categories.map((item) => (
           <button
             key={item}
             type="button"
             onClick={() => setCategory(item)}
-            className={`shrink-0 snap-start rounded-full px-3 py-2 text-xs font-semibold ${category === item ? "bg-navy text-white" : "bg-white text-navy ring-1 ring-navy/10"}`}
+            className={`shrink-0 snap-start rounded-full px-3 py-2 text-xs font-semibold ${category === item ? "bg-cream text-navy ring-1 ring-navy/15" : "bg-white text-navy ring-1 ring-navy/10"}`}
           >
             {item}
           </button>
@@ -38,13 +58,18 @@ export function VideoLibrary({ talks }: { talks: Talk[] }) {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {visible.map((talk) => {
           const poster = talk.thumbnail || videoPoster(talk.sourceUrl);
+          const source = videoPlatform(talk.sourceUrl);
           return (
             <PlayOverlay key={talk.id} title={talk.title} src={talk.sourceUrl}>
               <article id={talk.slug} className="h-full rounded-[28px] bg-white p-3 ring-1 ring-navy/5">
                 <div className="relative">
-                  <MediaImage src={poster} alt="" className="aspect-video w-full rounded-2xl" />
+                  {poster ? (
+                    <MediaImage src={poster} alt="" className={source === "Instagram" ? "aspect-[4/5] w-full rounded-2xl" : "aspect-video w-full rounded-2xl"} />
+                  ) : (
+                    <VideoPoster className={source === "Instagram" ? "aspect-[4/5] w-full rounded-2xl" : "aspect-video w-full rounded-2xl"} />
+                  )}
                   <span className="absolute left-2 top-2 rounded-full bg-white/95 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-navy">
-                    {videoPlatform(talk.sourceUrl)}
+                    {source}
                   </span>
                   <span className="absolute left-1/2 top-1/2 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-navy shadow-lg">
                     <span className="ml-0.5 inline-block border-y-[7px] border-l-[11px] border-y-transparent border-l-navy" />

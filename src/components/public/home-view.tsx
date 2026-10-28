@@ -5,7 +5,7 @@ import { Icon } from "@/components/icon";
 import { WhatsAppIcon } from "@/components/logo";
 import { Hero } from "@/components/public/hero";
 import { GalleryBrowser, PlayOverlay } from "@/components/public/overlays";
-import { btnOnDark, btnOutlineLight, btnPrimary, Container, MediaImage, Panel, SectionTitle } from "@/components/public/ui";
+import { btnOnDark, btnOutlineLight, btnPrimary, Container, MediaImage, Panel, SectionTitle, VideoPoster } from "@/components/public/ui";
 import { formatDate, videoPlatform, videoPoster, whatsappLink } from "@/lib/utils";
 
 type HomeData = NonNullable<Awaited<ReturnType<typeof getHomeData>>>;
@@ -44,8 +44,11 @@ export function HomeView({ data }: { data: HomeData }) {
   const ctaStats = data.stats.filter((item) => item.group === "cta");
   const stories = data.stories.filter((item) => item.featured).slice(0, 3);
   const storyCards = stories.length ? stories : data.stories.slice(0, 3);
-  const videos = data.videos.filter((item) => item.featured).slice(0, 3);
-  const videoCards = videos.length ? videos : data.videos.slice(0, 3);
+  const youtubeTalks = data.videos.filter((item) => videoPlatform(item.sourceUrl) === "YouTube");
+  const instaReels = data.videos.filter((item) => videoPlatform(item.sourceUrl) === "Instagram");
+  const mixedTalks = [...youtubeTalks.slice(0, 2), ...instaReels.slice(0, 2)];
+  const videoCards = mixedTalks.length >= 2 ? mixedTalks : data.videos.slice(0, 4);
+  const achievementPhotos = data.achievements.filter((item) => item.image).slice(0, 4);
   const posts = data.posts.slice(0, 3);
   const chat = whatsappLink(settings.whatsapp, `Hello ${settings.doctorName}, I would like to inquire about a consultation.`);
 
@@ -60,7 +63,6 @@ export function HomeView({ data }: { data: HomeData }) {
             name: settings.doctorName,
             medicalSpecialty: "Neurosurgery",
             telephone: settings.phone,
-            email: settings.email,
             address: {
               "@type": "PostalAddress",
               streetAddress: settings.address,
@@ -70,7 +72,7 @@ export function HomeView({ data }: { data: HomeData }) {
               addressCountry: "IN",
             },
             hasMap: settings.mapUrl || undefined,
-            sameAs: [settings.instagramUrl].filter(Boolean),
+            sameAs: [settings.instagramUrl, settings.youtubeUrl, settings.mapUrl].filter(Boolean),
           }),
         }}
       />
@@ -182,43 +184,58 @@ export function HomeView({ data }: { data: HomeData }) {
 
           <Panel>
             <SectionTitle eyebrow="Recognition for a greater purpose" title="Achievements" href="/achievements" action="View all" />
-            <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_120px]">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {data.achievements.slice(0, 4).map((item) => (
-                  <div key={item.id} className="flex items-start gap-3">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-cream text-navy">
-                      <Icon name={item.icon} className="h-4 w-4" />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block text-sm font-semibold text-navy">{item.value ? `${item.value} ${item.title}` : item.title}</span>
-                      {item.subtitle ? <span className="block text-xs text-muted">{item.subtitle}</span> : null}
-                    </span>
-                  </div>
+            {achievementPhotos.length ? (
+              <div className="grid grid-cols-2 gap-3">
+                {achievementPhotos.map((item) => (
+                  <Link key={item.id} href="/achievements" className="block">
+                    <MediaImage src={item.image} alt={item.title} className="aspect-[4/3] w-full rounded-2xl" />
+                    <p className="mt-1.5 line-clamp-2 text-xs font-semibold leading-4 text-navy">{item.title}</p>
+                    {item.subtitle ? <p className="line-clamp-2 text-[11px] leading-4 text-muted">{item.subtitle}</p> : null}
+                  </Link>
                 ))}
               </div>
-              <TrophyArt />
-            </div>
+            ) : (
+              <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_120px]">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {data.achievements.slice(0, 4).map((item) => (
+                    <div key={item.id} className="flex items-start gap-3">
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-cream text-navy">
+                        <Icon name={item.icon} className="h-4 w-4" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-sm font-semibold text-navy">{item.value ? `${item.value} ${item.title}` : item.title}</span>
+                        {item.subtitle ? <span className="block text-xs text-muted">{item.subtitle}</span> : null}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <TrophyArt />
+              </div>
+            )}
             <p className="mt-4 font-serif text-sm italic text-navy/80">“{settings.achievementQuote}”</p>
           </Panel>
 
           <div className="grid min-w-0 gap-5 lg:grid-cols-5">
             <Panel className="lg:col-span-3" >
               <div id="videos">
-                <SectionTitle eyebrow="Inform. Educate. Empower." title="Talks and reels" href="/videos" action="View all" />
-                <div className="grid grid-cols-1 gap-3 min-[520px]:grid-cols-3 min-[520px]:gap-2">
-                  {videoCards.map((video) => (
+                <SectionTitle eyebrow="YouTube and Instagram" title="Talks and reels" href="/videos" action="View all" />
+                <div className="grid grid-cols-2 gap-3">
+                  {videoCards.map((video) => {
+                    const poster = video.thumbnail || videoPoster(video.sourceUrl);
+                    return (
                     <PlayOverlay key={video.id} title={video.title} src={video.sourceUrl}>
                       <article>
                         <div className="relative">
-                          <MediaImage src={video.thumbnail || videoPoster(video.sourceUrl)} alt="" className="aspect-[4/3] w-full rounded-xl" />
+                          {poster ? <MediaImage src={poster} alt="" className="aspect-[4/3] w-full rounded-xl" /> : <VideoPoster className="aspect-[4/3] w-full rounded-xl" />}
                           <span className="absolute left-1.5 top-1.5 rounded-full bg-white/95 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-navy">{videoPlatform(video.sourceUrl)}</span>
                           <PlayBadge />
                           {video.duration ? <span className="absolute bottom-1.5 right-1.5 rounded bg-navy/80 px-1.5 py-0.5 text-[10px] text-white">{video.duration}</span> : null}
                         </div>
-                        <p className="mt-1.5 line-clamp-2 text-sm font-semibold leading-5 text-navy min-[520px]:text-[11px] min-[520px]:leading-4">{video.title}</p>
+                        <p className="mt-1.5 line-clamp-2 text-xs font-semibold leading-4 text-navy sm:text-sm sm:leading-5">{video.title}</p>
                       </article>
                     </PlayOverlay>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </Panel>
@@ -272,26 +289,40 @@ export function HomeView({ data }: { data: HomeData }) {
               <div className="mb-4 flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <h2 className="text-lg font-semibold">Instagram Updates</h2>
-                  <p className="text-xs text-white/65">A glimpse into our journey</p>
+                  <p className="text-xs text-white/65">Reels from the clinic</p>
                 </div>
                 <a href={settings.instagramUrl || `https://instagram.com/${settings.instagramHandle.replace("@", "")}`} className="shrink-0 text-xs font-semibold text-white/80">
                   {settings.instagramHandle}
                 </a>
               </div>
               <div className="no-scrollbar flex min-w-0 gap-3 overflow-x-auto pb-1">
-                {data.social.map((item) => {
-                  const circle = (
-                    <span className="block w-16 shrink-0 text-center">
-                      <MediaImage src={item.image} alt={item.label} className="mx-auto h-14 w-14 rounded-full ring-2 ring-white/30" />
-                      <span className="mt-1 block text-[10px] leading-3 text-white/80">{item.label}</span>
-                    </span>
-                  );
-                  return item.url ? (
-                    <a key={item.id} href={item.url} target="_blank" rel="noreferrer">{circle}</a>
-                  ) : (
-                    <span key={item.id}>{circle}</span>
-                  );
-                })}
+                {instaReels.length
+                  ? instaReels.map((reel) => {
+                      const poster = reel.thumbnail || videoPoster(reel.sourceUrl);
+                      return (
+                        <PlayOverlay key={reel.id} title={reel.title} src={reel.sourceUrl}>
+                          <article className="w-[6.5rem] shrink-0">
+                            <div className="relative">
+                              {poster ? (
+                                <MediaImage src={poster} alt="" className="aspect-[9/16] w-full rounded-2xl" />
+                              ) : (
+                                <VideoPoster className="aspect-[9/16] w-full rounded-2xl" />
+                              )}
+                              <span className="absolute left-1/2 top-1/2 grid h-8 w-8 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-navy shadow-lg">
+                                <Play className="ml-0.5 h-3.5 w-3.5 fill-current" />
+                              </span>
+                            </div>
+                            <p className="mt-1.5 line-clamp-2 text-[10px] font-semibold leading-3 text-white/85">{reel.title}</p>
+                          </article>
+                        </PlayOverlay>
+                      );
+                    })
+                  : data.social.map((item) => (
+                      <span key={item.id} className="block w-16 shrink-0 text-center">
+                        <MediaImage src={item.image} alt={item.label} className="mx-auto h-14 w-14 rounded-full ring-2 ring-white/30" />
+                        <span className="mt-1 block text-[10px] leading-3 text-white/80">{item.label}</span>
+                      </span>
+                    ))}
               </div>
             </section>
             <section className="min-w-0 rounded-[28px] bg-navy p-5 text-white">
