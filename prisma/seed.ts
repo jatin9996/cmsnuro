@@ -131,11 +131,11 @@ async function main() {
     prisma.stat.createMany({
       data: [
         { group: "highlight", value: "15+", label: "Years of Experience", icon: "Clock", sortOrder: 0 },
-        { group: "highlight", value: "5000+", label: "Successful Surgeries", icon: "BadgeCheck", sortOrder: 1 },
+        { group: "highlight", value: "4000+", label: "Successful Surgeries", icon: "BadgeCheck", sortOrder: 1 },
         { group: "highlight", value: "International", label: "Fellowships & Training", icon: "Globe", sortOrder: 2 },
         { group: "highlight", value: "Patient-Centric", label: "Compassionate Care", icon: "Heart", sortOrder: 3 },
         { group: "about", value: "15+", label: "Years of Experience", icon: "Clock", sortOrder: 0 },
-        { group: "about", value: "5000+", label: "Successful Surgeries", icon: "Activity", sortOrder: 1 },
+        { group: "about", value: "4000+", label: "Successful Surgeries", icon: "Activity", sortOrder: 1 },
         { group: "about", value: "", label: "Multiple Awards & Recognitions", icon: "Award", sortOrder: 2 },
         { group: "about", value: "International", label: "Fellowships", icon: "GraduationCap", sortOrder: 4 },
         { group: "about", value: "", label: "Patients from India & Abroad", icon: "Users", sortOrder: 5 },
@@ -149,6 +149,10 @@ async function main() {
   await prisma.stat.updateMany({
     where: { value: "20+", label: "Years of Experience" },
     data: { value: "15+" },
+  });
+  await prisma.stat.updateMany({
+    where: { value: "5000+", label: "Successful Surgeries" },
+    data: { value: "4000+" },
   });
   await prisma.stat.updateMany({
     where: { value: "50+", label: "Awards & Recognitions" },

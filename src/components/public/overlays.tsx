@@ -113,8 +113,9 @@ export function GalleryBrowser({ items, limit, columns = 2 }: { items: GalleryIt
       {active ? (
         <div className="fixed inset-0 z-50 grid place-items-center bg-navy/80 p-4" role="dialog" aria-modal="true" aria-label={active.title}>
           <button className="absolute inset-0" aria-label="Close photograph" onClick={() => setActive(null)} />
-          <figure className="relative z-10 w-full max-w-3xl">
-            <MediaImage src={active.image} alt={active.title} className="aspect-[16/10] w-full rounded-3xl" sizes="100vw" />
+          <figure className="relative z-10 w-full max-w-5xl">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={active.image} alt={active.title} className="mx-auto max-h-[min(78dvh,860px)] w-auto max-w-full rounded-2xl object-contain sm:rounded-3xl" />
             <figcaption className="mt-3 text-sm text-white">
               <span className="font-semibold">{active.title}</span>
               {active.caption ? <span className="mt-1 block text-white/75">{active.caption}</span> : null}
