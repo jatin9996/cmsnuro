@@ -49,14 +49,14 @@ export function SiteHeader({ settings }: { settings: Settings }) {
     <header className="sticky top-0 z-40 border-b border-line/80 bg-white/90 backdrop-blur-md">
       <Container className="flex h-16 items-center gap-2 sm:h-[76px] sm:gap-3">
         <Link href="/" className="flex min-w-0 items-center gap-2.5 sm:gap-3">
-          <LogoMark className="h-12 w-12 sm:h-14 sm:w-14" />
+          <LogoMark className="h-12 w-[3.75rem] sm:h-14 sm:w-[4.4rem]" />
           <span className="min-w-0">
             <span className="block truncate text-sm font-semibold leading-tight text-navy sm:text-[15px]">{settings.doctorName}</span>
             <span className="block truncate text-[11px] leading-4 text-muted">{settings.roleTitle}</span>
             <span className="hidden truncate text-[11px] leading-4 text-navy/70 2xl:block">{settings.tagline}</span>
           </span>
         </Link>
-        <nav className="ml-3 hidden min-w-0 flex-1 items-center justify-center gap-x-2.5 xl:flex 2xl:gap-x-3">
+        <nav className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-x-2 lg:flex xl:ml-3 xl:gap-x-3">
           {NAV.map((item) => {
             const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             return (
@@ -64,32 +64,33 @@ export function SiteHeader({ settings }: { settings: Settings }) {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={cn("whitespace-nowrap text-[13px] font-medium text-ink/80 hover:text-navy", active && "font-semibold text-navy")}
+                className={cn("whitespace-nowrap text-xs font-medium text-ink/80 hover:text-navy xl:text-[13px]", active && "font-semibold text-navy")}
               >
                 {item.label}
               </Link>
             );
           })}
         </nav>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2">
           <button
             type="button"
-            className="grid h-10 w-10 place-items-center rounded-full text-navy hover:bg-cream"
+            className="grid h-11 w-11 place-items-center rounded-full text-navy hover:bg-cream"
             aria-label="Search the site"
             onClick={() => setSearching(true)}
           >
             <Search className="h-5 w-5" />
           </button>
-          <a href={`tel:${settings.phone}`} className="hidden items-center gap-2 whitespace-nowrap text-sm font-semibold text-navy xl:flex">
+          <a href={`tel:${settings.phone}`} className="hidden items-center gap-2 whitespace-nowrap text-sm font-semibold text-navy 2xl:flex">
             <Phone className="h-4 w-4" />
             {settings.phoneDisplay}
           </a>
-          <Link href="/book" className={cn(btnPrimary, "max-xl:!hidden whitespace-nowrap")}>
-            Book Appointment
+          <Link href="/book" className={cn(btnPrimary, "max-lg:!hidden whitespace-nowrap")}>
+            <span className="xl:hidden">Book</span>
+            <span className="hidden xl:inline">Book Appointment</span>
           </Link>
           <button
             type="button"
-            className="grid h-10 w-10 place-items-center rounded-full text-navy hover:bg-cream xl:hidden"
+            className="grid h-11 w-11 place-items-center rounded-full text-navy hover:bg-cream lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((value) => !value)}
           >
@@ -98,7 +99,7 @@ export function SiteHeader({ settings }: { settings: Settings }) {
         </div>
       </Container>
       {open ? (
-        <nav className="max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-line bg-white px-4 py-3 xl:hidden">
+        <nav className="max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-line bg-white px-4 py-3 lg:hidden">
           {NAV.map((item) => {
             const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             return (
@@ -115,7 +116,7 @@ export function SiteHeader({ settings }: { settings: Settings }) {
           <a href={`tel:${settings.phone}`} className="mt-1 flex items-center gap-2 rounded-xl px-3 py-3 text-sm font-semibold text-navy hover:bg-canvas">
             <Phone className="h-4 w-4" /> {settings.phoneDisplay}
           </a>
-          <Link href="/book" className={cn(btnPrimary, "mt-2 w-full xl:!hidden")}>
+          <Link href="/book" className={cn(btnPrimary, "mt-2 w-full lg:hidden")}>
             Book Appointment
           </Link>
         </nav>

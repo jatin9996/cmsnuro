@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export function LogoMark({ className = "h-14 w-14" }: { className?: string }) {
   return (
-    <span className={`relative inline-block shrink-0 overflow-hidden rounded-2xl bg-[#163a78] ${className}`}>
-      <Image src="/media/neurokalp-logo.jpg" alt="NEUROKALP" fill sizes="160px" className="object-cover object-center" />
+    <span className={`relative inline-block shrink-0 ${className}`}>
+      <Image src="/media/neurokalp-logo.png" alt="NEUROKALP" fill sizes="180px" className="object-contain" />
     </span>
   );
 }

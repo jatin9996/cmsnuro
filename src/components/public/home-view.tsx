@@ -1,21 +1,15 @@
 import type { getHomeData } from "@/lib/queries";
-import { Play } from "lucide-react";
+import { Phone, Play } from "lucide-react";
 import Link from "next/link";
 import { Icon } from "@/components/icon";
+import { WhatsAppIcon } from "@/components/logo";
 import { BusinessCard } from "@/components/public/business-card";
 import { Hero } from "@/components/public/hero";
 import { GalleryBrowser, PlayOverlay } from "@/components/public/overlays";
 import { btnOnDark, btnOutlineLight, btnPrimary, Container, MediaImage, Panel, SectionTitle, VideoPoster } from "@/components/public/ui";
-import { formatDate, videoPlatform, videoPoster } from "@/lib/utils";
+import { describeHours, formatDate, videoPlatform, videoPoster, whatsappLink } from "@/lib/utils";
 
 type HomeData = NonNullable<Awaited<ReturnType<typeof getHomeData>>>;
-
-const pressStyle: Record<string, string> = {
-  "The Times of India": "font-serif text-[13px] font-black uppercase tracking-tight text-[#1a1a1a]",
-  NDTV: "text-lg font-black tracking-tight text-[#e31e24]",
-  mint: "font-serif text-2xl italic lowercase text-[#0b8f4d]",
-  "The Indian Express": "font-serif text-[13px] italic font-bold text-[#b42318]",
-};
 
 function PlayBadge() {
   return (
@@ -42,17 +36,18 @@ export function HomeView({ data }: { data: HomeData }) {
   const highlights = data.stats.filter((item) => item.group === "highlight");
   const aboutStats = data.stats.filter((item) => item.group === "about");
   const ctaStats = data.stats.filter((item) => item.group === "cta");
-  const stories = data.stories.filter((item) => item.featured).slice(0, 3);
-  const storyCards = stories.length ? stories : data.stories.slice(0, 3);
   const youtubeTalks = data.videos.filter((item) => videoPlatform(item.sourceUrl) === "YouTube");
   const instaReels = data.videos.filter((item) => videoPlatform(item.sourceUrl) === "Instagram");
   const mixedTalks = [...youtubeTalks.slice(0, 2), ...instaReels.slice(0, 2)];
   const videoCards = mixedTalks.length >= 2 ? mixedTalks : data.videos.slice(0, 4);
   const achievementPhotos = data.achievements.filter((item) => item.image).slice(0, 4);
   const posts = data.posts.slice(0, 3);
+  const homeReels = instaReels.slice(0, 8);
+  const hours = describeHours(settings);
+  const chat = whatsappLink(settings.whatsapp, `Hello ${settings.doctorName}, I would like to inquire about a consultation.`);
 
   return (
-    <Container className="space-y-5 py-5 sm:py-6">
+    <Container className="space-y-4 py-4 sm:py-5">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -75,7 +70,7 @@ export function HomeView({ data }: { data: HomeData }) {
           }),
         }}
       />
-      <div className="space-y-5">
+      <div className="space-y-4">
           <div>
             <Hero
               slides={data.slides.map((slide) => ({ image: slide.image, alt: slide.alt, quote: slide.quote }))}
@@ -108,7 +103,7 @@ export function HomeView({ data }: { data: HomeData }) {
 
           <Panel>
             <SectionTitle title="Conditions We Treat" href="/treatments" action="View all treatments" />
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-4">
               {data.conditions.map((item) => (
                 <Link key={item.id} href={`/treatments/${item.slug}`} className="flex items-start gap-3 rounded-2xl p-2 transition hover:bg-canvas">
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-cream text-navy">
@@ -124,55 +119,33 @@ export function HomeView({ data }: { data: HomeData }) {
           </Panel>
 
           <Panel>
-            <div className="grid items-start gap-5 lg:grid-cols-[200px_minmax(0,1fr)]">
-              <MediaImage src={settings.aboutImage} alt={`${settings.doctorName}, ${settings.roleTitle}`} objectPosition="center 18%" className="mx-auto aspect-[3/4] w-full max-w-[220px] rounded-[24px] lg:mx-0" />
+            <div className="grid items-center gap-4 lg:grid-cols-[160px_minmax(0,1fr)]">
+              <MediaImage src={settings.aboutImage} alt={`${settings.doctorName}, ${settings.roleTitle}`} objectPosition="center 18%" className="mx-auto aspect-[3/4] w-full max-w-[160px] rounded-[24px] lg:mx-0" />
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{settings.aboutEyebrow}</p>
                 <h2 className="mt-1 text-2xl font-semibold text-navy">{settings.doctorName}</h2>
                 <p className="mt-1 text-sm text-muted">{settings.aboutDegrees}</p>
                 <p className="text-sm font-medium text-navy">{settings.roleTitle}</p>
-                <p className="mt-1 text-sm text-muted">NEUROKALP, Ellisbridge, Ahmedabad</p>
-                <p className="mt-3 text-sm leading-6 text-ink/80">{settings.aboutBio}</p>
-                <blockquote className="mt-4 font-serif text-lg italic leading-snug text-navy">“{settings.aboutQuote}”</blockquote>
-                <p className="font-serif text-sm italic text-muted">{settings.doctorName}</p>
-                <Link href="/about" className={`${btnPrimary} mt-4 h-auto whitespace-normal text-center leading-5`}>
+                <p className="mt-2 text-sm leading-6 text-ink/80">{settings.aboutBio}</p>
+                <blockquote className="mt-3 font-serif text-lg italic leading-snug text-navy">“{settings.aboutQuote}”</blockquote>
+                <Link href="/about" className={`${btnPrimary} mt-3 h-auto whitespace-normal text-center leading-5`}>
                   Know more about {settings.doctorName} →
                 </Link>
-                <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3">
-                  {aboutStats.map((item) => (
-                    <div key={item.id} className="flex items-center gap-3">
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-cream text-navy">
-                        <Icon name={item.icon} className="h-4 w-4" />
-                      </span>
-                      <span>
-                        <dt className="text-sm font-semibold text-navy">{item.value || item.label}</dt>
-                        {item.value ? <dd className="text-xs text-muted">{item.label}</dd> : null}
-                      </span>
-                    </div>
-                  ))}
-                </dl>
               </div>
             </div>
-          </Panel>
-          <Panel>
-            <SectionTitle eyebrow="Real people. Real journeys. Real hope." title="Patient Stories" href="/patient-stories" action="View all stories" />
-            <div className="no-scrollbar flex w-full min-w-0 snap-x snap-mandatory gap-3 overflow-x-auto pb-1 sm:grid sm:grid-cols-3 sm:overflow-visible">
-              {storyCards.map((story) => (
-                <div key={story.id} className="w-[78%] max-w-[260px] shrink-0 snap-start sm:w-auto sm:max-w-none">
-                <PlayOverlay title={story.name} src={story.videoUrl}>
-                  <article>
-                    <div className="relative">
-                      <MediaImage src={story.image} alt={story.name} className="aspect-[4/5] w-full rounded-2xl" />
-                      <PlayBadge />
-                    </div>
-                    <p className="mt-2 text-xs font-semibold text-navy">{story.name}</p>
-                    <p className="text-[11px] text-muted">{story.condition}</p>
-                    <p className="mt-1 line-clamp-3 text-xs leading-5 text-ink/80">“{story.quote}”</p>
-                  </article>
-                </PlayOverlay>
+            <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-line pt-4 sm:grid-cols-3 xl:grid-cols-5">
+              {aboutStats.map((item) => (
+                <div key={item.id} className="flex items-center gap-2.5">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-cream text-navy">
+                    <Icon name={item.icon} className="h-4 w-4" />
+                  </span>
+                  <span className="min-w-0">
+                    <dt className="text-sm font-semibold leading-4 text-navy">{item.value || item.label}</dt>
+                    {item.value ? <dd className="text-xs leading-4 text-muted">{item.label}</dd> : null}
+                  </span>
                 </div>
               ))}
-            </div>
+            </dl>
           </Panel>
 
           <Panel>
@@ -208,11 +181,10 @@ export function HomeView({ data }: { data: HomeData }) {
             <p className="mt-4 font-serif text-sm italic text-navy/80">“{settings.achievementQuote}”</p>
           </Panel>
 
-          <div className="grid min-w-0 gap-5 lg:grid-cols-5">
-            <Panel className="lg:col-span-3" >
+          <Panel>
               <div id="videos">
                 <SectionTitle eyebrow="YouTube and Instagram" title="Talks and reels" href="/videos" action="View all" />
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
                   {videoCards.map((video) => {
                     const poster = video.thumbnail || videoPoster(video.sourceUrl);
                     return (
@@ -231,92 +203,97 @@ export function HomeView({ data }: { data: HomeData }) {
                   })}
                 </div>
               </div>
-            </Panel>
-            <Panel className="lg:col-span-2">
-              <SectionTitle eyebrow="In the news. For a healthier tomorrow." title="Media & Press" href="/media" action="View all" />
-              <div className="grid grid-cols-2 gap-3">
-                {data.press.map((item) => {
-                  const body = (
-                    <span className={pressStyle[item.outlet] || "text-sm font-bold text-navy"}>{item.outlet}</span>
-                  );
-                  return item.url ? (
-                    <a key={item.id} href={item.url} target="_blank" rel="noreferrer" className="grid min-h-16 place-items-center rounded-2xl bg-canvas px-3 text-center">
-                      {body}
-                    </a>
-                  ) : (
-                    <div key={item.id} className="grid min-h-16 place-items-center rounded-2xl bg-canvas px-3 text-center">
-                      {body}
-                    </div>
-                  );
-                })}
-              </div>
-            </Panel>
-          </div>
+          </Panel>
 
-          <div className="grid min-w-0 gap-5 lg:grid-cols-2">
-            <Panel>
-              <SectionTitle eyebrow="Moments that inspire" title="Gallery" href="/gallery" action="View all" />
-              <GalleryBrowser
-                items={data.gallery.map((item) => ({ id: item.id, title: item.title, caption: item.caption, image: item.image, category: item.category }))}
-                limit={4}
-              />
-            </Panel>
-            <Panel>
-              <SectionTitle eyebrow="Knowledge for a healthier tomorrow" title="Blog & Health Insights" href="/blog" action="View all articles" />
-              <div className="grid gap-3">
-                {posts.map((post) => (
-                  <Link key={post.id} href={`/blog/${post.slug}`} className="grid grid-cols-[92px_minmax(0,1fr)] gap-3">
-                    <MediaImage src={post.coverImage} alt="" className="h-[72px] w-full rounded-xl" />
-                    <span>
-                      <span className="line-clamp-2 text-sm font-semibold leading-5 text-navy">{post.title}</span>
-                      <span className="mt-1 block text-[11px] text-muted">{formatDate(post.publishedOn)}</span>
+          <Panel>
+            <SectionTitle eyebrow="Moments that inspire" title="Gallery" href="/gallery" action="View all" />
+            <GalleryBrowser
+              items={data.gallery.map((item) => ({ id: item.id, title: item.title, caption: item.caption, image: item.image, category: item.category }))}
+              limit={4}
+              columns={4}
+            />
+          </Panel>
+
+          <Panel>
+            <SectionTitle eyebrow="Knowledge for a healthier tomorrow" title="Blog & Health Insights" href="/blog" action="View all articles" />
+            <div className="grid gap-3 md:grid-cols-3">
+              {posts.map((post) => (
+                <Link key={post.id} href={`/blog/${post.slug}`} className="min-w-0">
+                  <MediaImage src={post.coverImage} alt="" className="aspect-[16/9] w-full rounded-xl" />
+                  <span className="mt-2 line-clamp-2 block text-sm font-semibold leading-5 text-navy">{post.title}</span>
+                  <span className="mt-1 block text-[11px] text-muted">{formatDate(post.publishedOn)}</span>
+                </Link>
+              ))}
+            </div>
+          </Panel>
+
+          <section className="min-w-0 rounded-[28px] bg-navy p-4 text-white sm:p-5">
+            <div className="mb-3 flex items-end justify-between gap-3">
+              <div className="min-w-0">
+                <h2 className="text-lg font-semibold">Instagram Updates</h2>
+                <p className="text-xs text-white/65">Latest reels from the clinic</p>
+              </div>
+              <a href={settings.instagramUrl || `https://instagram.com/${settings.instagramHandle.replace("@", "")}`} className="shrink-0 text-xs font-semibold text-white/80">
+                {settings.instagramHandle}
+              </a>
+            </div>
+            <div className="grid grid-cols-4 gap-2 lg:grid-cols-8">
+              {homeReels.length
+                ? homeReels.map((reel) => {
+                    const poster = reel.thumbnail || videoPoster(reel.sourceUrl);
+                    return (
+                      <PlayOverlay key={reel.id} title={reel.title} src={reel.sourceUrl}>
+                        <article>
+                          <div className="relative">
+                            {poster ? (
+                              <MediaImage src={poster} alt="" className="aspect-[3/4] w-full rounded-xl" />
+                            ) : (
+                              <VideoPoster className="aspect-[3/4] w-full rounded-xl" />
+                            )}
+                            <span className="absolute left-1/2 top-1/2 grid h-7 w-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-navy shadow-lg">
+                              <Play className="ml-0.5 h-3 w-3 fill-current" />
+                            </span>
+                          </div>
+                        </article>
+                      </PlayOverlay>
+                    );
+                  })
+                : data.social.map((item) => (
+                    <span key={item.id} className="block text-center">
+                      <MediaImage src={item.image} alt={item.label} className="mx-auto aspect-square w-full rounded-xl ring-2 ring-white/30" />
                     </span>
-                  </Link>
-                ))}
-              </div>
-            </Panel>
-          </div>
+                  ))}
+            </div>
+          </section>
 
-          <div className="grid min-w-0 gap-5 lg:grid-cols-2">
-            <section className="min-w-0 rounded-[28px] bg-navy p-5 text-white">
-              <div className="mb-4 flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <h2 className="text-lg font-semibold">Instagram Updates</h2>
-                  <p className="text-xs text-white/65">Reels from the clinic</p>
-                </div>
-                <a href={settings.instagramUrl || `https://instagram.com/${settings.instagramHandle.replace("@", "")}`} className="shrink-0 text-xs font-semibold text-white/80">
-                  {settings.instagramHandle}
+          <div className="grid items-stretch gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
+            <section className="flex h-full flex-col gap-4 rounded-[28px] bg-white p-5 ring-1 ring-navy/5 sm:p-6">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Visit the clinic</p>
+                <h2 className="mt-1 text-2xl font-semibold text-navy">NEUROKALP, Ellisbridge</h2>
+                <p className="mt-2 text-sm leading-6 text-ink/80">{settings.address}</p>
+                <p className="mt-2 text-sm text-navy">Consulting hours {hours.hours}. Lunch {hours.lunch}. Closed: {hours.closed}.</p>
+              </div>
+              <div className="flex flex-col gap-2 min-[420px]:flex-row">
+                <a href={`tel:${settings.phone}`} className={`${btnPrimary} w-full min-[420px]:w-auto`}>
+                  <Phone className="h-4 w-4" /> {settings.phoneDisplay}
                 </a>
+                <a href={chat} className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white min-[420px]:w-auto">
+                  <WhatsAppIcon className="h-4 w-4" /> WhatsApp
+                </a>
+                <Link href="/book" className="inline-flex min-h-11 w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold text-navy ring-1 ring-navy/15 min-[420px]:w-auto">
+                  Book
+                </Link>
               </div>
-              <div className="no-scrollbar flex min-w-0 gap-3 overflow-x-auto pb-1">
-                {instaReels.length
-                  ? instaReels.map((reel) => {
-                      const poster = reel.thumbnail || videoPoster(reel.sourceUrl);
-                      return (
-                        <PlayOverlay key={reel.id} title={reel.title} src={reel.sourceUrl}>
-                          <article className="w-[6.5rem] shrink-0">
-                            <div className="relative">
-                              {poster ? (
-                                <MediaImage src={poster} alt="" className="aspect-[9/16] w-full rounded-2xl" />
-                              ) : (
-                                <VideoPoster className="aspect-[9/16] w-full rounded-2xl" />
-                              )}
-                              <span className="absolute left-1/2 top-1/2 grid h-8 w-8 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-navy shadow-lg">
-                                <Play className="ml-0.5 h-3.5 w-3.5 fill-current" />
-                              </span>
-                            </div>
-                            <p className="mt-1.5 line-clamp-2 text-[10px] font-semibold leading-3 text-white/85">{reel.title}</p>
-                          </article>
-                        </PlayOverlay>
-                      );
-                    })
-                  : data.social.map((item) => (
-                      <span key={item.id} className="block w-16 shrink-0 text-center">
-                        <MediaImage src={item.image} alt={item.label} className="mx-auto h-14 w-14 rounded-full ring-2 ring-white/30" />
-                        <span className="mt-1 block text-[10px] leading-3 text-white/80">{item.label}</span>
-                      </span>
-                    ))}
-              </div>
+              {settings.mapUrl ? (
+                <iframe
+                  title="NEUROKALP on Google Maps"
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(settings.address)}&output=embed`}
+                  className="min-h-52 w-full flex-1 rounded-2xl border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              ) : null}
             </section>
             <BusinessCard
               details={{
@@ -336,10 +313,10 @@ export function HomeView({ data }: { data: HomeData }) {
           </div>
       </div>
 
-      <section className="relative overflow-hidden rounded-[28px] sm:min-h-[280px] sm:rounded-[32px]">
+      <section className="relative overflow-hidden rounded-[28px] sm:rounded-[32px]">
         <MediaImage fill src={settings.ctaImage} alt="" sizes="100vw" />
         <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/70 to-navy/45 sm:bg-gradient-to-r sm:from-navy/88 sm:via-navy/55 sm:to-navy/30" />
-        <div className="relative grid items-center gap-8 px-5 py-8 sm:px-10 sm:py-10 lg:grid-cols-[minmax(0,1fr)_280px]">
+        <div className="relative grid items-center gap-5 px-5 py-6 sm:px-8 sm:py-8 lg:grid-cols-[minmax(0,1fr)_280px]">
           <div className="text-white">
             <h2 className="max-w-xl whitespace-pre-line text-balance text-3xl font-semibold tracking-tight sm:text-4xl">{settings.ctaTitle}</h2>
             <p className="mt-3 max-w-lg text-sm leading-6 text-white/80">{settings.ctaSubtitle}</p>

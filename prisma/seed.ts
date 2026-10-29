@@ -52,7 +52,7 @@ async function main() {
         aboutEyebrow: "About",
         aboutDegrees: "MBBS, MS (General Surgery), MCh (Neurosurgery)",
         aboutBio:
-          "Dr. Kairav Shah is a neurosurgeon with over 20 years of experience in complex brain and spine surgery. He is committed to world-class care, combining advanced technology with a compassionate, patient-first approach.",
+          "Dr. Kairav Shah is a neurosurgeon with over 15 years of experience in complex brain and spine surgery. He is committed to world-class care, combining advanced technology with a compassionate, patient-first approach.",
         aboutQuote: "Every patient has a story. My goal is to help them return to the life they love.",
         aboutImage: "/media/doctor-kairav.jpg",
         ctaTitle: "Take the First Step\nTowards a Better Tomorrow",
@@ -82,6 +82,7 @@ async function main() {
       whatsapp?: string;
       email?: string;
       address?: string;
+      aboutBio?: string;
       mapUrl?: string;
       aboutImage?: string;
       instagramHandle?: string;
@@ -111,6 +112,9 @@ async function main() {
       data.instagramUrl = "https://www.instagram.com/dr.kairav/";
     }
     if (!clinic.youtubeUrl) data.youtubeUrl = "https://www.youtube.com/@kairav1";
+    if (clinic.aboutBio.includes("over 20 years")) {
+      data.aboutBio = clinic.aboutBio.replace("over 20 years", "over 15 years");
+    }
     if (Object.keys(data).length) await prisma.siteSetting.update({ where: { id: 1 }, data });
   }
 
@@ -126,14 +130,13 @@ async function main() {
   await seedIfEmpty("stats", await prisma.stat.count(), () =>
     prisma.stat.createMany({
       data: [
-        { group: "highlight", value: "20+", label: "Years of Experience", icon: "Clock", sortOrder: 0 },
+        { group: "highlight", value: "15+", label: "Years of Experience", icon: "Clock", sortOrder: 0 },
         { group: "highlight", value: "5000+", label: "Successful Surgeries", icon: "BadgeCheck", sortOrder: 1 },
         { group: "highlight", value: "International", label: "Fellowships & Training", icon: "Globe", sortOrder: 2 },
         { group: "highlight", value: "Patient-Centric", label: "Compassionate Care", icon: "Heart", sortOrder: 3 },
-        { group: "about", value: "20+", label: "Years of Experience", icon: "Clock", sortOrder: 0 },
+        { group: "about", value: "15+", label: "Years of Experience", icon: "Clock", sortOrder: 0 },
         { group: "about", value: "5000+", label: "Successful Surgeries", icon: "Activity", sortOrder: 1 },
-        { group: "about", value: "50+", label: "Awards & Recognitions", icon: "Award", sortOrder: 2 },
-        { group: "about", value: "100+", label: "Research Publications", icon: "BookOpen", sortOrder: 3 },
+        { group: "about", value: "", label: "Multiple Awards & Recognitions", icon: "Award", sortOrder: 2 },
         { group: "about", value: "International", label: "Fellowships", icon: "GraduationCap", sortOrder: 4 },
         { group: "about", value: "", label: "Patients from India & Abroad", icon: "Users", sortOrder: 5 },
         { group: "cta", value: "Expert Guidance", label: "A plan explained in plain language", icon: "Stethoscope", sortOrder: 0 },
@@ -143,19 +146,61 @@ async function main() {
     }),
   );
 
+  await prisma.stat.updateMany({
+    where: { value: "20+", label: "Years of Experience" },
+    data: { value: "15+" },
+  });
+  await prisma.stat.updateMany({
+    where: { value: "50+", label: "Awards & Recognitions" },
+    data: { value: "", label: "Multiple Awards & Recognitions" },
+  });
+  await prisma.stat.updateMany({
+    where: { label: "Research Publications" },
+    data: { published: false },
+  });
+
   await seedIfEmpty("conditions", await prisma.condition.count(), () =>
     prisma.condition.createMany({
       data: [
-        { title: "Brain Tumors", slug: "brain-tumors", summary: "Diagnosis & Advanced Surgical Treatment", icon: "Brain", image: "/media/mri.jpg", sortOrder: 0, description: overview("A brain tumor"), symptoms, treatment },
-        { title: "Spine Surgery", slug: "spine-surgery", summary: "Minimally Invasive & Complex Spine Care", icon: "Bone", image: "/media/blog-2.jpg", sortOrder: 1, description: overview("Spine surgery"), symptoms, treatment },
-        { title: "Stroke", slug: "stroke", summary: "Emergency & Preventive Care", icon: "Activity", image: "/media/blog-3.jpg", sortOrder: 2, description: overview("Stroke care"), symptoms: `## Act quickly\n\n- Face drooping, arm weakness, or trouble speaking\n- A sudden severe headache or loss of balance\n- Call emergency services first. A clinic appointment is for follow-up, not for a stroke that is happening now.`, treatment },
-        { title: "Neuro Trauma", slug: "neuro-trauma", summary: "Critical Care & Rehabilitation", icon: "ShieldPlus", image: "/media/hospital.jpg", sortOrder: 3, description: overview("Neurotrauma"), symptoms, treatment },
-        { title: "Epilepsy", slug: "epilepsy", summary: "Surgical Evaluation & Management", icon: "Zap", image: "/media/video-1.jpg", sortOrder: 4, description: overview("Epilepsy"), symptoms, treatment },
-        { title: "Pediatric Neurosurgery", slug: "pediatric-neurosurgery", summary: "Specialized Care for Children", icon: "Baby", image: "/media/patient-3.jpg", sortOrder: 5, description: overview("Pediatric neurosurgery"), symptoms, treatment },
-        { title: "Movement Disorders", slug: "movement-disorders", summary: "Advanced Therapies for Better Mobility", icon: "PersonStanding", image: "/media/video-3.jpg", sortOrder: 6, description: overview("Movement disorders"), symptoms, treatment },
+        { title: "Migration", slug: "migration", summary: "Assessment and treatment", icon: "Activity", sortOrder: 0, description: overview("Migration"), symptoms, treatment },
+        { title: "Neck pain", slug: "neck-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 1, description: overview("Neck pain"), symptoms, treatment },
+        { title: "Back pain", slug: "back-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 2, description: overview("Back pain"), symptoms, treatment },
+        { title: "Sciatica", slug: "sciatica", summary: "Nerve pain and spine care", icon: "Zap", sortOrder: 3, description: overview("Sciatica"), symptoms, treatment },
+        { title: "Sleep Disorders", slug: "sleep-disorders", summary: "Evaluation and management", icon: "Clock", sortOrder: 4, description: overview("Sleep disorders"), symptoms, treatment },
+        { title: "Brain Infections", slug: "brain-infections", summary: "Diagnosis and treatment", icon: "ShieldPlus", sortOrder: 5, description: overview("Brain infections"), symptoms, treatment },
+        { title: "Trigeminal", slug: "trigeminal", summary: "Nerve pain evaluation", icon: "Zap", sortOrder: 6, description: overview("Trigeminal nerve pain"), symptoms, treatment },
+        { title: "Neuralgia", slug: "neuralgia", summary: "Nerve pain evaluation", icon: "Activity", sortOrder: 7, description: overview("Neuralgia"), symptoms, treatment },
+        { title: "Hydrocephalus", slug: "hydrocephalus", summary: "Diagnosis and surgical care", icon: "Brain", sortOrder: 8, description: overview("Hydrocephalus"), symptoms, treatment },
+        { title: "Spine Tumours", slug: "spine-tumours", summary: "Diagnosis and surgical treatment", icon: "Bone", sortOrder: 9, description: overview("Spine tumours"), symptoms, treatment },
+        { title: "Head Injuries", slug: "head-injuries", summary: "Trauma care and follow-up", icon: "ShieldPlus", sortOrder: 10, description: overview("Head injuries"), symptoms, treatment },
+        { title: "Cases of Road Traffic Accidents", slug: "road-traffic-accidents", summary: "Trauma care and follow-up", icon: "Activity", sortOrder: 11, description: overview("Road traffic injuries"), symptoms, treatment },
+        { title: "Dementia memory disturbance", slug: "dementia-memory-disturbance", summary: "Evaluation of memory change", icon: "Brain", sortOrder: 12, description: overview("Dementia and memory disturbance"), symptoms, treatment },
       ],
     }),
   );
+
+  const previousConditions = await prisma.condition.findMany({ select: { title: true } });
+  if (previousConditions.some((item) => item.title === "Brain Tumors") && !previousConditions.some((item) => item.title === "Neck pain")) {
+    await prisma.condition.deleteMany();
+    await prisma.condition.createMany({
+      data: [
+        { title: "Migration", slug: "migration", summary: "Assessment and treatment", icon: "Activity", sortOrder: 0, description: overview("Migration"), symptoms, treatment },
+        { title: "Neck pain", slug: "neck-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 1, description: overview("Neck pain"), symptoms, treatment },
+        { title: "Back pain", slug: "back-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 2, description: overview("Back pain"), symptoms, treatment },
+        { title: "Sciatica", slug: "sciatica", summary: "Nerve pain and spine care", icon: "Zap", sortOrder: 3, description: overview("Sciatica"), symptoms, treatment },
+        { title: "Sleep Disorders", slug: "sleep-disorders", summary: "Evaluation and management", icon: "Clock", sortOrder: 4, description: overview("Sleep disorders"), symptoms, treatment },
+        { title: "Brain Infections", slug: "brain-infections", summary: "Diagnosis and treatment", icon: "ShieldPlus", sortOrder: 5, description: overview("Brain infections"), symptoms, treatment },
+        { title: "Trigeminal", slug: "trigeminal", summary: "Nerve pain evaluation", icon: "Zap", sortOrder: 6, description: overview("Trigeminal nerve pain"), symptoms, treatment },
+        { title: "Neuralgia", slug: "neuralgia", summary: "Nerve pain evaluation", icon: "Activity", sortOrder: 7, description: overview("Neuralgia"), symptoms, treatment },
+        { title: "Hydrocephalus", slug: "hydrocephalus", summary: "Diagnosis and surgical care", icon: "Brain", sortOrder: 8, description: overview("Hydrocephalus"), symptoms, treatment },
+        { title: "Spine Tumours", slug: "spine-tumours", summary: "Diagnosis and surgical treatment", icon: "Bone", sortOrder: 9, description: overview("Spine tumours"), symptoms, treatment },
+        { title: "Head Injuries", slug: "head-injuries", summary: "Trauma care and follow-up", icon: "ShieldPlus", sortOrder: 10, description: overview("Head injuries"), symptoms, treatment },
+        { title: "Cases of Road Traffic Accidents", slug: "road-traffic-accidents", summary: "Trauma care and follow-up", icon: "Activity", sortOrder: 11, description: overview("Road traffic injuries"), symptoms, treatment },
+        { title: "Dementia memory disturbance", slug: "dementia-memory-disturbance", summary: "Evaluation of memory change", icon: "Brain", sortOrder: 12, description: overview("Dementia and memory disturbance"), symptoms, treatment },
+      ],
+    });
+    console.log("replaced conditions");
+  }
 
   await seedIfEmpty("stories", await prisma.patientStory.count(), () =>
     prisma.patientStory.createMany({

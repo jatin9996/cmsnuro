@@ -36,11 +36,11 @@ export function SiteFooter({ settings }: { settings: Settings }) {
 
   return (
     <>
-      <footer className="bg-[#08182c] pb-[calc(4.75rem+env(safe-area-inset-bottom))] text-white xl:pb-0">
+      <footer className="bg-[#08182c] pb-[calc(4.75rem+env(safe-area-inset-bottom))] text-white lg:pb-0">
         <Container className="grid gap-8 py-10 lg:grid-cols-[1.2fr_2fr] lg:items-center">
           <div>
             <Link href="/" className="flex items-center gap-3">
-              <LogoMark className="h-16 w-16" />
+              <LogoMark className="h-16 w-20" />
               <span>
                 <span className="block font-semibold">{settings.doctorName}</span>
                 <span className="block text-xs text-white/60">{settings.roleTitle}</span>
@@ -62,7 +62,7 @@ export function SiteFooter({ settings }: { settings: Settings }) {
             ))}
           </nav>
         </Container>
-        <Container className="flex flex-col gap-4 border-t border-white/10 py-5 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
+        <Container className="flex flex-col gap-4 border-t border-white/10 py-5 text-xs text-white/60 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex gap-2">
               {socials.map((item) => (
@@ -79,7 +79,7 @@ export function SiteFooter({ settings }: { settings: Settings }) {
           <p>Designed with care for better lives.</p>
         </Container>
       </footer>
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-16px_40px_-28px_rgba(12,35,64,0.85)] backdrop-blur-md xl:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] shadow-[0_-16px_40px_-28px_rgba(12,35,64,0.85)] backdrop-blur-md lg:hidden">
         <div className="grid grid-cols-3">
           <a href={`tel:${settings.phone}`} className="flex min-h-14 items-center justify-center gap-1.5 text-sm font-semibold text-navy">
             <Phone className="h-4 w-4" /> Call
@@ -92,7 +92,7 @@ export function SiteFooter({ settings }: { settings: Settings }) {
           </Link>
         </div>
       </div>
-      <a href={chat} className="fixed bottom-6 right-6 z-40 hidden items-center gap-3 rounded-full bg-white py-2 pl-4 pr-2 shadow-[0_16px_40px_-20px_rgba(12,35,64,0.8)] ring-1 ring-navy/5 xl:flex">
+      <a href={chat} className="fixed bottom-6 right-6 z-40 hidden items-center gap-3 rounded-full bg-white py-2 pl-4 pr-2 shadow-[0_16px_40px_-20px_rgba(12,35,64,0.8)] ring-1 ring-navy/5 lg:flex">
         <span>
           <span className="block text-sm font-semibold text-navy">Chat with us</span>
           <span className="block text-xs text-muted">We&apos;re here to help</span>

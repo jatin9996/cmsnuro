@@ -81,8 +81,8 @@ export function BusinessCard({ details }: { details: CardDetails }) {
   return (
     <article className="overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_-36px_rgba(12,35,64,0.85)] ring-1 ring-navy/10">
       <div className="flex items-center gap-3 bg-[#163a78] px-5 py-4 text-white">
-        <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-2xl bg-[#163a78]">
-          <Image src="/media/neurokalp-logo.jpg" alt="" fill sizes="56px" className="object-cover" />
+        <span className="relative h-14 w-[4.4rem] shrink-0">
+          <Image src="/media/neurokalp-logo.png" alt="" fill sizes="80px" className="object-contain" />
         </span>
         <span className="min-w-0">
           <span className="block text-lg font-semibold tracking-[0.14em]">NEUROKALP</span>
@@ -104,20 +104,20 @@ export function BusinessCard({ details }: { details: CardDetails }) {
       </div>
 
       <p className="mt-4 text-center text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Tap an icon to connect</p>
-      <div className="px-4 pb-2 pt-2">
-        <div className="relative mx-auto aspect-square w-full max-w-[300px]">
+      <div className="px-3 pb-2 pt-2 sm:px-4">
+        <div className="connect-hub relative mx-auto aspect-square w-full max-w-[300px]">
           <svg viewBox="0 0 300 300" className="absolute inset-0 h-full w-full" aria-hidden>
             <circle cx="150" cy="150" r="104" fill="none" stroke="#d7e3ef" strokeWidth="18" />
           </svg>
           <span className="absolute left-1/2 top-1/2 grid h-[5.5rem] w-[5.5rem] -translate-x-1/2 -translate-y-1/2 place-items-center overflow-hidden rounded-full bg-[#163a78] shadow-md ring-4 ring-white">
-            <span className="relative h-14 w-14">
-              <Image src="/media/neurokalp-logo.jpg" alt="NEUROKALP" fill sizes="56px" className="object-contain" />
+            <span className="relative h-[4.6rem] w-[4.6rem]">
+              <Image src="/media/neurokalp-logo.png" alt="NEUROKALP" fill sizes="80px" className="object-contain" />
             </span>
           </span>
           {actions.map((action, index) => {
             const angle = (360 / actions.length) * index - 90;
-            const className = `absolute left-1/2 top-1/2 grid h-12 w-12 place-items-center rounded-full text-white shadow-md ring-4 ring-white transition hover:scale-105 ${action.className}`;
-            const style = { transform: `translate(-50%, -50%) rotate(${angle}deg) translate(104px) rotate(${-angle}deg)` };
+            const className = `orbit-icon absolute left-1/2 top-1/2 grid h-11 w-11 place-items-center rounded-full text-white shadow-md ring-4 ring-white transition hover:scale-105 sm:h-12 sm:w-12 ${action.className}`;
+            const style = { transform: "translate(-50%, -50%) rotate(" + angle + "deg) translate(var(--orbit, 104px)) rotate(" + -angle + "deg)" };
             return action.external ? (
               <a key={action.label} href={action.href} target="_blank" rel="noreferrer" aria-label={action.label} title={action.label} className={className} style={style}>
                 {action.icon}

@@ -3,7 +3,7 @@
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { GALLERY_CATEGORIES } from "@/lib/admin/resources";
-import { videoEmbed } from "@/lib/utils";
+import { cn, videoEmbed } from "@/lib/utils";
 import { MediaImage } from "@/components/public/ui";
 
 export function PlayOverlay({ title, src, children }: { title: string; src?: string; children: React.ReactNode }) {
@@ -79,16 +79,17 @@ export function VideoDialog({ title, src, onClose }: { title: string; src: strin
 
 type GalleryItem = { id: string; title: string; caption: string; image: string; category: string };
 
-export function GalleryBrowser({ items, limit }: { items: GalleryItem[]; limit?: number }) {
+export function GalleryBrowser({ items, limit, columns = 2 }: { items: GalleryItem[]; limit?: number; columns?: 2 | 4 }) {
   const [category, setCategory] = useState("All");
   const [active, setActive] = useState<GalleryItem | null>(null);
+  const showFilters = typeof limit !== "number";
   const categories = ["All", ...GALLERY_CATEGORIES.filter((item) => items.some((photo) => photo.category === item))];
-  const filtered = items.filter((item) => category === "All" || item.category === category);
+  const filtered = showFilters ? items.filter((item) => category === "All" || item.category === category) : items;
   const visible = typeof limit === "number" ? filtered.slice(0, limit) : filtered;
 
   return (
     <>
-      <div className="no-scrollbar mb-4 flex snap-x gap-2 overflow-x-auto pb-1">
+      {showFilters ? <div className="no-scrollbar mb-4 flex snap-x gap-2 overflow-x-auto pb-1">
         {categories.map((item) => (
           <button
             key={item}
@@ -99,8 +100,8 @@ export function GalleryBrowser({ items, limit }: { items: GalleryItem[]; limit?:
             {item}
           </button>
         ))}
-      </div>
-      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+      </div> : null}
+      <div className={cn("grid grid-cols-2 gap-3 sm:gap-4", columns === 4 && "lg:grid-cols-4")}>
         {visible.map((item) => (
           <div key={item.id} role="button" tabIndex={0} onClick={() => setActive(item)} onKeyDown={(event) => { if (event.key === "Enter") setActive(item); }} className="cursor-pointer text-left">
             <MediaImage src={item.image} alt={item.title} className="aspect-[4/3] w-full rounded-2xl" />

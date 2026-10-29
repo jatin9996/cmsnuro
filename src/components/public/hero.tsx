@@ -58,9 +58,9 @@ export function Hero({
         />
       ))}
       <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/55 to-navy/25 sm:bg-gradient-to-r sm:from-navy/85 sm:via-navy/45 sm:to-navy/15" />
-      <div className={cn("relative z-10 flex min-w-0 flex-col justify-center px-5 py-8 pb-14 sm:min-h-[540px] sm:px-10 sm:py-12 lg:px-12", portrait && "xl:pr-52")}>
+      <div className={cn("relative z-10 flex min-w-0 flex-col justify-center px-4 py-7 pb-10 sm:px-8 sm:py-10 lg:px-12 lg:pr-20", portrait && "xl:pr-52")}>
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/75">{eyebrow}</p>
-        <h1 className="mt-3 max-w-xl whitespace-pre-line text-[1.85rem] font-semibold leading-[1.08] tracking-tight sm:mt-4 sm:text-5xl">{title}</h1>
+        <h1 className="mt-3 max-w-xl whitespace-pre-line text-balance text-[1.65rem] font-semibold leading-[1.08] tracking-tight min-[380px]:text-[1.85rem] sm:mt-4 sm:text-4xl lg:text-5xl">{title}</h1>
         <p className="mt-3 max-w-xl text-sm leading-6 text-white/85 sm:mt-4 sm:text-base">{subtitle}</p>
         <div className="mt-5 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap sm:mt-6">
           <Link href="/book" className={`${btnOnDark} w-full min-[420px]:w-auto`}>

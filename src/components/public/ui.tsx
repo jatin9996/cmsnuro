@@ -21,7 +21,7 @@ export const btnOutlineLight =
   "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white ring-1 ring-white/50 transition hover:bg-white/10";
 
 export function Container({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={cn("mx-auto w-full max-w-[1380px] px-4 sm:px-6", className)}>{children}</div>;
+  return <div className={cn("mx-auto w-full max-w-[1380px] px-4 sm:px-6 lg:px-8", className)}>{children}</div>;
 }
 
 export function Panel({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -44,7 +44,7 @@ export function SectionTitle({
   action?: string;
 }) {
   return (
-    <div className="mb-4 flex flex-col items-start gap-2 sm:flex-row sm:items-end sm:justify-between">
+    <div className="mb-3 flex flex-col items-start gap-1 sm:flex-row sm:items-end sm:justify-between">
       <div className="min-w-0">
         {eyebrow ? <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{eyebrow}</p> : null}
         <h2 className="text-lg font-semibold tracking-tight text-navy sm:text-xl">{title}</h2>
@@ -84,7 +84,7 @@ export function PageHero({
         </p>
       ) : null}
       {eyebrow ? <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">{eyebrow}</p> : null}
-      <h1 className="mt-2 max-w-3xl text-balance text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h1>
+      <h1 className="mt-2 max-w-3xl text-balance text-2xl font-semibold tracking-tight sm:text-3xl lg:text-4xl">{title}</h1>
       {description ? <p className="mt-3 max-w-2xl text-sm leading-6 text-white/75 sm:text-base">{description}</p> : null}
     </header>
   );
@@ -100,10 +100,9 @@ export function MedicalNote() {
 
 export function VideoPoster({ className }: { className?: string }) {
   return (
-    <div className={cn("relative overflow-hidden bg-[#0b2f86]", className)}>
+    <div className={cn("relative overflow-hidden bg-[#08182c]", className)}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/media/neurokalp-logo.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
-      <div className="absolute inset-0 bg-[#08182c]/20" />
+      <img src="/media/neurokalp-logo.png" alt="" className="absolute inset-0 h-full w-full object-contain p-3" />
     </div>
   );
 }

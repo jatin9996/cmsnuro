@@ -117,7 +117,7 @@ export function ContactForm() {
   const [state, action, pending] = useActionState(createInquiry, initial);
   if (state.id) {
     return (
-      <div className="rounded-[28px] bg-white p-8 shadow-[0_20px_50px_-36px_rgba(12,35,64,0.8)]">
+      <div className="rounded-3xl bg-white p-5 shadow-[0_20px_50px_-36px_rgba(12,35,64,0.8)] sm:rounded-[28px] sm:p-8">
         <h2 className="text-2xl font-semibold text-navy">Message received</h2>
         <p className="mt-3 text-sm leading-6 text-muted">Reference {state.id}. The clinic will reply using the phone number you shared.</p>
       </div>

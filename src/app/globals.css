@@ -34,6 +34,14 @@ body {
   overflow-x: clip;
 }
 
+.connect-hub {
+  container-type: inline-size;
+}
+
+.orbit-icon {
+  --orbit: min(104px, 34.6cqi);
+}
+
 ::selection {
   background: #d5e4f2;
 }

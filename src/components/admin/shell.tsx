@@ -76,7 +76,7 @@ export function AdminShell({ name, email, children }: { name: string; email: str
       </div>
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 overflow-y-auto bg-navy p-4 text-white md:block">
         <Link href="/admin" className="mb-6 flex items-center gap-2 px-2">
-          <LogoMark className="h-11 w-11" />
+          <LogoMark className="h-11 w-14" />
           <span>
             <span className="block text-sm font-semibold">Clinic admin</span>
             <span className="block text-[11px] text-white/60">Content and bookings</span>

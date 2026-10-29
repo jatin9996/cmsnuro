@@ -38,7 +38,7 @@ export default async function AboutPage() {
           </div>
         </div>
       </Panel>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
         {stats.map((item) => (
           <div key={item.id} className="flex items-center gap-3 rounded-[24px] bg-white p-4 ring-1 ring-navy/5">
             <span className="grid h-11 w-11 place-items-center rounded-2xl bg-cream text-navy"><Icon name={item.icon} className="h-5 w-5" /></span>
