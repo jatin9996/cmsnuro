@@ -54,6 +54,7 @@ export function Hero({
           priority={index === 0}
           fill
           sizes="(max-width: 1280px) 100vw, 800px"
+          objectPosition={slide.image.includes("theatre-loupes") ? "center 28%" : slide.image.includes("theatre-lights") ? "center 20%" : slide.image.includes("scrubs") ? "center 12%" : "center 30%"}
           className={cn("transition-opacity duration-700", index === active ? "opacity-100" : "opacity-0")}
         />
       ))}

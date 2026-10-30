@@ -268,11 +268,14 @@ export function HomeView({ data }: { data: HomeData }) {
 
           <div className="grid items-stretch gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
             <section className="flex h-full flex-col gap-4 rounded-[28px] bg-white p-5 ring-1 ring-navy/5 sm:p-6">
-              <div>
+              <div className="grid items-start gap-4 sm:grid-cols-[168px_minmax(0,1fr)]">
+                <MediaImage src="/media/portraits/clinic-wall.png" alt="Dr. Kairav Shah at NEUROKALP Clinic, Ahmedabad" className="mx-auto aspect-[3/4] w-full max-w-[168px] rounded-2xl" />
+                <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Visit the clinic</p>
                 <h2 className="mt-1 text-2xl font-semibold text-navy">NEUROKALP, Ellisbridge</h2>
                 <p className="mt-2 text-sm leading-6 text-ink/80">{settings.address}</p>
                 <p className="mt-2 text-sm text-navy">Consulting hours {hours.hours}. Lunch {hours.lunch}. Closed: {hours.closed}.</p>
+                </div>
               </div>
               <div className="flex flex-col gap-2 min-[420px]:flex-row">
                 <a href={`tel:${settings.phone}`} className={`${btnPrimary} w-full min-[420px]:w-auto`}>
@@ -313,10 +316,10 @@ export function HomeView({ data }: { data: HomeData }) {
           </div>
       </div>
 
-      <section className="relative overflow-hidden rounded-[28px] sm:rounded-[32px]">
-        <MediaImage fill src={settings.ctaImage} alt="" sizes="100vw" />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/70 to-navy/45 sm:bg-gradient-to-r sm:from-navy/88 sm:via-navy/55 sm:to-navy/30" />
-        <div className="relative grid items-center gap-5 px-5 py-6 sm:px-8 sm:py-8 lg:grid-cols-[minmax(0,1fr)_280px]">
+      <section className="relative overflow-hidden rounded-[28px] bg-navy sm:rounded-[32px]">
+        <MediaImage fill src={settings.ctaImage} alt="" sizes="100vw" objectPosition="center 30%" className="opacity-30" />
+        <div className="absolute inset-0 bg-navy/70" />
+        <div className="relative grid items-center gap-5 px-5 py-6 sm:px-8 sm:py-8 lg:grid-cols-[minmax(0,1fr)_180px_260px]">
           <div className="text-white">
             <h2 className="max-w-xl whitespace-pre-line text-balance text-3xl font-semibold tracking-tight sm:text-4xl">{settings.ctaTitle}</h2>
             <p className="mt-3 max-w-lg text-sm leading-6 text-white/80">{settings.ctaSubtitle}</p>
@@ -325,6 +328,7 @@ export function HomeView({ data }: { data: HomeData }) {
               <Link href="/contact" className={`${btnOutlineLight} w-full min-[420px]:w-auto`}>Contact us →</Link>
             </div>
           </div>
+          <MediaImage src={settings.ctaImage} alt="Dr. Kairav Shah" className="mx-auto aspect-[3/4] w-36 rounded-[24px] ring-4 ring-white/20 sm:w-44 lg:w-full" />
           <div className="grid gap-3">
             {ctaStats.map((item) => (
               <div key={item.id} className="flex items-center gap-3 text-white">

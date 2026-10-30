@@ -16,6 +16,13 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async redirects() {
+    return [
+      { source: "/treatments/migration", destination: "/treatments/migraine", permanent: true },
+      { source: "/treatments/trigeminal", destination: "/treatments/trigeminal-neuralgia", permanent: true },
+      { source: "/treatments/neuralgia", destination: "/treatments/trigeminal-neuralgia", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

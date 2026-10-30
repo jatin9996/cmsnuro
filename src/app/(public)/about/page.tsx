@@ -38,6 +38,19 @@ export default async function AboutPage() {
           </div>
         </div>
       </Panel>
+      <Panel>
+        <h2 className="text-xl font-semibold text-navy">In the clinic and the theatre</h2>
+        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {[
+            { src: "/media/portraits/clinic-wall.png", alt: "At NEUROKALP Clinic, Ahmedabad" },
+            { src: "/media/portraits/scrubs.png", alt: "In surgical scrubs" },
+            { src: "/media/portraits/theatre-loupes.jpg", alt: "During surgery" },
+            { src: "/media/portraits/namaste.jpg", alt: "A greeting" },
+          ].map((photo) => (
+            <MediaImage key={photo.src} src={photo.src} alt={`${settings.doctorName}, ${photo.alt}`} objectPosition="center 18%" className="aspect-[3/4] w-full rounded-2xl" />
+          ))}
+        </div>
+      </Panel>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
         {stats.map((item) => (
           <div key={item.id} className="flex items-center gap-3 rounded-[24px] bg-white p-4 ring-1 ring-navy/5">

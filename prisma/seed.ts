@@ -19,6 +19,34 @@ const symptoms = `## Reasons people ask for a review\n\n- A new or worsening sym
 
 const treatment = `## What a consultation usually covers\n\n- The history and a focused examination\n- The scans already done, and whether more are useful\n- The choices: observation, medicine, or an operation, with the risks of each\n\nAn operation is one option among others. It is recommended only when the expected benefit is clear.`;
 
+const migrainePage = {
+  title: "Migraine",
+  slug: "migraine",
+  summary: "Headache assessment and care",
+  icon: "Activity",
+  sortOrder: 0,
+  seoTitle: "Migraine",
+  seoDescription: "How migraine is recognised, when a headache needs urgent care, and what a consultation covers.",
+  description:
+    "Migraine is a recurring headache. An attack is often a one-sided, throbbing pain, with nausea, and light or sound can feel too strong. Some people notice a warning first, such as flashing lights, a change in vision, or tingling.\n\nA consultation is used to understand that pattern and to separate migraine from other causes of headache that need a different plan. Medicine and day-to-day changes are the usual care. An operation is not the standard treatment for migraine.\n\nThis page is general information. It does not say what any one person should do.",
+  symptoms: `## Reasons people ask about migraine\n\n- Repeated headaches, often on one side of the head\n- Nausea, or sensitivity to light, sound, or smell with the pain\n- A warning of visual change, tingling, or trouble finding words before the pain\n- A headache that is new, suddenly the worst ever, or comes with weakness, confusion, a seizure, fever, or a stiff neck — these need urgent medical care`,
+  treatment: `## What a consultation usually covers\n\n- The story of the attacks, and a focused examination\n- Whether a scan is useful, and what it can and cannot show\n- Ways to reduce how often attacks come, and how to treat one when it starts\n- When another cause of headache needs to be looked at first\n\nSeek emergency care for a sudden worst-ever headache, new weakness, trouble speaking, a seizure, or a headache after a head injury.`,
+};
+
+const facialPainPage = {
+  title: "Trigeminal Neuralgia & Facial Pain",
+  slug: "trigeminal-neuralgia",
+  summary: "Facial pain evaluation and care",
+  icon: "Zap",
+  sortOrder: 6,
+  seoTitle: "Trigeminal Neuralgia & Facial Pain",
+  seoDescription: "Sharp one-sided facial pain, how it is told apart from other face pain, and how a care plan is made.",
+  description:
+    "Trigeminal neuralgia affects the nerve that supplies feeling to the face. It usually causes brief, very sharp pain on one side, often set off by light touch, washing, chewing, talking, or a breeze. Other kinds of facial pain feel different and have different causes, so the first task is to name the pain correctly.\n\nThis page is general information. It does not say what any one person should do.",
+  symptoms: `## Reasons people ask about facial pain\n\n- Sudden, electric, or stabbing pain on one side of the face\n- Pain set off by touch, washing, talking, or eating\n- Pain that is constant, aching, or on both sides — this may be a different problem\n- New facial weakness, a rash, tooth pain, or pain after an injury`,
+  treatment: `## What a consultation usually covers\n\n- A careful history, because the story of the pain is the most useful clue\n- An examination, and a scan when it will change the decision\n- Medicine is usually tried first\n- If medicine does not control the pain, or the side effects are hard to live with, a procedure may be discussed. The choice depends on the scans, age, and what the person hopes to get back\n\nAn operation is one option among others. It is recommended only when the expected benefit is clear.`,
+};
+
 async function main() {
   const adminCount = await prisma.admin.count();
   await seedIfEmpty("admin", adminCount, () =>
@@ -54,10 +82,10 @@ async function main() {
         aboutBio:
           "Dr. Kairav Shah is a neurosurgeon with over 15 years of experience in complex brain and spine surgery. He is committed to world-class care, combining advanced technology with a compassionate, patient-first approach.",
         aboutQuote: "Every patient has a story. My goal is to help them return to the life they love.",
-        aboutImage: "/media/doctor-kairav.jpg",
+        aboutImage: "/media/portraits/desk.jpg",
         ctaTitle: "Take the First Step\nTowards a Better Tomorrow",
         ctaSubtitle: "Expert care. Personalised treatment. A healthier, brighter you.",
-        ctaImage: "/media/mountain.jpg",
+        ctaImage: "/media/portraits/mountain.png",
         achievementQuote: "Success is not a destination, but a continuous pursuit of better care.",
         instagramHandle: "@dr.kairav",
         instagramUrl: "https://www.instagram.com/dr.kairav/",
@@ -85,6 +113,7 @@ async function main() {
       aboutBio?: string;
       mapUrl?: string;
       aboutImage?: string;
+      ctaImage?: string;
       instagramHandle?: string;
       instagramUrl?: string;
       youtubeUrl?: string;
@@ -106,7 +135,8 @@ async function main() {
     if (!clinic.mapUrl || clinic.mapUrl === "https://maps.google.com/?cid=11458330563077161080") {
       data.mapUrl = "https://share.google/bPjyfXDk5ssH3NUBl";
     }
-    if (!clinic.aboutImage || clinic.aboutImage === "/media/doctor.jpg") data.aboutImage = "/media/doctor-kairav.jpg";
+    if (!clinic.aboutImage || clinic.aboutImage === "/media/doctor.jpg" || clinic.aboutImage === "/media/doctor-kairav.jpg") data.aboutImage = "/media/portraits/desk.jpg";
+    if (!clinic.ctaImage || clinic.ctaImage === "/media/mountain.jpg") data.ctaImage = "/media/portraits/mountain.png";
     if (!clinic.instagramUrl || clinic.instagramHandle === "@dr.kairavshah") {
       data.instagramHandle = "@dr.kairav";
       data.instagramUrl = "https://www.instagram.com/dr.kairav/";
@@ -118,14 +148,19 @@ async function main() {
     if (Object.keys(data).length) await prisma.siteSetting.update({ where: { id: 1 }, data });
   }
 
-  await seedIfEmpty("slides", await prisma.heroSlide.count(), () =>
-    prisma.heroSlide.createMany({
-      data: [
-        { image: "/media/hero.jpg", alt: "Surgeon in an operating theatre", sortOrder: 0 },
-        { image: "/media/hospital.jpg", alt: "Hospital corridor", sortOrder: 1 },
-      ],
-    }),
-  );
+  const portraitSlides = [
+    { image: "/media/portraits/theatre-loupes.jpg", alt: "Dr. Kairav Shah during surgery", sortOrder: 0 },
+    { image: "/media/portraits/theatre-lights.jpg", alt: "Dr. Kairav Shah in the operating theatre", sortOrder: 1 },
+    { image: "/media/portraits/scrubs.png", alt: "Dr. Kairav Shah, neurosurgeon", sortOrder: 2 },
+  ];
+  await seedIfEmpty("slides", await prisma.heroSlide.count(), () => prisma.heroSlide.createMany({ data: portraitSlides }));
+  const currentSlides = await prisma.heroSlide.findMany();
+  const stockSlide = new Set(["/media/hero.jpg", "/media/hospital.jpg"]);
+  if (currentSlides.length > 0 && currentSlides.every((slide) => stockSlide.has(slide.image))) {
+    await prisma.heroSlide.deleteMany();
+    await prisma.heroSlide.createMany({ data: portraitSlides });
+    console.log("replaced hero slides");
+  }
 
   await seedIfEmpty("stats", await prisma.stat.count(), () =>
     prisma.stat.createMany({
@@ -166,14 +201,13 @@ async function main() {
   await seedIfEmpty("conditions", await prisma.condition.count(), () =>
     prisma.condition.createMany({
       data: [
-        { title: "Migration", slug: "migration", summary: "Assessment and treatment", icon: "Activity", sortOrder: 0, description: overview("Migration"), symptoms, treatment },
+        migrainePage,
         { title: "Neck pain", slug: "neck-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 1, description: overview("Neck pain"), symptoms, treatment },
         { title: "Back pain", slug: "back-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 2, description: overview("Back pain"), symptoms, treatment },
         { title: "Sciatica", slug: "sciatica", summary: "Nerve pain and spine care", icon: "Zap", sortOrder: 3, description: overview("Sciatica"), symptoms, treatment },
         { title: "Sleep Disorders", slug: "sleep-disorders", summary: "Evaluation and management", icon: "Clock", sortOrder: 4, description: overview("Sleep disorders"), symptoms, treatment },
         { title: "Brain Infections", slug: "brain-infections", summary: "Diagnosis and treatment", icon: "ShieldPlus", sortOrder: 5, description: overview("Brain infections"), symptoms, treatment },
-        { title: "Trigeminal", slug: "trigeminal", summary: "Nerve pain evaluation", icon: "Zap", sortOrder: 6, description: overview("Trigeminal nerve pain"), symptoms, treatment },
-        { title: "Neuralgia", slug: "neuralgia", summary: "Nerve pain evaluation", icon: "Activity", sortOrder: 7, description: overview("Neuralgia"), symptoms, treatment },
+        facialPainPage,
         { title: "Hydrocephalus", slug: "hydrocephalus", summary: "Diagnosis and surgical care", icon: "Brain", sortOrder: 8, description: overview("Hydrocephalus"), symptoms, treatment },
         { title: "Spine Tumours", slug: "spine-tumours", summary: "Diagnosis and surgical treatment", icon: "Bone", sortOrder: 9, description: overview("Spine tumours"), symptoms, treatment },
         { title: "Head Injuries", slug: "head-injuries", summary: "Trauma care and follow-up", icon: "ShieldPlus", sortOrder: 10, description: overview("Head injuries"), symptoms, treatment },
@@ -188,14 +222,13 @@ async function main() {
     await prisma.condition.deleteMany();
     await prisma.condition.createMany({
       data: [
-        { title: "Migration", slug: "migration", summary: "Assessment and treatment", icon: "Activity", sortOrder: 0, description: overview("Migration"), symptoms, treatment },
+        migrainePage,
         { title: "Neck pain", slug: "neck-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 1, description: overview("Neck pain"), symptoms, treatment },
         { title: "Back pain", slug: "back-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 2, description: overview("Back pain"), symptoms, treatment },
         { title: "Sciatica", slug: "sciatica", summary: "Nerve pain and spine care", icon: "Zap", sortOrder: 3, description: overview("Sciatica"), symptoms, treatment },
         { title: "Sleep Disorders", slug: "sleep-disorders", summary: "Evaluation and management", icon: "Clock", sortOrder: 4, description: overview("Sleep disorders"), symptoms, treatment },
         { title: "Brain Infections", slug: "brain-infections", summary: "Diagnosis and treatment", icon: "ShieldPlus", sortOrder: 5, description: overview("Brain infections"), symptoms, treatment },
-        { title: "Trigeminal", slug: "trigeminal", summary: "Nerve pain evaluation", icon: "Zap", sortOrder: 6, description: overview("Trigeminal nerve pain"), symptoms, treatment },
-        { title: "Neuralgia", slug: "neuralgia", summary: "Nerve pain evaluation", icon: "Activity", sortOrder: 7, description: overview("Neuralgia"), symptoms, treatment },
+        facialPainPage,
         { title: "Hydrocephalus", slug: "hydrocephalus", summary: "Diagnosis and surgical care", icon: "Brain", sortOrder: 8, description: overview("Hydrocephalus"), symptoms, treatment },
         { title: "Spine Tumours", slug: "spine-tumours", summary: "Diagnosis and surgical treatment", icon: "Bone", sortOrder: 9, description: overview("Spine tumours"), symptoms, treatment },
         { title: "Head Injuries", slug: "head-injuries", summary: "Trauma care and follow-up", icon: "ShieldPlus", sortOrder: 10, description: overview("Head injuries"), symptoms, treatment },
@@ -205,6 +238,27 @@ async function main() {
     });
     console.log("replaced conditions");
   }
+
+  const migrationRow = await prisma.condition.findFirst({
+    where: { OR: [{ slug: "migration" }, { title: "Migration" }] },
+  });
+  if (migrationRow) {
+    await prisma.condition.update({ where: { id: migrationRow.id }, data: migrainePage });
+    console.log("renamed migraine");
+  }
+
+  const trigeminalRow = await prisma.condition.findFirst({ where: { slug: "trigeminal" } });
+  const facialRow = await prisma.condition.findFirst({ where: { slug: "trigeminal-neuralgia" } });
+  if (trigeminalRow && facialRow) {
+    await prisma.condition.delete({ where: { id: trigeminalRow.id } });
+  } else if (trigeminalRow) {
+    await prisma.condition.update({ where: { id: trigeminalRow.id }, data: facialPainPage });
+    console.log("merged trigeminal neuralgia");
+  }
+  const removedNeuralgia = await prisma.condition.deleteMany({
+    where: { OR: [{ slug: "neuralgia" }, { title: "Neuralgia" }] },
+  });
+  if (removedNeuralgia.count) console.log("removed separate neuralgia");
 
   await seedIfEmpty("stories", await prisma.patientStory.count(), () =>
     prisma.patientStory.createMany({
@@ -791,6 +845,15 @@ async function main() {
       category: "Hospital",
       sortOrder: 33,
     },
+    { title: "At the desk", caption: "Dr. Kairav Shah in the consultation room.", image: "/media/portraits/desk.jpg", category: "Hospital", sortOrder: 40 },
+    { title: "At NEUROKALP Clinic", caption: "At the clinic in Ahmedabad.", image: "/media/portraits/clinic-wall.png", category: "Hospital", sortOrder: 41 },
+    { title: "Ready for surgery", caption: "Before an operation.", image: "/media/portraits/scrubs.png", category: "Operation Theatre", sortOrder: 42 },
+    { title: "During surgery", caption: "At the operating microscope.", image: "/media/portraits/theatre-loupes.jpg", category: "Operation Theatre", sortOrder: 43 },
+    { title: "In the operating theatre", caption: "Under the theatre lights.", image: "/media/portraits/theatre-lights.jpg", category: "Operation Theatre", sortOrder: 44 },
+    { title: "A formal portrait", caption: "Dr. Kairav Shah.", image: "/media/portraits/blazer.png", category: "Hospital", sortOrder: 45 },
+    { title: "At the clinic", caption: "A quiet moment between consultations.", image: "/media/portraits/polo.png", category: "Hospital", sortOrder: 46 },
+    { title: "A greeting", caption: "Dr. Kairav Shah.", image: "/media/portraits/namaste.jpg", category: "Community Events", sortOrder: 47 },
+    { title: "In the mountains", caption: "Away from the operating theatre.", image: "/media/portraits/mountain.png", category: "Community Events", sortOrder: 48 },
   ];
 
   await prisma.galleryItem.updateMany({
