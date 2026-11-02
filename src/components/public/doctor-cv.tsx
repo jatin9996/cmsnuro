@@ -48,12 +48,7 @@ export function DoctorCv() {
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Resume</p>
         <h2 className="mt-1 text-2xl font-semibold text-navy">Dr. Kairav Shah</h2>
         <p className="mt-1 text-sm text-ink/80">M.S., M.Ch (Neurosurgery). Gold medallist.</p>
-        <p className="mt-3 text-sm leading-6 text-ink/80">
-          Director, NEUROKALP (Brain and Spine Clinic), 504-5, 5th floor, Mehta 531, Ellisbridge, Ahmedabad, Gujarat.
-        </p>
-        <p className="mt-1 text-sm text-ink/80">
-          Mobile: <a className="font-semibold text-navy" href="tel:+919099110022">+91 90991 10022</a>
-        </p>
+        <p className="mt-3 text-sm leading-6 text-ink/80">Director, NEUROKALP Brain and Spine Clinic, Ahmedabad.</p>
       </header>
 
       <Section title="Career objective">
@@ -129,22 +124,6 @@ export function DoctorCv() {
             <MediaImage key={photo.src} src={photo.src} alt={photo.alt} className="aspect-[5/3] w-full rounded-2xl" />
           ))}
         </div>
-      </Section>
-
-      <Section title="Personal profile">
-        <dl className="grid gap-2 text-sm sm:grid-cols-2">
-          {[
-            ["Date of birth", "3 February 1985"],
-            ["Gender", "Male"],
-            ["Blood group", "O positive"],
-            ["Marital status", "Married"],
-          ].map(([label, value]) => (
-            <div key={label} className="flex gap-3 rounded-2xl bg-canvas px-4 py-3">
-              <dt className="w-28 shrink-0 text-muted">{label}</dt>
-              <dd className="font-medium text-navy">{value}</dd>
-            </div>
-          ))}
-        </dl>
       </Section>
 
       <p className="text-sm leading-7 text-ink/85">
