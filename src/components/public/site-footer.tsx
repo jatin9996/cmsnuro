@@ -44,7 +44,7 @@ export function SiteFooter({ settings }: { settings: Settings }) {
               <span>
                 <span className="block font-semibold">{settings.doctorName}</span>
                 <span className="block text-xs text-white/60">{settings.roleTitle}</span>
-                <span className="block text-xs text-white/60">{settings.tagline}</span>
+                <span className="block whitespace-pre-line text-xs leading-5 text-white/60">{settings.tagline}</span>
               </span>
             </Link>
             <p className="mt-3 max-w-xs text-xs leading-5 text-white/60">{settings.address}</p>

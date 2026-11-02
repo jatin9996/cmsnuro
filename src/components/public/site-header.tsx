@@ -53,7 +53,6 @@ export function SiteHeader({ settings }: { settings: Settings }) {
           <span className="min-w-0">
             <span className="block truncate text-sm font-semibold leading-tight text-navy sm:text-[15px]">{settings.doctorName}</span>
             <span className="block truncate text-[11px] leading-4 text-muted">{settings.roleTitle}</span>
-            <span className="hidden truncate text-[11px] leading-4 text-navy/70 2xl:block">{settings.tagline}</span>
           </span>
         </Link>
         <nav className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-x-2 lg:flex xl:ml-3 xl:gap-x-3">

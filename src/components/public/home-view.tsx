@@ -1,5 +1,5 @@
 import type { getHomeData } from "@/lib/queries";
-import { Phone, Play } from "lucide-react";
+import { BookOpen, HeartPulse, Phone, Play, Scale } from "lucide-react";
 import Link from "next/link";
 import { Icon } from "@/components/icon";
 import { WhatsAppIcon } from "@/components/logo";
@@ -100,6 +100,40 @@ export function HomeView({ data }: { data: HomeData }) {
               </div>
             </div>
           </div>
+
+          <section>
+            <h2 className="text-center text-2xl font-semibold text-navy">Three pillars of treatment</h2>
+            <div className="mt-4 grid gap-3 md:grid-cols-3">
+              {[
+                {
+                  title: "Ethics First",
+                  icon: Scale,
+                  text: "We prioritize patient well-being over procedures, offering honest consulting assessments, clear second opinions, and recommendations based solely on true medical conditions.",
+                },
+                {
+                  title: "Empathetic Care",
+                  icon: HeartPulse,
+                  text: "Complex brain and spine conditions can be challenging. We take time to explain, diagnose, outline recovery timelines, and ensure patients feel fully supported at NEUROKALP.",
+                },
+                {
+                  title: "Scientific Evidence",
+                  icon: BookOpen,
+                  text: "Every diagnostic procedure, surgical intervention, and medical therapy is backed by rigorous peer-reviewed clinical research and sub-specialty consensus.",
+                },
+              ].map((pillar) => {
+                const PillarIcon = pillar.icon;
+                return (
+                <article key={pillar.title} className="rounded-[28px] bg-white px-5 py-7 text-center shadow-[0_18px_50px_-36px_rgba(12,35,64,0.85)] ring-1 ring-navy/5">
+                  <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-cream text-navy">
+                    <PillarIcon className="h-6 w-6" aria-hidden />
+                  </span>
+                  <h3 className="mt-4 text-xl font-semibold text-navy">{pillar.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-ink/75">{pillar.text}</p>
+                </article>
+                );
+              })}
+            </div>
+          </section>
 
           <Panel>
             <SectionTitle title="Conditions We Treat" href="/treatments" action="View all treatments" />

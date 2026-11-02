@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 
@@ -65,7 +67,7 @@ async function main() {
       data: {
         doctorName: "Dr. Kairav Shah",
         roleTitle: "Consultant Neurosurgeon",
-        tagline: "Brain. Spine. Better Tomorrows.",
+        tagline: "A center for excellence for brain and spine diseases.\nCare with cure",
         phone: "+919099110022",
         phoneDisplay: "+91 90991 10022",
         whatsapp: "+91 90991 10022",
@@ -114,6 +116,7 @@ async function main() {
       mapUrl?: string;
       aboutImage?: string;
       ctaImage?: string;
+      tagline?: string;
       instagramHandle?: string;
       instagramUrl?: string;
       youtubeUrl?: string;
@@ -142,6 +145,9 @@ async function main() {
       data.instagramUrl = "https://www.instagram.com/dr.kairav/";
     }
     if (!clinic.youtubeUrl) data.youtubeUrl = "https://www.youtube.com/@kairav1";
+    if (clinic.tagline === "Brain. Spine. Better Tomorrows.") {
+      data.tagline = "A center for excellence for brain and spine diseases.\nCare with cure";
+    }
     if (clinic.aboutBio.includes("over 20 years")) {
       data.aboutBio = clinic.aboutBio.replace("over 20 years", "over 15 years");
     }
@@ -564,6 +570,41 @@ async function main() {
     }),
   );
 
+  const blogGuides = [
+    {
+      slug: "understanding-brain-tumor-symptoms",
+      excerpt: "Most headaches are not a brain tumour. Learn which changes need a review, and which ones are emergencies.",
+      seoTitle: "Brain tumour symptoms: when to seek care",
+      seoDescription: "A patient guide to brain tumour symptoms, urgent warning signs, scans, and what a neurosurgical consultation can decide.",
+    },
+    {
+      slug: "when-is-spine-surgery-needed",
+      excerpt: "Most back and neck pain improves without surgery. Learn when nerve, cord, or bladder symptoms should not wait.",
+      seoTitle: "When is spine surgery needed?",
+      seoDescription: "How surgeons decide on spine surgery, which back and neck symptoms are emergencies, and when an operation is not the next step.",
+    },
+    {
+      slug: "stroke-early-signs",
+      excerpt: "Face, arm, or speech changes need an emergency call, not a clinic visit. Signs, what not to do, and care afterwards.",
+      seoTitle: "Stroke early signs: call emergency services",
+      seoDescription: "Recognise stroke signs, call 112 or 108, and see what not to do while you wait. A clinic visit is for after emergency care.",
+    },
+  ] as const;
+
+  for (const guide of blogGuides) {
+    const content = readFileSync(join(process.cwd(), "content", "blog", `${guide.slug}.md`), "utf8").trim();
+    const updated = await prisma.post.updateMany({
+      where: { slug: guide.slug },
+      data: {
+        content,
+        excerpt: guide.excerpt,
+        seoTitle: guide.seoTitle,
+        seoDescription: guide.seoDescription,
+      },
+    });
+    console.log(`updated post ${guide.slug}: ${updated.count}`);
+  }
+
   await seedIfEmpty("social", await prisma.socialUpdate.count(), () =>
     prisma.socialUpdate.createMany({
       data: [
@@ -586,7 +627,7 @@ async function main() {
           title: "About the practice",
           excerpt: "How a consultation is organised.",
           sortOrder: 0,
-          content: "## How a visit works\n\n- Share reports ahead of time when you can.\n- The visit covers symptoms, the examination, and the scans already done.\n- If an operation is one of the choices, you will hear the benefits, the risks, and the alternatives.\n\n## Before this site is published\n\nReplace the biography, photograph, phone number, address, and statistics with verified details. Add the doctor's medical registration number where patients expect to see it.",
+          content: "## How a visit works\n\n- Share reports ahead of time when you can.\n- The visit covers symptoms, the examination, and the scans already done.\n- If an operation is one of the choices, you will hear the benefits, the risks, and the alternatives.",
         },
         {
           slug: "privacy",
@@ -605,6 +646,18 @@ async function main() {
       ],
     }),
   );
+
+  const aboutPage = await prisma.page.findUnique({ where: { slug: "about" } });
+  if (aboutPage?.content.includes("Before this site is published")) {
+    await prisma.page.update({
+      where: { id: aboutPage.id },
+      data: {
+        content:
+          "## How a visit works\n\n- Share reports ahead of time when you can.\n- The visit covers symptoms, the examination, and the scans already done.\n- If an operation is one of the choices, you will hear the benefits, the risks, and the alternatives.",
+      },
+    });
+    console.log("updated about page");
+  }
 
   const clinicPhotos = [
     {

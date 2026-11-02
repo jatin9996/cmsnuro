@@ -86,7 +86,7 @@ export function BusinessCard({ details }: { details: CardDetails }) {
         </span>
         <span className="min-w-0">
           <span className="block text-lg font-semibold tracking-[0.14em]">NEUROKALP</span>
-          <span className="block text-[11px] uppercase tracking-[0.16em] text-white/70">{details.tagline}</span>
+          <span className="block whitespace-pre-line text-[11px] leading-4 text-white/70">{details.tagline}</span>
         </span>
       </div>
 

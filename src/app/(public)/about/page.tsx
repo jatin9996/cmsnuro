@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/components/icon";
 import { RichText } from "@/components/public/rich-text";
+import { DoctorCv } from "@/components/public/doctor-cv";
 import { Container, MediaImage, PageHero, Panel } from "@/components/public/ui";
 import { getPage, getSettings } from "@/lib/queries";
 import { contentMetadata } from "@/lib/seo";
@@ -37,6 +38,9 @@ export default async function AboutPage() {
             <blockquote className="mt-4 font-serif text-xl italic text-navy">“{settings.aboutQuote}”</blockquote>
           </div>
         </div>
+      </Panel>
+      <Panel>
+        <DoctorCv />
       </Panel>
       <Panel>
         <h2 className="text-xl font-semibold text-navy">In the clinic and the theatre</h2>

@@ -324,7 +324,7 @@ export const resources: ResourceConfig[] = [
       { name: "slug", label: "Page address", type: "text", max: 80, help: "Leave blank to create it from the title." },
       { name: "excerpt", label: "Excerpt", type: "textarea", required: true, rows: 3, max: 300 },
       ...seoFields,
-      { name: "content", label: "Article", type: "textarea", required: true, rows: 14, max: 20000, help: proseHelp },
+      { name: "content", label: "Article", type: "textarea", required: true, rows: 14, max: 120000, help: proseHelp },
       { name: "coverImage", label: "Cover image", type: "image", required: true },
       {
         name: "category",
