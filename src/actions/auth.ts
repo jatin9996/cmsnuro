@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { requireAdmin } from "@/lib/current-user";
+import { getSession } from "@/lib/current-user";
 import { safeAdminPath } from "@/lib/utils";
 import { SESSION_COOKIE, sessionCookie, signSession } from "@/lib/session";
 
@@ -38,19 +38,29 @@ export async function logout() {
 }
 
 export async function changePassword(_prev: AuthState, formData: FormData): Promise<AuthState> {
-  const session = await requireAdmin();
-  const currentPassword = String(formData.get("currentPassword") || "");
-  const newPassword = String(formData.get("newPassword") || "");
-  if (newPassword.length < 8) return { error: "Use at least 8 characters for the new password." };
+  try {
+    const session = await getSession();
+    if (!session) return { error: "Sign in again, then try updating the password." };
 
-  const admin = await prisma.admin.findUnique({ where: { id: session.id } });
-  if (!admin || !(await bcrypt.compare(currentPassword, admin.passwordHash))) {
-    return { error: "The current password is not correct." };
+    const currentPassword = String(formData.get("currentPassword") || "");
+    const newPassword = String(formData.get("newPassword") || "");
+    const confirmPassword = String(formData.get("confirmPassword") || "");
+    if (newPassword.length < 8) return { error: "Use at least 8 characters for the new password." };
+    if (newPassword !== confirmPassword) return { error: "The new password and confirmation do not match." };
+    if (newPassword === currentPassword) return { error: "Choose a new password that is different from the current one." };
+
+    const admin = await prisma.admin.findUnique({ where: { id: session.id } });
+    if (!admin || !(await bcrypt.compare(currentPassword, admin.passwordHash))) {
+      return { error: "The current password is not correct. If you have not changed it yet, use Admin@1234." };
+    }
+
+    await prisma.admin.update({
+      where: { id: admin.id },
+      data: { passwordHash: await bcrypt.hash(newPassword, 12) },
+    });
+    return { saved: true };
+  } catch (error) {
+    console.error(error);
+    return { error: "The password could not be saved. Try again in a moment." };
   }
-
-  await prisma.admin.update({
-    where: { id: admin.id },
-    data: { passwordHash: await bcrypt.hash(newPassword, 12) },
-  });
-  return { saved: true };
 }

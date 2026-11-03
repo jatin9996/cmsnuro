@@ -155,28 +155,28 @@ export function HomeView({ data }: { data: HomeData }) {
           <Panel>
             <div className="grid items-center gap-4 lg:grid-cols-[160px_minmax(0,1fr)]">
               <MediaImage src={settings.aboutImage} alt={`${settings.doctorName}, ${settings.roleTitle}`} objectPosition="center 18%" className="mx-auto aspect-[3/4] w-full max-w-[160px] rounded-[24px] lg:mx-0" />
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{settings.aboutEyebrow}</p>
-                <h2 className="mt-1 text-2xl font-semibold text-navy">{settings.doctorName}</h2>
-                <p className="mt-1 text-sm text-muted">{settings.aboutDegrees}</p>
-                <p className="text-sm font-medium text-navy">{settings.roleTitle}</p>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{settings.aboutEyebrow}</p>
+                  <h2 className="mt-1 text-2xl font-semibold text-navy">{settings.doctorName}</h2>
+                  <p className="mt-1 text-sm text-muted">{settings.aboutDegrees}</p>
+                  <p className="text-sm font-medium text-navy">{settings.roleTitle}</p>
                 <p className="mt-2 text-sm leading-6 text-ink/80">{settings.aboutBio}</p>
                 <blockquote className="mt-3 font-serif text-lg italic leading-snug text-navy">“{settings.aboutQuote}”</blockquote>
                 <Link href="/about" className={`${btnPrimary} mt-3 h-auto whitespace-normal text-center leading-5`}>
-                  Know more about {settings.doctorName} →
-                </Link>
+                    Know more about {settings.doctorName} →
+                  </Link>
+                </div>
               </div>
-            </div>
             <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-line pt-4 sm:grid-cols-3 xl:grid-cols-5">
-              {aboutStats.map((item) => (
+                {aboutStats.map((item) => (
                 <div key={item.id} className="flex items-center gap-2.5">
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-cream text-navy">
-                    <Icon name={item.icon} className="h-4 w-4" />
-                  </span>
+                      <Icon name={item.icon} className="h-4 w-4" />
+                    </span>
                   <span className="min-w-0">
                     <dt className="text-sm font-semibold leading-4 text-navy">{item.value || item.label}</dt>
                     {item.value ? <dd className="text-xs leading-4 text-muted">{item.label}</dd> : null}
-                  </span>
+                    </span>
                 </div>
               ))}
             </dl>
@@ -237,68 +237,68 @@ export function HomeView({ data }: { data: HomeData }) {
                   })}
                 </div>
               </div>
-          </Panel>
+            </Panel>
 
-          <Panel>
-            <SectionTitle eyebrow="Moments that inspire" title="Gallery" href="/gallery" action="View all" />
-            <GalleryBrowser
-              items={data.gallery.map((item) => ({ id: item.id, title: item.title, caption: item.caption, image: item.image, category: item.category }))}
-              limit={4}
+            <Panel>
+              <SectionTitle eyebrow="Moments that inspire" title="Gallery" href="/gallery" action="View all" />
+              <GalleryBrowser
+                items={data.gallery.map((item) => ({ id: item.id, title: item.title, caption: item.caption, image: item.image, category: item.category }))}
+                limit={4}
               columns={4}
-            />
-          </Panel>
+              />
+            </Panel>
 
-          <Panel>
-            <SectionTitle eyebrow="Knowledge for a healthier tomorrow" title="Blog & Health Insights" href="/blog" action="View all articles" />
+            <Panel>
+              <SectionTitle eyebrow="Knowledge for a healthier tomorrow" title="Blog & Health Insights" href="/blog" action="View all articles" />
             <div className="grid gap-3 md:grid-cols-3">
-              {posts.map((post) => (
+                {posts.map((post) => (
                 <Link key={post.id} href={`/blog/${post.slug}`} className="min-w-0">
                   <MediaImage src={post.coverImage} alt="" className="aspect-[16/9] w-full rounded-xl" />
                   <span className="mt-2 line-clamp-2 block text-sm font-semibold leading-5 text-navy">{post.title}</span>
-                  <span className="mt-1 block text-[11px] text-muted">{formatDate(post.publishedOn)}</span>
-                </Link>
-              ))}
-            </div>
-          </Panel>
+                      <span className="mt-1 block text-[11px] text-muted">{formatDate(post.publishedOn)}</span>
+                  </Link>
+                ))}
+              </div>
+            </Panel>
 
           <section className="min-w-0 rounded-[28px] bg-navy p-4 text-white sm:p-5">
             <div className="mb-3 flex items-end justify-between gap-3">
-              <div className="min-w-0">
-                <h2 className="text-lg font-semibold">Instagram Updates</h2>
+                <div className="min-w-0">
+                  <h2 className="text-lg font-semibold">Instagram Updates</h2>
                 <p className="text-xs text-white/65">Latest reels from the clinic</p>
+                </div>
+                <a href={settings.instagramUrl || `https://instagram.com/${settings.instagramHandle.replace("@", "")}`} className="shrink-0 text-xs font-semibold text-white/80">
+                  {settings.instagramHandle}
+                </a>
               </div>
-              <a href={settings.instagramUrl || `https://instagram.com/${settings.instagramHandle.replace("@", "")}`} className="shrink-0 text-xs font-semibold text-white/80">
-                {settings.instagramHandle}
-              </a>
-            </div>
             <div className="grid grid-cols-4 gap-2 lg:grid-cols-8">
               {homeReels.length
                 ? homeReels.map((reel) => {
-                    const poster = reel.thumbnail || videoPoster(reel.sourceUrl);
-                    return (
-                      <PlayOverlay key={reel.id} title={reel.title} src={reel.sourceUrl}>
+                      const poster = reel.thumbnail || videoPoster(reel.sourceUrl);
+                      return (
+                        <PlayOverlay key={reel.id} title={reel.title} src={reel.sourceUrl}>
                         <article>
-                          <div className="relative">
-                            {poster ? (
+                            <div className="relative">
+                              {poster ? (
                               <MediaImage src={poster} alt="" className="aspect-[3/4] w-full rounded-xl" />
-                            ) : (
+                              ) : (
                               <VideoPoster className="aspect-[3/4] w-full rounded-xl" />
-                            )}
+                              )}
                             <span className="absolute left-1/2 top-1/2 grid h-7 w-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-navy shadow-lg">
                               <Play className="ml-0.5 h-3 w-3 fill-current" />
-                            </span>
-                          </div>
-                        </article>
-                      </PlayOverlay>
-                    );
-                  })
-                : data.social.map((item) => (
+                              </span>
+                            </div>
+                          </article>
+                        </PlayOverlay>
+                      );
+                    })
+                  : data.social.map((item) => (
                     <span key={item.id} className="block text-center">
                       <MediaImage src={item.image} alt={item.label} className="mx-auto aspect-square w-full rounded-xl ring-2 ring-white/30" />
-                    </span>
-                  ))}
-            </div>
-          </section>
+                      </span>
+                    ))}
+              </div>
+            </section>
 
           <div className="grid items-stretch gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
             <section className="flex h-full flex-col gap-4 rounded-[28px] bg-white p-5 ring-1 ring-navy/5 sm:p-6">
@@ -347,7 +347,7 @@ export function HomeView({ data }: { data: HomeData }) {
                 portrait: settings.aboutImage,
               }}
             />
-          </div>
+        </div>
       </div>
 
       <section className="relative overflow-hidden rounded-[28px] bg-navy sm:rounded-[32px]">

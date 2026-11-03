@@ -15,10 +15,10 @@ The admin panel is at [http://localhost:3000/admin](http://localhost:3000/admin)
 
 Sample sign-in, for local use only:
 
-- Email: `admin@kairavshah.local`
-- Password: `Admin@12345`
+- Email: `kairav3285@gmail.com`
+- Password: `Admin@1234`
 
-Change that password from **Admin → Site settings** before anyone else can reach the site.
+Change that password from **Admin → Account** before anyone else can reach the site.
 
 ## What the admin can edit
 
@@ -51,10 +51,10 @@ The SQLite file on your computer is not uploaded. Vercel needs Postgres.
 
 Sample sign-in after that first deploy:
 
-- Email: `admin@kairavshah.local`
-- Password: `Admin@12345`
+- Email: `kairav3285@gmail.com`
+- Password: `Admin@1234`
 
-Change the password under **Admin → Site settings** immediately.
+Change the password under **Admin → Account** immediately.
 
 Video and image uploads are stored on the server disk, which Vercel does not keep. Use a YouTube or Vimeo link for videos until file storage is added.
 

@@ -3,7 +3,6 @@
 import type { SiteSetting } from "@prisma/client";
 import Link from "next/link";
 import { useActionState, useState } from "react";
-import { changePassword, type AuthState } from "@/actions/auth";
 import { saveSettings } from "@/actions/content";
 import { MediaField } from "@/components/admin/media-field";
 import { fieldClass } from "@/components/public/ui";
@@ -12,7 +11,6 @@ const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 
 export function SettingsForm({ settings }: { settings: Omit<SiteSetting, "updatedAt" | "id"> }) {
   const [state, action, pending] = useActionState(saveSettings, { error: undefined, saved: undefined });
-  const [passwordState, passwordAction, passwordPending] = useActionState(changePassword, {} as AuthState);
   const [values, setValues] = useState<Record<string, string>>(
     Object.fromEntries(Object.entries(settings).map(([key, value]) => [key, String(value)])),
   );
@@ -150,23 +148,13 @@ export function SettingsForm({ settings }: { settings: Omit<SiteSetting, "update
           {pending ? "Saving…" : "Save settings"}
         </button>
       </form>
-
-      <form action={passwordAction} className="grid max-w-md gap-4 rounded-3xl bg-white p-6 ring-1 ring-navy/5">
-        <h2 className="text-lg font-semibold text-navy">Password</h2>
-        <label className="grid gap-1.5 text-sm">
-          <span className="font-semibold text-navy">Current password</span>
-          <input name="currentPassword" type="password" required className={fieldClass} />
-        </label>
-        <label className="grid gap-1.5 text-sm">
-          <span className="font-semibold text-navy">New password</span>
-          <input name="newPassword" type="password" required minLength={8} className={fieldClass} />
-        </label>
-        {passwordState.error ? <p className="text-sm text-red-700">{passwordState.error}</p> : null}
-        {passwordState.saved ? <p className="text-sm text-emerald-700">Password updated.</p> : null}
-        <button disabled={passwordPending} className="w-fit rounded-xl bg-navy px-4 py-2.5 text-sm font-semibold text-white">
-          Update password
-        </button>
-      </form>
+      <p className="text-sm text-muted">
+        To change the admin sign-in password, open{" "}
+        <Link href="/admin/account" className="font-semibold text-navy underline">
+          Account
+        </Link>
+        .
+      </p>
     </div>
   );
 }

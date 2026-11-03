@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
+import { GoogleTag } from "@/components/google-tag";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -27,7 +28,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${jakarta.variable} ${fraunces.variable} h-full`}>
-      <body className="flex min-h-full flex-col font-sans text-ink antialiased">{children}</body>
+      <body className="flex min-h-full flex-col font-sans text-ink antialiased">
+        <GoogleTag />
+        {children}
+      </body>
     </html>
   );
 }

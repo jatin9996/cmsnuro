@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarCheck, ExternalLink, LayoutDashboard, LogOut, MessageSquare, Settings } from "lucide-react";
+import { CalendarCheck, ExternalLink, KeyRound, LayoutDashboard, LogOut, MessageSquare, Settings } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logout } from "@/actions/auth";
@@ -12,7 +12,10 @@ import { cn } from "@/lib/utils";
 const groups = [
   {
     label: "Overview",
-    items: [{ href: "/admin", label: "Dashboard", icon: "LayoutDashboard" }],
+    items: [
+      { href: "/admin", label: "Dashboard", icon: "LayoutDashboard" },
+      { href: "/admin/account", label: "Account", icon: "KeyRound" },
+    ],
   },
   {
     label: "Clinic",
@@ -30,7 +33,7 @@ const groups = [
   },
 ];
 
-const glyphs = { LayoutDashboard, CalendarCheck, MessageSquare, Settings };
+const glyphs = { LayoutDashboard, CalendarCheck, MessageSquare, Settings, KeyRound };
 
 function NavGroups({ pathname }: { pathname: string }) {
   return (
@@ -93,6 +96,9 @@ export function AdminShell({ name, email, children }: { name: string; email: str
             <p className="truncate text-xs text-muted">{email}</p>
           </div>
           <div className="flex items-center gap-1 sm:gap-2">
+            <Link href="/admin/account" className="inline-flex min-h-10 items-center gap-1 rounded-xl px-2 py-2 text-sm font-semibold text-navy hover:bg-canvas sm:px-3">
+              <KeyRound className="h-4 w-4" /> <span className="hidden sm:inline">Password</span>
+            </Link>
             <Link href="/" target="_blank" className="inline-flex min-h-10 items-center gap-1 rounded-xl px-2 py-2 text-sm font-semibold text-navy hover:bg-canvas sm:px-3">
               <span className="hidden sm:inline">View site</span>
               <ExternalLink className="h-4 w-4" />

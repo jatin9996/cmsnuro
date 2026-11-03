@@ -17,7 +17,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         </div>
         {process.env.NODE_ENV !== "production" ? (
           <p className="mt-5 rounded-2xl bg-cream px-3 py-2 text-xs leading-5 text-navy">
-            Sample login: admin@kairavshah.local / Admin@12345. Change this password before the site is shared.
+            Sample login: kairav3285@gmail.com / Admin@1234. Change this password before the site is shared.
           </p>
         ) : null}
       </section>

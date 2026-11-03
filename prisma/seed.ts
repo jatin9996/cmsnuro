@@ -50,16 +50,36 @@ const facialPainPage = {
 };
 
 async function main() {
-  const adminCount = await prisma.admin.count();
-  await seedIfEmpty("admin", adminCount, () =>
-    prisma.admin.create({
+  const adminEmail = "kairav3285@gmail.com";
+  const adminPasswordHash = bcrypt.hashSync("Admin@1234", 12);
+  const existingAdmin = await prisma.admin.findFirst({ orderBy: { createdAt: "asc" } });
+  if (!existingAdmin) {
+    await prisma.admin.create({
       data: {
         name: "Clinic admin",
-        email: "admin@kairavshah.local",
-        passwordHash: bcrypt.hashSync("Admin@12345", 12),
+        email: adminEmail,
+        passwordHash: adminPasswordHash,
       },
-    }),
-  );
+    });
+    console.log("seeded admin");
+  } else {
+    const needsEmail = existingAdmin.email !== adminEmail;
+    const hadOldSamplePassword = await bcrypt.compare("Admin@12345", existingAdmin.passwordHash);
+    const migratingFromOldLogin = existingAdmin.email === "admin@kairavshah.local";
+    const needsPassword = migratingFromOldLogin || hadOldSamplePassword;
+    if (needsEmail || needsPassword) {
+      await prisma.admin.update({
+        where: { id: existingAdmin.id },
+        data: {
+          ...(needsEmail ? { email: adminEmail } : {}),
+          ...(needsPassword ? { passwordHash: adminPasswordHash } : {}),
+        },
+      });
+      console.log("updated admin login");
+    } else {
+      console.log("kept admin");
+    }
+  }
 
   const settingsCount = await prisma.siteSetting.count();
   await seedIfEmpty("settings", settingsCount, () =>
