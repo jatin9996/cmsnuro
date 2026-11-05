@@ -4,16 +4,17 @@ import { notFound } from "next/navigation";
 import { RichText } from "@/components/public/rich-text";
 import { Container, MediaImage, MedicalNote, PageHero, btnOnDark } from "@/components/public/ui";
 import { getCondition } from "@/lib/queries";
-import { contentMetadata } from "@/lib/seo";
+import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const condition = await getCondition(slug);
-  return contentMetadata({
-    fallbackTitle: condition?.title ?? "Treatment",
-    seoTitle: condition?.seoTitle,
-    description: condition?.seoDescription || condition?.summary,
-    image: condition?.image,
+  return metadataFor(`/treatments/${slug}`, {
+    title: condition ? `${condition.title} | Dr. Kairav Shah, Ahmedabad` : "Treatment",
+    description: condition?.seoDescription || condition?.summary || "",
+    keywords: condition ? `${condition.title}, neurosurgeon Ahmedabad, NEUROKALP, Dr. Kairav Shah` : "",
+    h1: condition?.title || "Treatment",
+    h2: condition?.summary || "How this condition is assessed",
   });
 }
 
@@ -21,10 +22,15 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
   const { slug } = await params;
   const condition = await getCondition(slug);
   if (!condition) notFound();
+  const meta = await resolvePageMeta(`/treatments/${slug}`, {
+    title: condition.title,
+    h1: condition.title,
+    h2: condition.summary || "How this condition is assessed",
+  });
 
   return (
     <Container className="space-y-6 py-6 sm:py-8">
-      <PageHero eyebrow="Treatment" title={condition.title} description={condition.summary} crumbs={[{ href: "/", label: "Home" }, { href: "/treatments", label: "Treatments" }, { href: `/treatments/${condition.slug}`, label: condition.title }]} />
+      <PageHero eyebrow="Treatment" title={meta.h1} h2={meta.h2} description={condition.summary} crumbs={[{ href: "/", label: "Home" }, { href: "/treatments", label: "Treatments" }, { href: `/treatments/${condition.slug}`, label: condition.title }]} />
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
         <article className="space-y-6 rounded-3xl bg-white p-4 ring-1 ring-navy/5 sm:rounded-[28px] sm:p-8">
           {condition.image ? <MediaImage src={condition.image} alt="" className="h-64 w-full rounded-3xl" /> : null}

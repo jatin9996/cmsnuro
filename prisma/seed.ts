@@ -942,6 +942,67 @@ async function main() {
       await prisma.galleryItem.create({ data: { ...photo, published: true } });
     }
   }
+
+  const pageMeta = [
+    ["/", "Neurosurgeon in Ahmedabad | Dr. Kairav Shah | NEUROKALP", "Consultant neurosurgeon in Ahmedabad for brain and spine conditions. Consultations at NEUROKALP, Ellisbridge.", "neurosurgeon Ahmedabad, brain surgeon Ahmedabad, spine surgeon Ahmedabad, Dr. Kairav Shah, NEUROKALP", "Advanced Neurosurgery for a Healthier Tomorrow", "Brain and spine care at NEUROKALP"],
+    ["/about", "About Dr. Kairav Shah | Neurosurgeon in Ahmedabad", "Qualifications, training, and neurosurgical experience of Dr. Kairav Shah, consultant neurosurgeon at NEUROKALP, Ahmedabad.", "Dr. Kairav Shah, neurosurgeon Ahmedabad, NEUROKALP, MCh neurosurgery", "Dr. Kairav Shah", "Consultant neurosurgeon for brain and spine"],
+    ["/treatments", "Brain and Spine Treatments | Dr. Kairav Shah, Ahmedabad", "Conditions treated at NEUROKALP, including migraine, spine pain, brain tumours, head injury, and trigeminal neuralgia.", "brain treatment Ahmedabad, spine treatment Ahmedabad, neurosurgery clinic, NEUROKALP", "Conditions We Treat", "Brain, spine, and nervous system care"],
+    ["/contact", "Contact NEUROKALP | Neurosurgeon in Ahmedabad", "Clinic address, consulting hours, and contact form for NEUROKALP Brain and Spine Clinic, Ellisbridge, Ahmedabad.", "NEUROKALP contact, neurosurgeon Ellisbridge, clinic Ahmedabad, Dr. Kairav Shah appointment", "Talk to the Clinic", "NEUROKALP, Ellisbridge, Ahmedabad"],
+    ["/book", "Book an Appointment | Dr. Kairav Shah, Ahmedabad", "Request a consultation at NEUROKALP. The clinic confirms the time by phone. Sunday is closed.", "book neurosurgeon Ahmedabad, NEUROKALP appointment, Dr. Kairav Shah consultation", "Book an Appointment", "Request a consultation at NEUROKALP"],
+    ["/videos", "Talks and Reels | Dr. Kairav Shah", "YouTube talks and Instagram reels from Dr. Kairav Shah on brain and spine health.", "neurosurgery talks, Dr. Kairav Shah YouTube, brain health videos, spine education", "Talks and Reels", "Films on brain and spine health"],
+    ["/achievements", "Achievements | Dr. Kairav Shah, Neurosurgeon", "Awards, gold medals, and recognition received by Dr. Kairav Shah for neurosurgery and academic work.", "Dr. Kairav Shah awards, neurosurgery gold medal, medical excellence award Gujarat", "Achievements", "Awards and academic recognition"],
+    ["/gallery", "Gallery | NEUROKALP, Ahmedabad", "Photographs from the clinic, operating theatre, conferences, and community work at NEUROKALP.", "NEUROKALP gallery, neurosurgery clinic Ahmedabad, Dr. Kairav Shah photographs", "Moments That Inspire", "Clinic, theatre, and community"],
+    ["/blog", "Brain and Spine Articles | Dr. Kairav Shah", "Patient guides on brain tumour symptoms, spine surgery, and early stroke signs from NEUROKALP, Ahmedabad.", "brain tumour symptoms, spine surgery, stroke signs, neurosurgery blog Ahmedabad", "Blog and Health Notes", "Guides for patients and families"],
+    ["/media", "Media and Press | Dr. Kairav Shah", "Interviews, articles, and films featuring Dr. Kairav Shah and NEUROKALP.", "Dr. Kairav Shah media, neurosurgery interview, NEUROKALP press", "Media and Press", "Interviews, articles, and films"],
+    ["/patient-stories", "Patient Stories | NEUROKALP, Ahmedabad", "Stories shared with consent by people treated for brain and spine conditions at NEUROKALP.", "patient stories neurosurgery, NEUROKALP experiences, brain surgery recovery stories", "Patient Stories", "Experiences shared with consent"],
+    ["/privacy", "Privacy Policy | NEUROKALP", "How NEUROKALP handles appointment requests, messages, and information shared through this website.", "NEUROKALP privacy policy, clinic data, appointment privacy", "Privacy Policy", "How this website handles information"],
+    ["/terms", "Terms and Conditions | NEUROKALP", "Terms for using the NEUROKALP website, including appointment requests and health information.", "NEUROKALP terms, website terms, clinic information", "Terms and Conditions", "Using this website"],
+    ["/site-map", "Sitemap | NEUROKALP", "A list of the public pages on the NEUROKALP website.", "NEUROKALP sitemap, Dr. Kairav Shah pages", "Sitemap", "Public pages on this website"],
+  ];
+
+  const conditions = await prisma.condition.findMany();
+  for (const item of conditions) {
+    pageMeta.push([
+      `/treatments/${item.slug}`,
+      item.seoTitle || `${item.title} | Dr. Kairav Shah, Ahmedabad`,
+      (item.seoDescription || item.summary).slice(0, 320),
+      `${item.title}, neurosurgeon Ahmedabad, NEUROKALP, Dr. Kairav Shah`,
+      item.title,
+      (item.summary || "How this condition is assessed").slice(0, 180),
+    ]);
+  }
+  const posts = await prisma.post.findMany();
+  for (const item of posts) {
+    pageMeta.push([
+      `/blog/${item.slug}`,
+      item.seoTitle || `${item.title} | Dr. Kairav Shah`,
+      (item.seoDescription || item.excerpt).slice(0, 320),
+      `${item.title}, ${item.category}, Dr. Kairav Shah, NEUROKALP`,
+      item.title,
+      item.excerpt.slice(0, 180),
+    ]);
+  }
+  const pages = await prisma.page.findMany();
+  for (const item of pages) {
+    const path = item.slug === "about" || item.slug === "privacy" || item.slug === "terms" ? `/${item.slug}` : `/p/${item.slug}`;
+    if (pageMeta.some((row) => row[0] === path)) continue;
+    pageMeta.push([
+      path,
+      item.seoTitle || `${item.title} | NEUROKALP`,
+      (item.seoDescription || item.excerpt).slice(0, 320),
+      `${item.title}, NEUROKALP, Dr. Kairav Shah`,
+      item.title,
+      (item.excerpt || "NEUROKALP").slice(0, 180),
+    ]);
+  }
+
+  for (const [index, row] of pageMeta.entries()) {
+    const [path, title, description, keywords, h1, h2] = row;
+    const existing = await prisma.pageMeta.findUnique({ where: { path } });
+    if (existing) continue;
+    await prisma.pageMeta.create({ data: { path, title, description, keywords, h1, h2, sortOrder: index, published: true } });
+  }
+  console.log(`page meta ready: ${pageMeta.length}`);
 }
 
 main()

@@ -48,6 +48,15 @@ const seoFields: Field[] = [
   { name: "seoDescription", label: "Search description", type: "textarea", rows: 3, max: 320, help: "Leave blank to use the summary or excerpt." },
 ];
 
+const pageMetaFields: Field[] = [
+  { name: "path", label: "Page address", type: "text", required: true, max: 180, placeholder: "/about", help: "The public path, starting with /. Example: /contact or /treatments/migraine." },
+  { name: "title", label: "Title", type: "text", required: true, max: 160, help: "The title shown in the browser tab and in Google." },
+  { name: "description", label: "Description", type: "textarea", required: true, rows: 3, max: 320, help: "The short summary search engines can show under the title." },
+  { name: "keywords", label: "Keywords", type: "textarea", rows: 2, max: 500, help: "Separate keywords with commas." },
+  { name: "h1", label: "H1 tag", type: "text", required: true, max: 180, help: "The main heading on the page. Use one H1." },
+  { name: "h2", label: "H2 tag", type: "text", required: true, max: 180, help: "The supporting heading under the H1." },
+];
+
 export const GALLERY_CATEGORIES = [
   "Hospital",
   "Operation Theatre",
@@ -57,6 +66,20 @@ export const GALLERY_CATEGORIES = [
 ];
 
 export const resources: ResourceConfig[] = [
+  {
+    slug: "page-meta",
+    model: "pageMeta",
+    title: "Meta tags",
+    description: "Title, description, keywords, H1, and H2 for every public page.",
+    icon: "Search",
+    columns: [
+      { key: "path", label: "Page" },
+      { key: "title", label: "Title" },
+      { key: "h1", label: "H1" },
+      { key: "published", label: "Live", kind: "bool" },
+    ],
+    fields: [...pageMetaFields, sortOrder, published],
+  },
   {
     slug: "seo",
     model: "seoTag",

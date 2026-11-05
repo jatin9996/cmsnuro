@@ -1,15 +1,28 @@
 import type { Metadata } from "next";
+
 import { Icon } from "@/components/icon";
 import { Container, MediaImage, PageHero } from "@/components/public/ui";
 import { getSettings } from "@/lib/queries";
+import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
 import { prisma } from "@/lib/db";
 
-export const metadata: Metadata = { title: "Achievements" };
+const achievementsFallback = {
+  title: "Achievements | Dr. Kairav Shah, Neurosurgeon",
+  description: "Awards, gold medals, and recognition received by Dr. Kairav Shah for neurosurgery and academic work.",
+  keywords: "Dr. Kairav Shah awards, neurosurgery gold medal, medical excellence award Gujarat",
+  h1: "Achievements",
+  h2: "Awards and academic recognition",
+};
+
+export function generateMetadata(): Promise<Metadata> {
+  return metadataFor("/achievements", achievementsFallback);
+}
 
 export default async function AchievementsPage() {
-  const [items, settings] = await Promise.all([
+  const [items, settings, meta] = await Promise.all([
     prisma.achievement.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" } }),
     getSettings(),
+    resolvePageMeta("/achievements", achievementsFallback),
   ]);
   const meetings = items.filter((item) => /Prime Minister|Chief Minister/.test(item.title));
   const rest = items.filter((item) => !meetings.includes(item));
@@ -18,7 +31,8 @@ export default async function AchievementsPage() {
     <Container className="space-y-6 py-6 sm:py-8">
       <PageHero
         eyebrow="Recognition"
-        title="Achievements"
+        title={meta.h1}
+        h2={meta.h2}
         description={settings?.achievementQuote}
         crumbs={[{ href: "/", label: "Home" }, { href: "/achievements", label: "Achievements" }]}
       />

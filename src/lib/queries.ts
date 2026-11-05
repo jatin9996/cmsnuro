@@ -1,10 +1,10 @@
 import { cache } from "react";
-import { prisma } from "@/lib/db";
+import { prisma, withDb } from "@/lib/db";
 import { contentDelegate, type ContentModel } from "@/lib/delegate";
 
 export const getSettings = cache(async () => {
   try {
-    return await prisma.siteSetting.findUnique({ where: { id: 1 } });
+    return await withDb(() => prisma.siteSetting.findUnique({ where: { id: 1 } }));
   } catch (error) {
     console.error(error);
     return null;
@@ -13,7 +13,7 @@ export const getSettings = cache(async () => {
 
 export const getSeoTags = cache(async () => {
   try {
-    return await prisma.seoTag.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" } });
+    return await withDb(() => prisma.seoTag.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" } }));
   } catch (error) {
     console.error(error);
     return [];
@@ -23,7 +23,7 @@ export const getSeoTags = cache(async () => {
 export async function getHomeData() {
   const settings = await getSettings();
   if (!settings) return null;
-  const [slides, stats, conditions, stories, achievements, videos, press, gallery, posts, social] = await Promise.all([
+  const [slides, stats, conditions, stories, achievements, videos, press, gallery, posts, social] = await withDb(() => Promise.all([
     prisma.heroSlide.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" } }),
     prisma.stat.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" } }),
     prisma.condition.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" } }),
@@ -34,20 +34,20 @@ export async function getHomeData() {
     prisma.galleryItem.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" } }),
     prisma.post.findMany({ where: { published: true }, orderBy: [{ sortOrder: "asc" }, { publishedOn: "desc" }] }),
     prisma.socialUpdate.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" } }),
-  ]);
+  ]));
   return { settings, slides, stats, conditions, stories, achievements, videos, press, gallery, posts, social };
 }
 
 export async function getPage(slug: string) {
-  return prisma.page.findFirst({ where: { slug, published: true } });
+  return withDb(() => prisma.page.findFirst({ where: { slug, published: true } }));
 }
 
 export async function getCondition(slug: string) {
-  return prisma.condition.findFirst({ where: { slug, published: true } });
+  return withDb(() => prisma.condition.findFirst({ where: { slug, published: true } }));
 }
 
 export async function getPost(slug: string) {
-  return prisma.post.findFirst({ where: { slug, published: true } });
+  return withDb(() => prisma.post.findFirst({ where: { slug, published: true } }));
 }
 
 export function listResource(model: ContentModel) {
