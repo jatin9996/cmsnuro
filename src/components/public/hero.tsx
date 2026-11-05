@@ -13,6 +13,7 @@ export function Hero({
   slides,
   eyebrow,
   title,
+  heading2,
   subtitle,
   quote,
   author,
@@ -24,6 +25,7 @@ export function Hero({
   slides: Slide[];
   eyebrow: string;
   title: string;
+  heading2?: string;
   subtitle: string;
   quote: string;
   author: string;
@@ -62,6 +64,7 @@ export function Hero({
       <div className={cn("relative z-10 flex min-w-0 flex-col justify-center px-4 py-7 pb-10 sm:px-8 sm:py-10 lg:px-12 lg:pr-20", portrait && "xl:pr-52")}>
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/75">{eyebrow}</p>
         <h1 className="mt-3 max-w-xl whitespace-pre-line text-balance text-[1.65rem] font-semibold leading-[1.08] tracking-tight min-[380px]:text-[1.85rem] sm:mt-4 sm:text-4xl lg:text-5xl">{title}</h1>
+        {heading2 ? <h2 className="mt-3 max-w-xl text-lg font-semibold text-white/90 sm:text-xl">{heading2}</h2> : null}
         <p className="mt-3 max-w-xl text-sm leading-6 text-white/85 sm:mt-4 sm:text-base">{subtitle}</p>
         <div className="mt-5 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap sm:mt-6">
           <Link href="/book" className={`${btnOnDark} w-full min-[420px]:w-auto`}>

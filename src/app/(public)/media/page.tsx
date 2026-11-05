@@ -1,18 +1,31 @@
 import type { Metadata } from "next";
+
 import { PlayOverlay } from "@/components/public/overlays";
 import { Container, MediaImage, PageHero } from "@/components/public/ui";
 import { prisma } from "@/lib/db";
+import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
 
-export const metadata: Metadata = { title: "Media" };
+const mediaFallback = {
+  title: "Media and Press | Dr. Kairav Shah",
+  description: "Interviews, articles, and films featuring Dr. Kairav Shah and NEUROKALP.",
+  keywords: "Dr. Kairav Shah media, neurosurgery interview, NEUROKALP press",
+  h1: "Media and Press",
+  h2: "Interviews, articles, and films",
+};
+
+export function generateMetadata(): Promise<Metadata> {
+  return metadataFor("/media", mediaFallback);
+}
 
 export default async function MediaPage() {
-  const [press, videos] = await Promise.all([
+  const [press, videos, meta] = await Promise.all([
     prisma.pressItem.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" } }),
     prisma.video.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" } }),
+    resolvePageMeta("/media", mediaFallback),
   ]);
   return (
     <Container className="space-y-6 py-6 sm:py-8">
-      <PageHero eyebrow="In the news" title="Media and press" description="Interviews, articles, and films." crumbs={[{ href: "/", label: "Home" }, { href: "/media", label: "Media" }]} />
+      <PageHero eyebrow="In the news" title={meta.h1} h2={meta.h2} description="Interviews, articles, and films." crumbs={[{ href: "/", label: "Home" }, { href: "/media", label: "Media" }]} />
       <div className="grid gap-4 md:grid-cols-2">
         {press.map((item) => (
           <article key={item.id} className="rounded-[28px] bg-white p-6 ring-1 ring-navy/5">

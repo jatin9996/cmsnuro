@@ -63,6 +63,18 @@ model SiteSetting {
   updatedAt          DateTime @updatedAt
 }
 
+model PageMeta {
+  id          String  @id @default(cuid())
+  path        String  @unique
+  title       String  @default("")
+  description String  @default("")
+  keywords    String  @default("")
+  h1          String  @default("")
+  h2          String  @default("")
+  sortOrder   Int     @default(0)
+  published   Boolean @default(true)
+}
+
 model SeoTag {
   id        String  @id @default(cuid())
   attribute String  @default("name")

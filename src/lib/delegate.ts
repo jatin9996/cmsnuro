@@ -12,6 +12,7 @@ export type ContentModel =
   | "post"
   | "socialUpdate"
   | "page"
+  | "pageMeta"
   | "seoTag";
 
 export type ContentRow = Record<string, unknown> & { id: string; sortOrder: number };

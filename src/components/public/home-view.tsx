@@ -31,7 +31,7 @@ function TrophyArt() {
   );
 }
 
-export function HomeView({ data }: { data: HomeData }) {
+export function HomeView({ data, heading }: { data: HomeData; heading?: { h1: string; h2: string } }) {
   const { settings } = data;
   const highlights = data.stats.filter((item) => item.group === "highlight");
   const aboutStats = data.stats.filter((item) => item.group === "about");
@@ -75,7 +75,8 @@ export function HomeView({ data }: { data: HomeData }) {
             <Hero
               slides={data.slides.map((slide) => ({ image: slide.image, alt: slide.alt, quote: slide.quote }))}
               eyebrow={settings.heroEyebrow}
-              title={settings.heroTitle}
+              title={heading?.h1 || settings.heroTitle}
+              heading2={heading?.h2}
               subtitle={settings.heroSubtitle}
               quote={settings.heroQuote}
               author={settings.heroQuoteAuthor}
@@ -102,7 +103,7 @@ export function HomeView({ data }: { data: HomeData }) {
           </div>
 
           <section>
-            <h2 className="text-center text-2xl font-semibold text-navy">Three pillars of treatment</h2>
+            <h2 className="text-center text-2xl font-semibold text-navy">Three Pillars of Treatment</h2>
             <div className="mt-4 grid gap-3 md:grid-cols-3">
               {[
                 {

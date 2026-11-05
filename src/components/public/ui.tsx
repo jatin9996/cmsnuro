@@ -62,11 +62,13 @@ export function PageHero({
   eyebrow,
   title,
   description,
+  h2,
   crumbs,
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
+  h2?: string;
   crumbs?: { href: string; label: string }[];
 }) {
   return (
@@ -85,6 +87,7 @@ export function PageHero({
       ) : null}
       {eyebrow ? <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">{eyebrow}</p> : null}
       <h1 className="mt-2 max-w-3xl text-balance text-2xl font-semibold tracking-tight sm:text-3xl lg:text-4xl">{title}</h1>
+      {h2 ? <h2 className="mt-3 max-w-3xl text-lg font-semibold text-white/90 sm:text-xl">{h2}</h2> : null}
       {description ? <p className="mt-3 max-w-2xl text-sm leading-6 text-white/75 sm:text-base">{description}</p> : null}
     </header>
   );

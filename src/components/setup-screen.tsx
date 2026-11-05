@@ -6,7 +6,7 @@ export function SetupScreen() {
         <h1 className="mt-2 text-2xl font-semibold text-navy">The database is not ready yet</h1>
         {process.env.VERCEL ? (
           <p className="mt-3 text-sm leading-6 text-muted">
-            The live site needs a Postgres database. In Vercel, open Storage, create a Postgres database, and confirm DATABASE_URL, DIRECT_URL, and AUTH_SECRET are set. Then redeploy.
+            The clinic records could not be loaded just now. Refresh the page. If this keeps happening, confirm the Postgres connection is set on the host and redeploy.
           </p>
         ) : (
           <>

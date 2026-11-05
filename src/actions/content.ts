@@ -13,6 +13,27 @@ export type ActionResult = { ok: true } | { ok: false; error: string };
 
 const SLUG_MODELS = new Set<ContentModel>(["condition", "video", "post", "page"]);
 
+async function ensurePageMeta(model: ContentModel, data: Record<string, unknown>) {
+  const slug = typeof data.slug === "string" ? data.slug : "";
+  const title = typeof data.title === "string" ? data.title : "";
+  if (!slug || !title) return;
+  const path = model === "condition" ? `/treatments/${slug}` : model === "post" ? `/blog/${slug}` : model === "page" ? (slug === "about" || slug === "privacy" || slug === "terms" ? `/${slug}` : `/p/${slug}`) : "";
+  if (!path) return;
+  const existing = await prisma.pageMeta.findUnique({ where: { path } });
+  if (existing) return;
+  const summary = typeof data.summary === "string" ? data.summary : typeof data.excerpt === "string" ? data.excerpt : "";
+  await prisma.pageMeta.create({
+    data: {
+      path,
+      title: `${title} | Dr. Kairav Shah`,
+      description: summary.slice(0, 320),
+      keywords: `${title}, NEUROKALP, Dr. Kairav Shah`,
+      h1: title,
+      h2: summary.slice(0, 180) || "NEUROKALP",
+    },
+  });
+}
+
 function refresh() {
   revalidatePath("/", "layout");
   revalidatePath("/admin", "layout");
@@ -48,6 +69,17 @@ export async function saveResource(resource: string, input: unknown): Promise<Ac
     data.slug = await uniqueSlug(config.model, String(data.slug || data.title || "page"), id);
   }
 
+  if (config.model === "pageMeta") {
+    const path = String(data.path || "");
+    if (!path.startsWith("/") || /\s/.test(path)) {
+      return { ok: false, error: "Page address must start with / and contain no spaces." };
+    }
+    const duplicate = await prisma.pageMeta.findFirst({
+      where: { path, ...(id ? { id: { not: id } } : {}) },
+    });
+    if (duplicate) return { ok: false, error: "That page already has a meta section. Edit the existing one." };
+  }
+
   if (config.model === "seoTag") {
     const key = String(data.key);
     if (!/^[A-Za-z][A-Za-z0-9_:.\-]{0,79}$/.test(key)) {
@@ -66,6 +98,7 @@ export async function saveResource(resource: string, input: unknown): Promise<Ac
     const delegate = contentDelegate(config.model);
     if (id) await delegate.update({ where: { id }, data });
     else await delegate.create({ data });
+    await ensurePageMeta(config.model, data);
   } catch (error) {
     console.error(error);
     return { ok: false, error: "Could not save that item. Check for a duplicate address." };

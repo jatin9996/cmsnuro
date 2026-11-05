@@ -66,16 +66,23 @@ export function contentMetadata(input: {
   fallbackTitle: string;
   seoTitle?: string | null;
   description?: string | null;
+  keywords?: string | null;
   image?: string | null;
 }): Metadata {
   const title = input.seoTitle?.trim();
   const description = input.description?.trim();
   const image = input.image?.trim();
+  const keywords = (input.keywords || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const resolvedTitle = title || input.fallbackTitle;
   return {
-    title: title ? { absolute: title } : input.fallbackTitle,
+    title: { absolute: resolvedTitle },
     description: description || undefined,
+    keywords: keywords.length ? keywords : undefined,
     openGraph: {
-      title: title || input.fallbackTitle,
+      title: resolvedTitle,
       description: description || undefined,
       images: image ? [{ url: image }] : undefined,
     },

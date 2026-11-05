@@ -5,30 +5,34 @@ import { RichText } from "@/components/public/rich-text";
 import { DoctorCv } from "@/components/public/doctor-cv";
 import { Container, MediaImage, PageHero, Panel } from "@/components/public/ui";
 import { getPage, getSettings } from "@/lib/queries";
-import { contentMetadata } from "@/lib/seo";
+import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
 import { prisma } from "@/lib/db";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPage("about");
-  return contentMetadata({
-    fallbackTitle: "About",
-    seoTitle: page?.seoTitle,
-    description: page?.seoDescription || page?.excerpt,
-  });
+const aboutFallback = {
+  title: "About Dr. Kairav Shah | Neurosurgeon in Ahmedabad",
+  description: "Qualifications, training, and neurosurgical experience of Dr. Kairav Shah, consultant neurosurgeon at NEUROKALP, Ahmedabad.",
+  keywords: "Dr. Kairav Shah, neurosurgeon Ahmedabad, NEUROKALP, MCh neurosurgery",
+  h1: "Dr. Kairav Shah",
+  h2: "Consultant neurosurgeon for brain and spine",
+};
+
+export function generateMetadata(): Promise<Metadata> {
+  return metadataFor("/about", aboutFallback);
 }
 
 export default async function AboutPage() {
-  const [settings, page, stats, conditions] = await Promise.all([
+  const [settings, page, stats, conditions, meta] = await Promise.all([
     getSettings(),
     getPage("about"),
     prisma.stat.findMany({ where: { published: true, group: "about" }, orderBy: { sortOrder: "asc" } }),
     prisma.condition.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" } }),
+    resolvePageMeta("/about", aboutFallback),
   ]);
   if (!settings) return null;
 
   return (
     <Container className="space-y-6 py-6 sm:py-8">
-      <PageHero eyebrow={settings.aboutEyebrow} title={settings.doctorName} description={settings.aboutDegrees} crumbs={[{ href: "/", label: "Home" }, { href: "/about", label: "About" }]} />
+      <PageHero eyebrow={settings.aboutEyebrow} title={meta.h1} h2={meta.h2} description={settings.aboutDegrees} crumbs={[{ href: "/", label: "Home" }, { href: "/about", label: "About" }]} />
       <Panel>
         <div className="grid items-start gap-6 md:grid-cols-[200px_minmax(0,1fr)]">
           <MediaImage src={settings.aboutImage} alt={`${settings.doctorName}, ${settings.roleTitle}`} objectPosition="center 18%" className="mx-auto aspect-[3/4] w-full max-w-[220px] rounded-[24px] md:mx-0" />
