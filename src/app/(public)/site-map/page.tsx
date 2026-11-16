@@ -7,8 +7,8 @@ import { prisma } from "@/lib/db";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
 
 const sitemapFallback = {
-  title: "Sitemap | NEUROKALP",
-  description: "A list of the public pages on the NEUROKALP website.",
+  title: "Website Sitemap | NEUROKALP Ahmedabad",
+  description: "Browse the NEUROKALP website sitemap to find information about treatments, Dr. Kairav Shah, health articles, videos, achievements and contact details.",
   keywords: "NEUROKALP sitemap, Dr. Kairav Shah pages",
   h1: "Sitemap",
   h2: "Public pages on this website",

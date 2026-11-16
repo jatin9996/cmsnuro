@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const condition = await getCondition(slug);
   return metadataFor(`/treatments/${slug}`, {
-    title: condition ? `${condition.title} | Dr. Kairav Shah, Ahmedabad` : "Treatment",
+    title: condition?.seoTitle || (condition ? `${condition.title} | Dr. Kairav Shah, Ahmedabad` : "Treatment"),
     description: condition?.seoDescription || condition?.summary || "",
     keywords: condition ? `${condition.title}, neurosurgeon Ahmedabad, NEUROKALP, Dr. Kairav Shah` : "",
     h1: condition?.title || "Treatment",

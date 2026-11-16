@@ -7,8 +7,8 @@ import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
 import { prisma } from "@/lib/db";
 
 const achievementsFallback = {
-  title: "Achievements | Dr. Kairav Shah, Neurosurgeon",
-  description: "Awards, gold medals, and recognition received by Dr. Kairav Shah for neurosurgery and academic work.",
+  title: "Dr. Kairav Shah | Awards and Achievements | NEUROKALP",
+  description: "Explore the awards, professional milestones and academic recognition of Dr. Kairav Shah, Consultant Neurosurgeon at NEUROKALP, Ahmedabad.",
   keywords: "Dr. Kairav Shah awards, neurosurgery gold medal, medical excellence award Gujarat",
   h1: "Achievements",
   h2: "Awards and academic recognition",

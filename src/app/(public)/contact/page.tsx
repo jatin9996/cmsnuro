@@ -9,7 +9,7 @@ import { describeHours } from "@/lib/utils";
 
 const contactFallback = {
   title: "Contact NEUROKALP | Neurosurgeon in Ahmedabad",
-  description: "Clinic address, consulting hours, and contact form for NEUROKALP Brain and Spine Clinic, Ellisbridge, Ahmedabad.",
+  description: "Contact NEUROKALP to enquire about a consultation with Dr. Kairav Shah. Find our clinic address, phone number and appointment information in Ahmedabad.",
   keywords: "NEUROKALP contact, neurosurgeon Ellisbridge, clinic Ahmedabad, Dr. Kairav Shah appointment",
   h1: "Talk to the Clinic",
   h2: "NEUROKALP, Ellisbridge, Ahmedabad",

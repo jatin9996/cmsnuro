@@ -7,7 +7,7 @@ import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
 
 const privacyFallback = {
   title: "Privacy Policy | NEUROKALP",
-  description: "How NEUROKALP handles appointment requests, messages, and information shared through this website.",
+  description: "Read the NEUROKALP privacy policy to understand how information submitted through our website and contact forms is handled.",
   keywords: "NEUROKALP privacy policy, clinic data, appointment privacy",
   h1: "Privacy Policy",
   h2: "How this website handles information",

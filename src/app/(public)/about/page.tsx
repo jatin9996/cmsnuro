@@ -9,8 +9,8 @@ import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
 import { prisma } from "@/lib/db";
 
 const aboutFallback = {
-  title: "About Dr. Kairav Shah | Neurosurgeon in Ahmedabad",
-  description: "Qualifications, training, and neurosurgical experience of Dr. Kairav Shah, consultant neurosurgeon at NEUROKALP, Ahmedabad.",
+  title: "Dr. Kairav Shah | Consultant Neurosurgeon in Ahmedabad",
+  description: "Learn about Dr. Kairav Shah, Consultant Neurosurgeon with over 15 years of experience in complex brain and spine surgery at NEUROKALP, Ahmedabad.",
   keywords: "Dr. Kairav Shah, neurosurgeon Ahmedabad, NEUROKALP, MCh neurosurgery",
   h1: "Dr. Kairav Shah",
   h2: "Consultant neurosurgeon for brain and spine",

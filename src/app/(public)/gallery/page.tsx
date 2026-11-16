@@ -6,8 +6,8 @@ import { prisma } from "@/lib/db";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
 
 const galleryFallback = {
-  title: "Gallery | NEUROKALP, Ahmedabad",
-  description: "Photographs from the clinic, operating theatre, conferences, and community work at NEUROKALP.",
+  title: "NEUROKALP Gallery | Clinic, Surgery and Events",
+  description: "View photos from NEUROKALP, including the clinic, operating theatre, professional conferences, community events and Dr. Kairav Shah's activities.",
   keywords: "NEUROKALP gallery, neurosurgery clinic Ahmedabad, Dr. Kairav Shah photographs",
   h1: "Moments That Inspire",
   h2: "Clinic, theatre, and community",

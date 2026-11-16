@@ -21,14 +21,76 @@ const symptoms = `## Reasons people ask for a review\n\n- A new or worsening sym
 
 const treatment = `## What a consultation usually covers\n\n- The history and a focused examination\n- The scans already done, and whether more are useful\n- The choices: observation, medicine, or an operation, with the risks of each\n\nAn operation is one option among others. It is recommended only when the expected benefit is clear.`;
 
+const conditionSeo = {
+  migraine: {
+    seoTitle: "Migraine Specialist in Ahmedabad | NEUROKALP",
+    seoDescription:
+      "Looking for migraine care in Ahmedabad? Learn about migraine symptoms, assessment and treatment options with Dr. Kairav Shah at NEUROKALP.",
+  },
+  "neck-pain": {
+    seoTitle: "Neck Pain Specialist in Ahmedabad | NEUROKALP",
+    seoDescription:
+      "Get expert assessment for neck pain in Ahmedabad. Explore possible causes, diagnosis and spine care options with Dr. Kairav Shah at NEUROKALP.",
+  },
+  "back-pain": {
+    seoTitle: "Back Pain Specialist in Ahmedabad | NEUROKALP",
+    seoDescription:
+      "Learn about back pain causes, diagnosis and treatment options in Ahmedabad. Consult Dr. Kairav Shah at NEUROKALP for specialist spine care.",
+  },
+  sciatica: {
+    seoTitle: "Sciatica Treatment in Ahmedabad | NEUROKALP",
+    seoDescription:
+      "Explore sciatica symptoms, nerve pain assessment and spine care options in Ahmedabad. Consult Dr. Kairav Shah at NEUROKALP for specialist guidance.",
+  },
+  "sleep-disorders": {
+    seoTitle: "Sleep Disorders Evaluation in Ahmedabad | NEUROKALP",
+    seoDescription:
+      "Understand common sleep disorders and available evaluation options. Explore sleep-related care and consultation at NEUROKALP, Ahmedabad.",
+  },
+  "brain-infections": {
+    seoTitle: "Brain Infection Specialist in Ahmedabad | NEUROKALP",
+    seoDescription:
+      "Learn about brain infections, their symptoms and diagnostic approaches. Explore specialist brain care with Dr. Kairav Shah at NEUROKALP, Ahmedabad.",
+  },
+  "trigeminal-neuralgia": {
+    seoTitle: "Trigeminal Neuralgia Treatment in Ahmedabad | NEUROKALP",
+    seoDescription:
+      "Get information about trigeminal neuralgia, facial pain symptoms and treatment options. Consult Dr. Kairav Shah at NEUROKALP, Ahmedabad.",
+  },
+  hydrocephalus: {
+    seoTitle: "Hydrocephalus Treatment in Ahmedabad | NEUROKALP",
+    seoDescription:
+      "Learn about hydrocephalus, its symptoms, diagnosis and surgical care options. Explore specialist neurosurgical consultation at NEUROKALP, Ahmedabad.",
+  },
+  "spine-tumours": {
+    seoTitle: "Spinal Tumor Specialist in Ahmedabad | NEUROKALP",
+    seoDescription:
+      "Explore spinal tumour symptoms, diagnosis and surgical treatment options in Ahmedabad. Consult Dr. Kairav Shah at NEUROKALP for specialist spine care.",
+  },
+  "head-injuries": {
+    seoTitle: "Head Injury Specialist in Ahmedabad | NEUROKALP",
+    seoDescription:
+      "Learn about head injury assessment, diagnosis and follow-up care. Explore specialist neurosurgical consultation with Dr. Kairav Shah in Ahmedabad.",
+  },
+  "road-traffic-accidents": {
+    seoTitle: "Neurosurgical Care After Road Accidents | Ahmedabad",
+    seoDescription:
+      "Explore assessment and follow-up care for head and spine injuries after road traffic accidents at NEUROKALP, Ahmedabad.",
+  },
+  "dementia-memory-disturbance": {
+    seoTitle: "Dementia and Memory Evaluation in Ahmedabad | NEUROKALP",
+    seoDescription:
+      "Learn about dementia, memory changes and available evaluation approaches. Explore specialist consultation at NEUROKALP, Ahmedabad.",
+  },
+} as const;
+
 const migrainePage = {
   title: "Migraine",
   slug: "migraine",
   summary: "Headache assessment and care",
   icon: "Activity",
   sortOrder: 0,
-  seoTitle: "Migraine",
-  seoDescription: "How migraine is recognised, when a headache needs urgent care, and what a consultation covers.",
+  ...conditionSeo.migraine,
   description:
     "Migraine is a recurring headache. An attack is often a one-sided, throbbing pain, with nausea, and light or sound can feel too strong. Some people notice a warning first, such as flashing lights, a change in vision, or tingling.\n\nA consultation is used to understand that pattern and to separate migraine from other causes of headache that need a different plan. Medicine and day-to-day changes are the usual care. An operation is not the standard treatment for migraine.\n\nThis page is general information. It does not say what any one person should do.",
   symptoms: `## Reasons people ask about migraine\n\n- Repeated headaches, often on one side of the head\n- Nausea, or sensitivity to light, sound, or smell with the pain\n- A warning of visual change, tingling, or trouble finding words before the pain\n- A headache that is new, suddenly the worst ever, or comes with weakness, confusion, a seizure, fever, or a stiff neck — these need urgent medical care`,
@@ -41,8 +103,7 @@ const facialPainPage = {
   summary: "Facial pain evaluation and care",
   icon: "Zap",
   sortOrder: 6,
-  seoTitle: "Trigeminal Neuralgia & Facial Pain",
-  seoDescription: "Sharp one-sided facial pain, how it is told apart from other face pain, and how a care plan is made.",
+  ...conditionSeo["trigeminal-neuralgia"],
   description:
     "Trigeminal neuralgia affects the nerve that supplies feeling to the face. It usually causes brief, very sharp pain on one side, often set off by light touch, washing, chewing, talking, or a breeze. Other kinds of facial pain feel different and have different causes, so the first task is to name the pain correctly.\n\nThis page is general information. It does not say what any one person should do.",
   symptoms: `## Reasons people ask about facial pain\n\n- Sudden, electric, or stabbing pain on one side of the face\n- Pain set off by touch, washing, talking, or eating\n- Pain that is constant, aching, or on both sides — this may be a different problem\n- New facial weakness, a rash, tooth pain, or pain after an injury`,
@@ -228,17 +289,17 @@ async function main() {
     prisma.condition.createMany({
       data: [
         migrainePage,
-        { title: "Neck pain", slug: "neck-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 1, description: overview("Neck pain"), symptoms, treatment },
-        { title: "Back pain", slug: "back-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 2, description: overview("Back pain"), symptoms, treatment },
-        { title: "Sciatica", slug: "sciatica", summary: "Nerve pain and spine care", icon: "Zap", sortOrder: 3, description: overview("Sciatica"), symptoms, treatment },
-        { title: "Sleep Disorders", slug: "sleep-disorders", summary: "Evaluation and management", icon: "Clock", sortOrder: 4, description: overview("Sleep disorders"), symptoms, treatment },
-        { title: "Brain Infections", slug: "brain-infections", summary: "Diagnosis and treatment", icon: "ShieldPlus", sortOrder: 5, description: overview("Brain infections"), symptoms, treatment },
+        { title: "Neck pain", slug: "neck-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 1, ...conditionSeo["neck-pain"], description: overview("Neck pain"), symptoms, treatment },
+        { title: "Back pain", slug: "back-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 2, ...conditionSeo["back-pain"], description: overview("Back pain"), symptoms, treatment },
+        { title: "Sciatica", slug: "sciatica", summary: "Nerve pain and spine care", icon: "Zap", sortOrder: 3, ...conditionSeo.sciatica, description: overview("Sciatica"), symptoms, treatment },
+        { title: "Sleep Disorders", slug: "sleep-disorders", summary: "Evaluation and management", icon: "Clock", sortOrder: 4, ...conditionSeo["sleep-disorders"], description: overview("Sleep disorders"), symptoms, treatment },
+        { title: "Brain Infections", slug: "brain-infections", summary: "Diagnosis and treatment", icon: "ShieldPlus", sortOrder: 5, ...conditionSeo["brain-infections"], description: overview("Brain infections"), symptoms, treatment },
         facialPainPage,
-        { title: "Hydrocephalus", slug: "hydrocephalus", summary: "Diagnosis and surgical care", icon: "Brain", sortOrder: 8, description: overview("Hydrocephalus"), symptoms, treatment },
-        { title: "Spine Tumours", slug: "spine-tumours", summary: "Diagnosis and surgical treatment", icon: "Bone", sortOrder: 9, description: overview("Spine tumours"), symptoms, treatment },
-        { title: "Head Injuries", slug: "head-injuries", summary: "Trauma care and follow-up", icon: "ShieldPlus", sortOrder: 10, description: overview("Head injuries"), symptoms, treatment },
-        { title: "Cases of Road Traffic Accidents", slug: "road-traffic-accidents", summary: "Trauma care and follow-up", icon: "Activity", sortOrder: 11, description: overview("Road traffic injuries"), symptoms, treatment },
-        { title: "Dementia memory disturbance", slug: "dementia-memory-disturbance", summary: "Evaluation of memory change", icon: "Brain", sortOrder: 12, description: overview("Dementia and memory disturbance"), symptoms, treatment },
+        { title: "Hydrocephalus", slug: "hydrocephalus", summary: "Diagnosis and surgical care", icon: "Brain", sortOrder: 8, ...conditionSeo.hydrocephalus, description: overview("Hydrocephalus"), symptoms, treatment },
+        { title: "Spine Tumours", slug: "spine-tumours", summary: "Diagnosis and surgical treatment", icon: "Bone", sortOrder: 9, ...conditionSeo["spine-tumours"], description: overview("Spine tumours"), symptoms, treatment },
+        { title: "Head Injuries", slug: "head-injuries", summary: "Trauma care and follow-up", icon: "ShieldPlus", sortOrder: 10, ...conditionSeo["head-injuries"], description: overview("Head injuries"), symptoms, treatment },
+        { title: "Cases of Road Traffic Accidents", slug: "road-traffic-accidents", summary: "Trauma care and follow-up", icon: "Activity", sortOrder: 11, ...conditionSeo["road-traffic-accidents"], description: overview("Road traffic injuries"), symptoms, treatment },
+        { title: "Dementia memory disturbance", slug: "dementia-memory-disturbance", summary: "Evaluation of memory change", icon: "Brain", sortOrder: 12, ...conditionSeo["dementia-memory-disturbance"], description: overview("Dementia and memory disturbance"), symptoms, treatment },
       ],
     }),
   );
@@ -249,17 +310,17 @@ async function main() {
     await prisma.condition.createMany({
       data: [
         migrainePage,
-        { title: "Neck pain", slug: "neck-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 1, description: overview("Neck pain"), symptoms, treatment },
-        { title: "Back pain", slug: "back-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 2, description: overview("Back pain"), symptoms, treatment },
-        { title: "Sciatica", slug: "sciatica", summary: "Nerve pain and spine care", icon: "Zap", sortOrder: 3, description: overview("Sciatica"), symptoms, treatment },
-        { title: "Sleep Disorders", slug: "sleep-disorders", summary: "Evaluation and management", icon: "Clock", sortOrder: 4, description: overview("Sleep disorders"), symptoms, treatment },
-        { title: "Brain Infections", slug: "brain-infections", summary: "Diagnosis and treatment", icon: "ShieldPlus", sortOrder: 5, description: overview("Brain infections"), symptoms, treatment },
+        { title: "Neck pain", slug: "neck-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 1, ...conditionSeo["neck-pain"], description: overview("Neck pain"), symptoms, treatment },
+        { title: "Back pain", slug: "back-pain", summary: "Diagnosis and spine care", icon: "Bone", sortOrder: 2, ...conditionSeo["back-pain"], description: overview("Back pain"), symptoms, treatment },
+        { title: "Sciatica", slug: "sciatica", summary: "Nerve pain and spine care", icon: "Zap", sortOrder: 3, ...conditionSeo.sciatica, description: overview("Sciatica"), symptoms, treatment },
+        { title: "Sleep Disorders", slug: "sleep-disorders", summary: "Evaluation and management", icon: "Clock", sortOrder: 4, ...conditionSeo["sleep-disorders"], description: overview("Sleep disorders"), symptoms, treatment },
+        { title: "Brain Infections", slug: "brain-infections", summary: "Diagnosis and treatment", icon: "ShieldPlus", sortOrder: 5, ...conditionSeo["brain-infections"], description: overview("Brain infections"), symptoms, treatment },
         facialPainPage,
-        { title: "Hydrocephalus", slug: "hydrocephalus", summary: "Diagnosis and surgical care", icon: "Brain", sortOrder: 8, description: overview("Hydrocephalus"), symptoms, treatment },
-        { title: "Spine Tumours", slug: "spine-tumours", summary: "Diagnosis and surgical treatment", icon: "Bone", sortOrder: 9, description: overview("Spine tumours"), symptoms, treatment },
-        { title: "Head Injuries", slug: "head-injuries", summary: "Trauma care and follow-up", icon: "ShieldPlus", sortOrder: 10, description: overview("Head injuries"), symptoms, treatment },
-        { title: "Cases of Road Traffic Accidents", slug: "road-traffic-accidents", summary: "Trauma care and follow-up", icon: "Activity", sortOrder: 11, description: overview("Road traffic injuries"), symptoms, treatment },
-        { title: "Dementia memory disturbance", slug: "dementia-memory-disturbance", summary: "Evaluation of memory change", icon: "Brain", sortOrder: 12, description: overview("Dementia and memory disturbance"), symptoms, treatment },
+        { title: "Hydrocephalus", slug: "hydrocephalus", summary: "Diagnosis and surgical care", icon: "Brain", sortOrder: 8, ...conditionSeo.hydrocephalus, description: overview("Hydrocephalus"), symptoms, treatment },
+        { title: "Spine Tumours", slug: "spine-tumours", summary: "Diagnosis and surgical treatment", icon: "Bone", sortOrder: 9, ...conditionSeo["spine-tumours"], description: overview("Spine tumours"), symptoms, treatment },
+        { title: "Head Injuries", slug: "head-injuries", summary: "Trauma care and follow-up", icon: "ShieldPlus", sortOrder: 10, ...conditionSeo["head-injuries"], description: overview("Head injuries"), symptoms, treatment },
+        { title: "Cases of Road Traffic Accidents", slug: "road-traffic-accidents", summary: "Trauma care and follow-up", icon: "Activity", sortOrder: 11, ...conditionSeo["road-traffic-accidents"], description: overview("Road traffic injuries"), symptoms, treatment },
+        { title: "Dementia memory disturbance", slug: "dementia-memory-disturbance", summary: "Evaluation of memory change", icon: "Brain", sortOrder: 12, ...conditionSeo["dementia-memory-disturbance"], description: overview("Dementia and memory disturbance"), symptoms, treatment },
       ],
     });
     console.log("replaced conditions");
@@ -943,29 +1004,38 @@ async function main() {
     }
   }
 
+  for (const [slug, seo] of Object.entries(conditionSeo)) {
+    const updated = await prisma.condition.updateMany({
+      where: { slug },
+      data: { seoTitle: seo.seoTitle, seoDescription: seo.seoDescription },
+    });
+    if (updated.count) console.log(`updated condition seo: ${slug}`);
+  }
+
   const pageMeta = [
-    ["/", "Neurosurgeon in Ahmedabad | Dr. Kairav Shah | NEUROKALP", "Consultant neurosurgeon in Ahmedabad for brain and spine conditions. Consultations at NEUROKALP, Ellisbridge.", "neurosurgeon Ahmedabad, brain surgeon Ahmedabad, spine surgeon Ahmedabad, Dr. Kairav Shah, NEUROKALP", "Advanced Neurosurgery for a Healthier Tomorrow", "Brain and spine care at NEUROKALP"],
-    ["/about", "About Dr. Kairav Shah | Neurosurgeon in Ahmedabad", "Qualifications, training, and neurosurgical experience of Dr. Kairav Shah, consultant neurosurgeon at NEUROKALP, Ahmedabad.", "Dr. Kairav Shah, neurosurgeon Ahmedabad, NEUROKALP, MCh neurosurgery", "Dr. Kairav Shah", "Consultant neurosurgeon for brain and spine"],
-    ["/treatments", "Brain and Spine Treatments | Dr. Kairav Shah, Ahmedabad", "Conditions treated at NEUROKALP, including migraine, spine pain, brain tumours, head injury, and trigeminal neuralgia.", "brain treatment Ahmedabad, spine treatment Ahmedabad, neurosurgery clinic, NEUROKALP", "Conditions We Treat", "Brain, spine, and nervous system care"],
-    ["/contact", "Contact NEUROKALP | Neurosurgeon in Ahmedabad", "Clinic address, consulting hours, and contact form for NEUROKALP Brain and Spine Clinic, Ellisbridge, Ahmedabad.", "NEUROKALP contact, neurosurgeon Ellisbridge, clinic Ahmedabad, Dr. Kairav Shah appointment", "Talk to the Clinic", "NEUROKALP, Ellisbridge, Ahmedabad"],
+    ["/", "Neurosurgeon in Ahmedabad | Dr. Kairav Shah | NEUROKALP", "Consult Dr. Kairav Shah, an experienced neurosurgeon in Ahmedabad with 15+ years of experience in brain and spine surgery. Explore specialist care at NEUROKALP.", "neurosurgeon Ahmedabad, brain surgeon Ahmedabad, spine surgeon Ahmedabad, Dr. Kairav Shah, NEUROKALP", "Advanced Neurosurgery for a Healthier Tomorrow", "Brain and spine care at NEUROKALP"],
+    ["/about", "Dr. Kairav Shah | Consultant Neurosurgeon in Ahmedabad", "Learn about Dr. Kairav Shah, Consultant Neurosurgeon with over 15 years of experience in complex brain and spine surgery at NEUROKALP, Ahmedabad.", "Dr. Kairav Shah, neurosurgeon Ahmedabad, NEUROKALP, MCh neurosurgery", "Dr. Kairav Shah", "Consultant neurosurgeon for brain and spine"],
+    ["/treatments", "Brain and Spine Conditions Treated | NEUROKALP Ahmedabad", "Explore brain, spine and nervous system conditions treated at NEUROKALP, Ahmedabad, including migraine, sciatica, spinal tumours, head injuries and more.", "brain treatment Ahmedabad, spine treatment Ahmedabad, neurosurgery clinic, NEUROKALP", "Conditions We Treat", "Brain, spine, and nervous system care"],
+    ["/contact", "Contact NEUROKALP | Neurosurgeon in Ahmedabad", "Contact NEUROKALP to enquire about a consultation with Dr. Kairav Shah. Find our clinic address, phone number and appointment information in Ahmedabad.", "NEUROKALP contact, neurosurgeon Ellisbridge, clinic Ahmedabad, Dr. Kairav Shah appointment", "Talk to the Clinic", "NEUROKALP, Ellisbridge, Ahmedabad"],
     ["/book", "Book an Appointment | Dr. Kairav Shah, Ahmedabad", "Request a consultation at NEUROKALP. The clinic confirms the time by phone. Sunday is closed.", "book neurosurgeon Ahmedabad, NEUROKALP appointment, Dr. Kairav Shah consultation", "Book an Appointment", "Request a consultation at NEUROKALP"],
-    ["/videos", "Talks and Reels | Dr. Kairav Shah", "YouTube talks and Instagram reels from Dr. Kairav Shah on brain and spine health.", "neurosurgery talks, Dr. Kairav Shah YouTube, brain health videos, spine education", "Talks and Reels", "Films on brain and spine health"],
-    ["/achievements", "Achievements | Dr. Kairav Shah, Neurosurgeon", "Awards, gold medals, and recognition received by Dr. Kairav Shah for neurosurgery and academic work.", "Dr. Kairav Shah awards, neurosurgery gold medal, medical excellence award Gujarat", "Achievements", "Awards and academic recognition"],
-    ["/gallery", "Gallery | NEUROKALP, Ahmedabad", "Photographs from the clinic, operating theatre, conferences, and community work at NEUROKALP.", "NEUROKALP gallery, neurosurgery clinic Ahmedabad, Dr. Kairav Shah photographs", "Moments That Inspire", "Clinic, theatre, and community"],
-    ["/blog", "Brain and Spine Articles | Dr. Kairav Shah", "Patient guides on brain tumour symptoms, spine surgery, and early stroke signs from NEUROKALP, Ahmedabad.", "brain tumour symptoms, spine surgery, stroke signs, neurosurgery blog Ahmedabad", "Blog and Health Notes", "Guides for patients and families"],
+    ["/videos", "Neurosurgery Videos and Health Talks | Dr. Kairav Shah", "Watch videos, interviews and health talks by Dr. Kairav Shah covering brain health, spine care, epilepsy and other neurological topics.", "neurosurgery talks, Dr. Kairav Shah YouTube, brain health videos, spine education", "Talks and Reels", "Films on brain and spine health"],
+    ["/achievements", "Dr. Kairav Shah | Awards and Achievements | NEUROKALP", "Explore the awards, professional milestones and academic recognition of Dr. Kairav Shah, Consultant Neurosurgeon at NEUROKALP, Ahmedabad.", "Dr. Kairav Shah awards, neurosurgery gold medal, medical excellence award Gujarat", "Achievements", "Awards and academic recognition"],
+    ["/gallery", "NEUROKALP Gallery | Clinic, Surgery and Events", "View photos from NEUROKALP, including the clinic, operating theatre, professional conferences, community events and Dr. Kairav Shah's activities.", "NEUROKALP gallery, neurosurgery clinic Ahmedabad, Dr. Kairav Shah photographs", "Moments That Inspire", "Clinic, theatre, and community"],
+    ["/blog", "Brain and Spine Health Articles | NEUROKALP Ahmedabad", "Read patient-friendly articles and health guides about brain conditions, spine problems, stroke and neurosurgery from NEUROKALP.", "brain tumour symptoms, spine surgery, stroke signs, neurosurgery blog Ahmedabad", "Blog and Health Notes", "Guides for patients and families"],
     ["/media", "Media and Press | Dr. Kairav Shah", "Interviews, articles, and films featuring Dr. Kairav Shah and NEUROKALP.", "Dr. Kairav Shah media, neurosurgery interview, NEUROKALP press", "Media and Press", "Interviews, articles, and films"],
     ["/patient-stories", "Patient Stories | NEUROKALP, Ahmedabad", "Stories shared with consent by people treated for brain and spine conditions at NEUROKALP.", "patient stories neurosurgery, NEUROKALP experiences, brain surgery recovery stories", "Patient Stories", "Experiences shared with consent"],
-    ["/privacy", "Privacy Policy | NEUROKALP", "How NEUROKALP handles appointment requests, messages, and information shared through this website.", "NEUROKALP privacy policy, clinic data, appointment privacy", "Privacy Policy", "How this website handles information"],
-    ["/terms", "Terms and Conditions | NEUROKALP", "Terms for using the NEUROKALP website, including appointment requests and health information.", "NEUROKALP terms, website terms, clinic information", "Terms and Conditions", "Using this website"],
-    ["/site-map", "Sitemap | NEUROKALP", "A list of the public pages on the NEUROKALP website.", "NEUROKALP sitemap, Dr. Kairav Shah pages", "Sitemap", "Public pages on this website"],
+    ["/privacy", "Privacy Policy | NEUROKALP", "Read the NEUROKALP privacy policy to understand how information submitted through our website and contact forms is handled.", "NEUROKALP privacy policy, clinic data, appointment privacy", "Privacy Policy", "How this website handles information"],
+    ["/terms", "Terms and Conditions | NEUROKALP", "Review the terms and conditions for using the NEUROKALP website, including information about website content, medical information and user responsibilities.", "NEUROKALP terms, website terms, clinic information", "Terms and Conditions", "Using this website"],
+    ["/site-map", "Website Sitemap | NEUROKALP Ahmedabad", "Browse the NEUROKALP website sitemap to find information about treatments, Dr. Kairav Shah, health articles, videos, achievements and contact details.", "NEUROKALP sitemap, Dr. Kairav Shah pages", "Sitemap", "Public pages on this website"],
   ];
 
   const conditions = await prisma.condition.findMany();
   for (const item of conditions) {
+    const seo = conditionSeo[item.slug as keyof typeof conditionSeo];
     pageMeta.push([
       `/treatments/${item.slug}`,
-      item.seoTitle || `${item.title} | Dr. Kairav Shah, Ahmedabad`,
-      (item.seoDescription || item.summary).slice(0, 320),
+      seo?.seoTitle || item.seoTitle || `${item.title} | Dr. Kairav Shah, Ahmedabad`,
+      (seo?.seoDescription || item.seoDescription || item.summary).slice(0, 320),
       `${item.title}, neurosurgeon Ahmedabad, NEUROKALP, Dr. Kairav Shah`,
       item.title,
       (item.summary || "How this condition is assessed").slice(0, 180),
@@ -999,7 +1069,13 @@ async function main() {
   for (const [index, row] of pageMeta.entries()) {
     const [path, title, description, keywords, h1, h2] = row;
     const existing = await prisma.pageMeta.findUnique({ where: { path } });
-    if (existing) continue;
+    if (existing) {
+      await prisma.pageMeta.update({
+        where: { path },
+        data: { title, description, keywords, sortOrder: index, published: true },
+      });
+      continue;
+    }
     await prisma.pageMeta.create({ data: { path, title, description, keywords, h1, h2, sortOrder: index, published: true } });
   }
   console.log(`page meta ready: ${pageMeta.length}`);

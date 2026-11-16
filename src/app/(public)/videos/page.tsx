@@ -6,8 +6,8 @@ import { prisma } from "@/lib/db";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
 
 const videosFallback = {
-  title: "Talks and Reels | Dr. Kairav Shah",
-  description: "YouTube talks and Instagram reels from Dr. Kairav Shah on brain and spine health.",
+  title: "Neurosurgery Videos and Health Talks | Dr. Kairav Shah",
+  description: "Watch videos, interviews and health talks by Dr. Kairav Shah covering brain health, spine care, epilepsy and other neurological topics.",
   keywords: "neurosurgery talks, Dr. Kairav Shah YouTube, brain health videos, spine education",
   h1: "Talks and Reels",
   h2: "Films on brain and spine health",

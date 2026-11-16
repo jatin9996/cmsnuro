@@ -6,8 +6,8 @@ import { prisma } from "@/lib/db";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
 
 const treatmentsFallback = {
-  title: "Brain and Spine Treatments | Dr. Kairav Shah, Ahmedabad",
-  description: "Conditions treated at NEUROKALP, including migraine, spine pain, brain tumours, head injury, and trigeminal neuralgia.",
+  title: "Brain and Spine Conditions Treated | NEUROKALP Ahmedabad",
+  description: "Explore brain, spine and nervous system conditions treated at NEUROKALP, Ahmedabad, including migraine, sciatica, spinal tumours, head injuries and more.",
   keywords: "brain treatment Ahmedabad, spine treatment Ahmedabad, neurosurgery clinic, NEUROKALP",
   h1: "Conditions We Treat",
   h2: "Brain, spine, and nervous system care",

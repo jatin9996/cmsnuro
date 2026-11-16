@@ -5,7 +5,7 @@ import { getHomeData } from "@/lib/queries";
 
 const homeFallback = {
   title: "Neurosurgeon in Ahmedabad | Dr. Kairav Shah | NEUROKALP",
-  description: "Consultant neurosurgeon in Ahmedabad for brain and spine conditions. Consultations at NEUROKALP, Ellisbridge.",
+  description: "Consult Dr. Kairav Shah, an experienced neurosurgeon in Ahmedabad with 15+ years of experience in brain and spine surgery. Explore specialist care at NEUROKALP.",
   keywords: "neurosurgeon Ahmedabad, brain surgeon Ahmedabad, spine surgeon Ahmedabad, Dr. Kairav Shah, NEUROKALP",
   h1: "Advanced Neurosurgery for a Healthier Tomorrow",
   h2: "Brain and spine care at NEUROKALP",

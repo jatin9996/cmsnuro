@@ -7,8 +7,8 @@ import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
 import { formatDate } from "@/lib/utils";
 
 const blogFallback = {
-  title: "Brain and Spine Articles | Dr. Kairav Shah",
-  description: "Patient guides on brain tumour symptoms, spine surgery, and early stroke signs from NEUROKALP, Ahmedabad.",
+  title: "Brain and Spine Health Articles | NEUROKALP Ahmedabad",
+  description: "Read patient-friendly articles and health guides about brain conditions, spine problems, stroke and neurosurgery from NEUROKALP.",
   keywords: "brain tumour symptoms, spine surgery, stroke signs, neurosurgery blog Ahmedabad",
   h1: "Blog and Health Notes",
   h2: "Guides for patients and families",

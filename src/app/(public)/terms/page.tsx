@@ -7,7 +7,7 @@ import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
 
 const termsFallback = {
   title: "Terms and Conditions | NEUROKALP",
-  description: "Terms for using the NEUROKALP website, including appointment requests and health information.",
+  description: "Review the terms and conditions for using the NEUROKALP website, including information about website content, medical information and user responsibilities.",
   keywords: "NEUROKALP terms, website terms, clinic information",
   h1: "Terms and Conditions",
   h2: "Using this website",
