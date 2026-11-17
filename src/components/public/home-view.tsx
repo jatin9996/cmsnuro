@@ -7,9 +7,81 @@ import { BusinessCard } from "@/components/public/business-card";
 import { Hero } from "@/components/public/hero";
 import { GalleryBrowser, PlayOverlay } from "@/components/public/overlays";
 import { btnOnDark, btnOutlineLight, btnPrimary, Container, MediaImage, Panel, SectionTitle, VideoPoster } from "@/components/public/ui";
+import { PRODUCTION_SITE_URL } from "@/lib/site-url";
 import { describeHours, formatDate, videoPlatform, videoPoster, whatsappLink } from "@/lib/utils";
 
 type HomeData = NonNullable<Awaited<ReturnType<typeof getHomeData>>>;
+
+const WEEKDAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as const;
+
+function homepageJsonLd(settings: HomeData["settings"]) {
+  const base = PRODUCTION_SITE_URL;
+  const closed = new Set(
+    settings.closedWeekdays
+      .split(",")
+      .map((item) => Number(item.trim()))
+      .filter((day) => Number.isInteger(day) && day >= 0 && day <= 6),
+  );
+  const openDays = WEEKDAY_NAMES.filter((_, index) => !closed.has(index));
+  const sameAs = [settings.instagramUrl, settings.youtubeUrl, settings.mapUrl, settings.facebookUrl, settings.linkedinUrl].filter(Boolean);
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "MedicalClinic",
+        "@id": `${base}/#clinic`,
+        name: "NEUROKALP",
+        alternateName: "NEUROKALP Brain and Spine Clinic",
+        url: `${base}/`,
+        image: `${base}/media/neurokalp-logo.png`,
+        telephone: settings.phone,
+        medicalSpecialty: ["https://schema.org/Neurologic", "https://schema.org/Surgical"],
+        knowsAbout: ["Neurosurgery", "Brain surgery", "Spine surgery"],
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "504-5, 5th floor, Mehta 531, near V.S. Hospital, Ellisbridge",
+          addressLocality: "Ahmedabad",
+          addressRegion: "Gujarat",
+          postalCode: "380006",
+          addressCountry: "IN",
+        },
+        hasMap: settings.mapUrl || undefined,
+        openingHoursSpecification: openDays.length
+          ? [
+              {
+                "@type": "OpeningHoursSpecification",
+                dayOfWeek: openDays,
+                opens: settings.dayStart,
+                closes: settings.dayEnd,
+              },
+            ]
+          : undefined,
+        employee: {
+          "@type": "Physician",
+          "@id": `${base}/#physician`,
+          name: settings.doctorName,
+          jobTitle: settings.roleTitle,
+          url: `${base}/about`,
+          image: settings.aboutImage ? `${base}${settings.aboutImage}` : undefined,
+          medicalSpecialty: "https://schema.org/Neurologic",
+          knowsAbout: ["Neurosurgery", "Brain surgery", "Spine surgery"],
+          worksFor: { "@id": `${base}/#clinic` },
+        },
+        sameAs,
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${base}/#website`,
+        url: `${base}/`,
+        name: "NEUROKALP",
+        description: "Brain and spine care with Dr. Kairav Shah at NEUROKALP, Ahmedabad.",
+        inLanguage: "en",
+        publisher: { "@id": `${base}/#clinic` },
+      },
+    ],
+  };
+}
 
 function PlayBadge() {
   return (
@@ -50,25 +122,7 @@ export function HomeView({ data, heading }: { data: HomeData; heading?: { h1: st
     <Container className="space-y-4 py-4 sm:py-5">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Physician",
-            name: settings.doctorName,
-            medicalSpecialty: "Neurosurgery",
-            telephone: settings.phone,
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: settings.address,
-              addressLocality: "Ahmedabad",
-              addressRegion: "Gujarat",
-              postalCode: "380006",
-              addressCountry: "IN",
-            },
-            hasMap: settings.mapUrl || undefined,
-            sameAs: [settings.instagramUrl, settings.youtubeUrl, settings.mapUrl].filter(Boolean),
-          }),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageJsonLd(settings)) }}
       />
       <div className="space-y-4">
           <div>

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 import { GoogleTag } from "@/components/google-tag";
+import { PRODUCTION_SITE_URL } from "@/lib/site-url";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -15,8 +16,14 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
+const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+const metadataBaseUrl =
+  configuredSiteUrl && /localhost|127\.0\.0\.1/i.test(configuredSiteUrl)
+    ? configuredSiteUrl
+    : PRODUCTION_SITE_URL;
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  metadataBase: new URL(metadataBaseUrl),
 };
 
 export const viewport: Viewport = {
