@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { SeoTag, SiteSetting } from "@prisma/client";
+import { canonicalUrl } from "@/lib/site-url";
 
 const reservedNames = new Set([
   "description",
@@ -68,6 +69,7 @@ export function contentMetadata(input: {
   description?: string | null;
   keywords?: string | null;
   image?: string | null;
+  path?: string | null;
 }): Metadata {
   const title = input.seoTitle?.trim();
   const description = input.description?.trim();
@@ -77,13 +79,16 @@ export function contentMetadata(input: {
     .map((item) => item.trim())
     .filter(Boolean);
   const resolvedTitle = title || input.fallbackTitle;
+  const canonical = input.path != null ? canonicalUrl(input.path) : undefined;
   return {
     title: { absolute: resolvedTitle },
     description: description || undefined,
     keywords: keywords.length ? keywords : undefined,
+    alternates: canonical ? { canonical } : undefined,
     openGraph: {
       title: resolvedTitle,
       description: description || undefined,
+      url: canonical,
       images: image ? [{ url: image }] : undefined,
     },
   };

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/components/icon";
+import { JsonLd } from "@/components/public/json-ld";
 import { Container, PageHero } from "@/components/public/ui";
 import { prisma } from "@/lib/db";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
+import { treatmentsCollectionSchema } from "@/lib/schema";
 
 const treatmentsFallback = {
   title: "Brain and Spine Conditions Treated | NEUROKALP Ahmedabad",
@@ -24,6 +26,7 @@ export default async function TreatmentsPage() {
   ]);
   return (
     <Container className="space-y-6 py-6 sm:py-8">
+      <JsonLd data={treatmentsCollectionSchema(conditions)} />
       <PageHero eyebrow="Care" title={meta.h1} h2={meta.h2} description="Brain, spine, and nervous system conditions. Choose a topic to read a general overview, then book a consultation for personal advice." crumbs={[{ href: "/", label: "Home" }, { href: "/treatments", label: "Treatments" }]} />
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {conditions.map((item) => (

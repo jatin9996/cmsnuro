@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 
 import { PlayOverlay } from "@/components/public/overlays";
 import { RichText } from "@/components/public/rich-text";
+import { JsonLd } from "@/components/public/json-ld";
 import { Container, MediaImage, PageHero } from "@/components/public/ui";
 import { prisma } from "@/lib/db";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
+import { collectionPageSchema } from "@/lib/schema";
 
 const storiesFallback = {
   title: "Patient Stories | NEUROKALP, Ahmedabad",
@@ -25,6 +27,7 @@ export default async function StoriesPage() {
   ]);
   return (
     <Container className="space-y-6 py-6 sm:py-8">
+      <JsonLd data={collectionPageSchema({ path: "/patient-stories", name: "Patient Stories | NEUROKALP" })} />
       <PageHero eyebrow="Stories" title={meta.h1} h2={meta.h2} description="Published only with consent. These samples should be replaced before the website goes live." crumbs={[{ href: "/", label: "Home" }, { href: "/patient-stories", label: "Patient stories" }]} />
       <div className="grid gap-5 lg:grid-cols-3">
         {stories.map((story) => {

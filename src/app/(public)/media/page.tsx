@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
 import { PlayOverlay } from "@/components/public/overlays";
+import { JsonLd } from "@/components/public/json-ld";
 import { Container, MediaImage, PageHero } from "@/components/public/ui";
 import { prisma } from "@/lib/db";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
+import { collectionPageSchema } from "@/lib/schema";
 
 const mediaFallback = {
   title: "Media and Press | Dr. Kairav Shah",
@@ -25,6 +27,7 @@ export default async function MediaPage() {
   ]);
   return (
     <Container className="space-y-6 py-6 sm:py-8">
+      <JsonLd data={collectionPageSchema({ path: "/media", name: "Media | NEUROKALP" })} />
       <PageHero eyebrow="In the news" title={meta.h1} h2={meta.h2} description="Interviews, articles, and films." crumbs={[{ href: "/", label: "Home" }, { href: "/media", label: "Media" }]} />
       <div className="grid gap-4 md:grid-cols-2">
         {press.map((item) => (

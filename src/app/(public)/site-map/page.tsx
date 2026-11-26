@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 
 import Link from "next/link";
+import { JsonLd } from "@/components/public/json-ld";
 import { Container, PageHero } from "@/components/public/ui";
 import { NAV } from "@/lib/nav";
 import { prisma } from "@/lib/db";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
+import { webPageSchema } from "@/lib/schema";
 
 const sitemapFallback = {
   title: "Website Sitemap | NEUROKALP Ahmedabad",
@@ -33,6 +35,7 @@ export default async function SitemapPage() {
   ];
   return (
     <Container className="space-y-6 py-6 sm:py-8">
+      <JsonLd data={webPageSchema({ path: "/site-map", name: sitemapFallback.title, description: sitemapFallback.description })} />
       <PageHero title={meta.h1} h2={meta.h2} description="Every public page on this website." crumbs={[{ href: "/", label: "Home" }, { href: "/site-map", label: "Sitemap" }]} />
       <div className="grid gap-4 md:grid-cols-2">
         {groups.filter((group) => group.links.length).map((group) => (

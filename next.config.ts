@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
       { source: "/treatments/migration", destination: "/treatments/migraine", permanent: true },
       { source: "/treatments/trigeminal", destination: "/treatments/trigeminal-neuralgia", permanent: true },
       { source: "/treatments/neuralgia", destination: "/treatments/trigeminal-neuralgia", permanent: true },
+      { source: "/treatments/spine-tumours", destination: "/treatments/spine-tumor", permanent: true },
     ];
   },
   async headers() {

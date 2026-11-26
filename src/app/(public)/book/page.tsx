@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { BookForm } from "@/components/public/forms";
+import { JsonLd } from "@/components/public/json-ld";
 import { Container, PageHero } from "@/components/public/ui";
 import { prisma } from "@/lib/db";
 import { getSettings } from "@/lib/queries";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
+import { webPageSchema } from "@/lib/schema";
 import { describeHours } from "@/lib/utils";
 
 const bookFallback = {
@@ -30,6 +32,7 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
   const concerns = ["General consultation", ...conditions.map((item) => item.title), "Other"];
   return (
     <Container className="space-y-6 py-6 sm:py-8">
+      <JsonLd data={webPageSchema({ path: "/book", name: bookFallback.title, description: bookFallback.description })} />
       <PageHero
         eyebrow="Appointments"
         title={meta.h1}

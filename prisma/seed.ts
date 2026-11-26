@@ -62,7 +62,7 @@ const conditionSeo = {
     seoDescription:
       "Learn about hydrocephalus, its symptoms, diagnosis and surgical care options. Explore specialist neurosurgical consultation at NEUROKALP, Ahmedabad.",
   },
-  "spine-tumours": {
+  "spine-tumor": {
     seoTitle: "Spinal Tumor Specialist in Ahmedabad | NEUROKALP",
     seoDescription:
       "Explore spinal tumour symptoms, diagnosis and surgical treatment options in Ahmedabad. Consult Dr. Kairav Shah at NEUROKALP for specialist spine care.",
@@ -296,7 +296,7 @@ async function main() {
         { title: "Brain Infections", slug: "brain-infections", summary: "Diagnosis and treatment", icon: "ShieldPlus", sortOrder: 5, ...conditionSeo["brain-infections"], description: overview("Brain infections"), symptoms, treatment },
         facialPainPage,
         { title: "Hydrocephalus", slug: "hydrocephalus", summary: "Diagnosis and surgical care", icon: "Brain", sortOrder: 8, ...conditionSeo.hydrocephalus, description: overview("Hydrocephalus"), symptoms, treatment },
-        { title: "Spine Tumours", slug: "spine-tumours", summary: "Diagnosis and surgical treatment", icon: "Bone", sortOrder: 9, ...conditionSeo["spine-tumours"], description: overview("Spine tumours"), symptoms, treatment },
+        { title: "Spine Tumours", slug: "spine-tumor", summary: "Diagnosis and surgical treatment", icon: "Bone", sortOrder: 9, ...conditionSeo["spine-tumor"], description: overview("Spine tumours"), symptoms, treatment },
         { title: "Head Injuries", slug: "head-injuries", summary: "Trauma care and follow-up", icon: "ShieldPlus", sortOrder: 10, ...conditionSeo["head-injuries"], description: overview("Head injuries"), symptoms, treatment },
         { title: "Cases of Road Traffic Accidents", slug: "road-traffic-accidents", summary: "Trauma care and follow-up", icon: "Activity", sortOrder: 11, ...conditionSeo["road-traffic-accidents"], description: overview("Road traffic injuries"), symptoms, treatment },
         { title: "Dementia memory disturbance", slug: "dementia-memory-disturbance", summary: "Evaluation of memory change", icon: "Brain", sortOrder: 12, ...conditionSeo["dementia-memory-disturbance"], description: overview("Dementia and memory disturbance"), symptoms, treatment },
@@ -317,13 +317,26 @@ async function main() {
         { title: "Brain Infections", slug: "brain-infections", summary: "Diagnosis and treatment", icon: "ShieldPlus", sortOrder: 5, ...conditionSeo["brain-infections"], description: overview("Brain infections"), symptoms, treatment },
         facialPainPage,
         { title: "Hydrocephalus", slug: "hydrocephalus", summary: "Diagnosis and surgical care", icon: "Brain", sortOrder: 8, ...conditionSeo.hydrocephalus, description: overview("Hydrocephalus"), symptoms, treatment },
-        { title: "Spine Tumours", slug: "spine-tumours", summary: "Diagnosis and surgical treatment", icon: "Bone", sortOrder: 9, ...conditionSeo["spine-tumours"], description: overview("Spine tumours"), symptoms, treatment },
+        { title: "Spine Tumours", slug: "spine-tumor", summary: "Diagnosis and surgical treatment", icon: "Bone", sortOrder: 9, ...conditionSeo["spine-tumor"], description: overview("Spine tumours"), symptoms, treatment },
         { title: "Head Injuries", slug: "head-injuries", summary: "Trauma care and follow-up", icon: "ShieldPlus", sortOrder: 10, ...conditionSeo["head-injuries"], description: overview("Head injuries"), symptoms, treatment },
         { title: "Cases of Road Traffic Accidents", slug: "road-traffic-accidents", summary: "Trauma care and follow-up", icon: "Activity", sortOrder: 11, ...conditionSeo["road-traffic-accidents"], description: overview("Road traffic injuries"), symptoms, treatment },
         { title: "Dementia memory disturbance", slug: "dementia-memory-disturbance", summary: "Evaluation of memory change", icon: "Brain", sortOrder: 12, ...conditionSeo["dementia-memory-disturbance"], description: overview("Dementia and memory disturbance"), symptoms, treatment },
       ],
     });
     console.log("replaced conditions");
+  }
+
+  const spineTumours = await prisma.condition.findFirst({ where: { slug: "spine-tumours" } });
+  if (spineTumours) {
+    await prisma.condition.update({ where: { id: spineTumours.id }, data: { slug: "spine-tumor" } });
+    console.log("renamed spine-tumor slug");
+  }
+  const oldSpineMeta = await prisma.pageMeta.findUnique({ where: { path: "/treatments/spine-tumours" } });
+  const newSpineMeta = await prisma.pageMeta.findUnique({ where: { path: "/treatments/spine-tumor" } });
+  if (oldSpineMeta && !newSpineMeta) {
+    await prisma.pageMeta.update({ where: { path: "/treatments/spine-tumours" }, data: { path: "/treatments/spine-tumor" } });
+  } else if (oldSpineMeta && newSpineMeta) {
+    await prisma.pageMeta.delete({ where: { path: "/treatments/spine-tumours" } });
   }
 
   const migrationRow = await prisma.condition.findFirst({

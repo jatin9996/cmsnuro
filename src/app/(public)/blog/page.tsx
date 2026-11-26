@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
 import Link from "next/link";
+import { JsonLd } from "@/components/public/json-ld";
 import { Container, MediaImage, PageHero } from "@/components/public/ui";
 import { prisma } from "@/lib/db";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
+import { blogSchema } from "@/lib/schema";
 import { formatDate } from "@/lib/utils";
 
 const blogFallback = {
@@ -25,6 +27,7 @@ export default async function BlogPage() {
   ]);
   return (
     <Container className="space-y-6 py-6 sm:py-8">
+      <JsonLd data={blogSchema()} />
       <PageHero eyebrow="Insights" title={meta.h1} h2={meta.h2} description="Short articles for patients and families. They are not a substitute for a consultation." crumbs={[{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }]} />
       <div className="grid gap-5 md:grid-cols-3">
         {posts.map((post) => (

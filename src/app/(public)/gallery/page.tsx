@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
 import { GalleryBrowser } from "@/components/public/overlays";
+import { JsonLd } from "@/components/public/json-ld";
 import { Container, PageHero } from "@/components/public/ui";
 import { prisma } from "@/lib/db";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
+import { collectionPageSchema } from "@/lib/schema";
 
 const galleryFallback = {
   title: "NEUROKALP Gallery | Clinic, Surgery and Events",
@@ -24,6 +26,7 @@ export default async function GalleryPage() {
   ]);
   return (
     <Container className="space-y-6 py-6 sm:py-8">
+      <JsonLd data={collectionPageSchema({ path: "/gallery", name: "Gallery | NEUROKALP" })} />
       <PageHero eyebrow="Gallery" title={meta.h1} h2={meta.h2} description="The hospital, operating theatre, meetings, and community work." crumbs={[{ href: "/", label: "Home" }, { href: "/gallery", label: "Gallery" }]} />
       <div className="rounded-[28px] bg-white p-5 ring-1 ring-navy/5 sm:p-6">
         <GalleryBrowser items={items.map((item) => ({ id: item.id, title: item.title, caption: item.caption, image: item.image, category: item.category }))} />

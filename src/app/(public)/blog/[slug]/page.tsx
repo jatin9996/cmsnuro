@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { JsonLd } from "@/components/public/json-ld";
 import { RichText } from "@/components/public/rich-text";
 import { Container, MediaImage, MedicalNote, PageHero } from "@/components/public/ui";
 import { getPost } from "@/lib/queries";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
+import { blogPostingSchema } from "@/lib/schema";
 import { formatDate } from "@/lib/utils";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -32,6 +34,15 @@ export default async function BlogArticle({ params }: { params: Promise<{ slug: 
   });
   return (
     <Container className="space-y-6 py-6 sm:py-8">
+      <JsonLd
+        data={blogPostingSchema({
+          slug: post.slug,
+          title: post.title,
+          excerpt: post.excerpt,
+          publishedOn: post.publishedOn,
+          coverImage: post.coverImage,
+        })}
+      />
       <PageHero eyebrow={post.category} title={meta.h1} h2={meta.h2} description={`${formatDate(post.publishedOn)}${post.author ? ` · ${post.author}` : ""}`} crumbs={[{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }, { href: `/blog/${post.slug}`, label: post.title }]} />
       <article className="mx-auto max-w-3xl space-y-6 rounded-[28px] bg-white p-6 ring-1 ring-navy/5 sm:p-8">
         <MediaImage src={post.coverImage} alt="" className="h-72 w-full rounded-3xl" />

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
 import { Icon } from "@/components/icon";
+import { JsonLd } from "@/components/public/json-ld";
 import { Container, MediaImage, PageHero } from "@/components/public/ui";
 import { getSettings } from "@/lib/queries";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
+import { collectionPageSchema } from "@/lib/schema";
 import { prisma } from "@/lib/db";
 
 const achievementsFallback = {
@@ -29,6 +31,7 @@ export default async function AchievementsPage() {
 
   return (
     <Container className="space-y-6 py-6 sm:py-8">
+      <JsonLd data={collectionPageSchema({ path: "/achievements", name: "Achievements | NEUROKALP" })} />
       <PageHero
         eyebrow="Recognition"
         title={meta.h1}

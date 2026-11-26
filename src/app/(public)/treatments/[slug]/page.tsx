@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { RichText } from "@/components/public/rich-text";
+import { JsonLd } from "@/components/public/json-ld";
 import { Container, MediaImage, MedicalNote, PageHero, btnOnDark } from "@/components/public/ui";
 import { getCondition } from "@/lib/queries";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
+import { treatmentMedicalWebPageSchema } from "@/lib/schema";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -30,6 +32,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
 
   return (
     <Container className="space-y-6 py-6 sm:py-8">
+      <JsonLd data={treatmentMedicalWebPageSchema({ slug: condition.slug, title: condition.title })} />
       <PageHero eyebrow="Treatment" title={meta.h1} h2={meta.h2} description={condition.summary} crumbs={[{ href: "/", label: "Home" }, { href: "/treatments", label: "Treatments" }, { href: `/treatments/${condition.slug}`, label: condition.title }]} />
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
         <article className="space-y-6 rounded-3xl bg-white p-4 ring-1 ring-navy/5 sm:rounded-[28px] sm:p-8">

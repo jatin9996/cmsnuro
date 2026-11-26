@@ -4,8 +4,10 @@ import { Icon } from "@/components/icon";
 import { RichText } from "@/components/public/rich-text";
 import { DoctorCv } from "@/components/public/doctor-cv";
 import { Container, MediaImage, PageHero, Panel } from "@/components/public/ui";
+import { JsonLd } from "@/components/public/json-ld";
 import { getPage, getSettings } from "@/lib/queries";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
+import { aboutPersonSchema } from "@/lib/schema";
 import { prisma } from "@/lib/db";
 
 const aboutFallback = {
@@ -32,6 +34,7 @@ export default async function AboutPage() {
 
   return (
     <Container className="space-y-6 py-6 sm:py-8">
+      <JsonLd data={aboutPersonSchema(settings)} />
       <PageHero eyebrow={settings.aboutEyebrow} title={meta.h1} h2={meta.h2} description={settings.aboutDegrees} crumbs={[{ href: "/", label: "Home" }, { href: "/about", label: "About" }]} />
       <Panel>
         <div className="grid items-start gap-6 md:grid-cols-[200px_minmax(0,1fr)]">

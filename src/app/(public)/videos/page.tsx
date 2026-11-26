@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
+import { JsonLd } from "@/components/public/json-ld";
 import { VideoLibrary } from "@/components/public/video-library";
 import { Container, MedicalNote, PageHero } from "@/components/public/ui";
 import { prisma } from "@/lib/db";
 import { metadataFor, resolvePageMeta } from "@/lib/page-meta";
+import { collectionPageSchema } from "@/lib/schema";
 
 const videosFallback = {
   title: "Neurosurgery Videos and Health Talks | Dr. Kairav Shah",
@@ -24,6 +26,7 @@ export default async function VideosPage() {
   ]);
   return (
     <Container className="space-y-6 py-6 sm:py-8">
+      <JsonLd data={collectionPageSchema({ path: "/videos", name: "Videos | NEUROKALP" })} />
       <PageHero
         eyebrow="Watch"
         title={meta.h1}

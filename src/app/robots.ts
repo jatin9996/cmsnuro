@@ -8,8 +8,13 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
   if (settings && !settings.seoIndex) {
     return { rules: { userAgent: "*", disallow: "/" } };
   }
+
   return {
-    rules: { userAgent: "*", allow: "/", disallow: ["/admin", "/api/"] },
+    rules: {
+      userAgent: "*",
+      allow: "/",
+      disallow: ["/admin", "/api/", "/item", "/?item", "/?"],
+    },
     sitemap: `${base}/sitemap.xml`,
   };
 }

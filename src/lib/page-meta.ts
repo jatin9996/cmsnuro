@@ -38,5 +38,6 @@ export async function metadataFor(path: string, fallback: PageMetaFallback): Pro
     seoTitle: meta.title,
     description: meta.description,
     keywords: meta.keywords,
+    path,
   });
 }
